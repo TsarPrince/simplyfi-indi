@@ -6,7 +6,7 @@ const StatsCard = () => {
       <div className="grid grid-rows-2 divide-y divide-gray/20 gap-2">
         {/* row 1 */}
         <div className="grid grid-cols-3 divide-x divide-gray/10">
-          <div className="col-span-1 pl-4">
+          <div className="col-span-1">
             <p className="text-BodySmall">Total users</p>
             <p className="text-TitleMedium">1,567</p>
           </div>
@@ -18,7 +18,7 @@ const StatsCard = () => {
 
         {/* row 2 */}
         <div className="grid grid-cols-3 divide-x divide-gray/10 pt-2">
-          <div className="pl-4">
+          <div className="">
             <p className="text-TitleMedium">2</p>
             <p className="text-BodySmall">On-going polls</p>
           </div>
