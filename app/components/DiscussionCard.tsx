@@ -5,13 +5,18 @@ import user1 from "public/images/user1.png";
 import user2 from "public/images/user2.png";
 import user3 from "public/images/user3.png";
 import Link from "next/link";
+import { ActiveSideWindow } from "@/app/types";
 
-const InformationCard = () => {
+const DiscussionCard = ({
+  toggleSideWindow,
+}: {
+  toggleSideWindow: (window?: ActiveSideWindow, state?: boolean) => void;
+}) => {
   return (
     <div className="bg-green border p-6 rounded-[2rem] max-w-xl">
       <div className="flex justify-between">
         <p className="text-BodyLarge opacity-70">Discussions at a glance</p>
-        <NextArrow />
+        <NextArrow onClick={() => toggleSideWindow("discussion", true)} />
       </div>
       <div className="bg-white border p-4 rounded-3xl flex flex-col space-y-3 mt-4">
         <div className="flex justify-between">
@@ -136,4 +141,4 @@ const InformationCard = () => {
   );
 };
 
-export default InformationCard;
+export default DiscussionCard;

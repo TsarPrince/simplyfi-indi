@@ -7,6 +7,7 @@ import Footer from "./components/Footer";
 const montserrat = Montserrat({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://simplyfi-beta.vercel.app/"),
   title: {
     template: "%s | PublicHQ",
     default: "PublicHQ", // a default is required when creating a template

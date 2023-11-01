@@ -1,8 +1,15 @@
-import React from "react";
+import clsx from "clsx";
+import React, { ButtonHTMLAttributes } from "react";
 
-const NextButton = () => {
+const NextButton = ({
+  className,
+  onClick,
+}: ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
-    <button className="hover:opacity-70 transition duration-300">
+    <button
+      className={clsx("hover:opacity-70 transition duration-300", className)}
+      onClick={onClick}
+    >
       <svg
         width="26"
         height="20"

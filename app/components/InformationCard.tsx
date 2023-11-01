@@ -1,14 +1,18 @@
 import React from "react";
 import NextArrow from "./NextButton";
-import Image from "next/image";
 import dummy from "public/images/dummy.png";
+import { ActiveSideWindow } from "@/app/types";
 
-const InformationCard = () => {
+const InformationCard = ({
+  toggleSideWindow,
+}: {
+  toggleSideWindow: (window?: ActiveSideWindow, state?: boolean) => void;
+}) => {
   return (
     <div className="bg-blue border p-6 rounded-[2rem] max-w-xl">
       <div className="flex justify-between">
         <p className="text-BodyLarge opacity-70">Fresh off the press</p>
-        <NextArrow />
+        <NextArrow onClick={() => toggleSideWindow("information", true)} />
       </div>
       <div className="bg-white border p-4 rounded-3xl flex flex-col space-y-3 mt-4">
         <img src={dummy.src} alt="dummy" />

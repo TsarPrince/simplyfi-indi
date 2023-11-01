@@ -1,12 +1,6 @@
 import React from "react";
-import NextArrow from "@/app/components/NextButton";
-import { ActiveSideWindow } from "@/app/types";
 
-const PollCard = ({
-  toggleSideWindow,
-}: {
-  toggleSideWindow: (window?: ActiveSideWindow, state?: boolean) => void;
-}) => {
+const PollCardAll = () => {
   return (
     <div className="bg-blue border p-6 rounded-[2rem] max-w-xl">
       <p className="text-BodyLarge opacity-70">Poll Results</p>
@@ -34,11 +28,8 @@ const PollCard = ({
           </div>
         ))}
       </div>
-      <div className="flex place-content-end my-8">
-        <NextArrow onClick={() => toggleSideWindow("poll", true)} />
-      </div>
     </div>
   );
 };
 
-export default PollCard;
+export default PollCardAll;

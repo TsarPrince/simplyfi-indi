@@ -4,8 +4,19 @@ import React, { useEffect, useRef } from "react";
 import { Chart, registerables, ChartConfiguration } from "chart.js";
 
 const MetricChart = () => {
-  const xs = ["23 Jun", "25 Jun", "27 Jun", "29 Jun", "30 Jun"];
-  const ys = [15, 25, 50, 75, 80];
+  const xs = [
+    "23 Jun",
+    "25 Jun",
+    "27 Jun",
+    "29 Jun",
+    "30 Jun",
+    "2 July",
+    "4 July",
+    "6 July",
+    "8 July",
+    "10 July",
+  ];
+  const ys = [15, 25, 32, 49, 50, 60, 75, 75, 75, 95];
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const lineChartRef = useRef<Chart>();
 

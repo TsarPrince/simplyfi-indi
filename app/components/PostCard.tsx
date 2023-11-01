@@ -3,13 +3,18 @@ import NextArrow from "./NextButton";
 import MetricChart from "@/app/components/Chart";
 import dummy from "public/images/dummy.png";
 import Link from "next/link";
+import { ActiveSideWindow } from "@/app/types";
 
-const PostCard = () => {
+const PostCard = ({
+  toggleSideWindow,
+}: {
+  toggleSideWindow: (window?: ActiveSideWindow, state?: boolean) => void;
+}) => {
   return (
     <div className="bg-brown border p-6 rounded-[2rem] max-w-xl">
       <div className="flex justify-between">
         <p className="text-BodyLarge opacity-70">Your Information Posts</p>
-        <NextArrow />
+        <NextArrow onClick={() => toggleSideWindow("post", true)} />
       </div>
       <div className="bg-white border p-4 rounded-3xl flex flex-col space-y-3 mt-4">
         <img src={dummy.src} alt="dummy" className="object-cover" />
