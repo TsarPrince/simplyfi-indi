@@ -1,6 +1,16 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 const StatsCard = () => {
+  const [percentage, setPercentage] = useState(0);
+
+  useEffect(() => {
+    setPercentage(87);
+  }, []);
+
   return (
     <div className="bg-brown border p-6 rounded-[2rem] max-w-xl">
       <div className="grid grid-rows-2 divide-y divide-gray/20 gap-2">
@@ -11,8 +21,23 @@ const StatsCard = () => {
             <p className="text-TitleMedium">1,567</p>
           </div>
           <div className="col-span-2 pl-4">
-            <p className="text-BodySmall">Active weekly</p>
-            <p className="text-TitleMedium">87%</p>
+            <div className="flex space-x-2 md:space-x-6">
+              <div>
+                <p className="text-BodySmall">Active weekly</p>
+                <p className="text-TitleMedium">87%</p>
+              </div>
+              <div className="w-16">
+                <CircularProgressbar
+                  value={percentage}
+                  strokeWidth={12}
+                  styles={buildStyles({
+                    pathColor: "#273648",
+                    trailColor: "#27364833",
+                    pathTransitionDuration: 0.5,
+                  })}
+                />
+              </div>
+            </div>
           </div>
         </div>
 

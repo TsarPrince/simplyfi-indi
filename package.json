@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "chart.js": "^4.4.0",
+    "clsx": "^2.0.0",
     "next": "14.0.0",
     "react": "^18",
+    "react-circular-progressbar": "^2.1.0",
     "react-dom": "^18"
   },
   "devDependencies": {

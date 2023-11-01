@@ -3,7 +3,7 @@ import NextArrow from "./NextButton";
 import Image from "next/image";
 import dummy from "public/images/dummy.png";
 
-const DiscussionCard = () => {
+const InformationCard = () => {
   return (
     <div className="bg-blue border p-6 rounded-[2rem] max-w-xl">
       <div className="flex justify-between">
@@ -21,4 +21,4 @@ const DiscussionCard = () => {
   );
 };
 
-export default DiscussionCard;
+export default InformationCard;
