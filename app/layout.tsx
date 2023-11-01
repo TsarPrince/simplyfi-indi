@@ -8,7 +8,7 @@ const montserrat = Montserrat({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | Acme",
+    template: "%s | PublicHQ",
     default: "PublicHQ", // a default is required when creating a template
   },
   description: "PublicHQ",
