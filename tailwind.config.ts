@@ -12,6 +12,7 @@ const config: Config = {
         gray: "#273648",
         lightGray: "#EEF1F0",
         blue: "#4E91C2",
+        lightBlue: "#C2DDFF",
         green: "#4EC2C2",
         brown: "#C2894E",
       },
@@ -28,6 +29,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/forms")],
 };
 export default config;

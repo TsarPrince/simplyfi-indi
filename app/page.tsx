@@ -31,8 +31,8 @@ export default function Home() {
     <div className="relative overflow-x-hidden">
       <NextButton
         className={clsx(
-          "z-10 fixed rotate-180 top-6 left-16",
-          sideWindowOpen ? "" : "hidden"
+          "z-10 fixed top-6 left-16",
+          sideWindowOpen ? "rotate-180 visible" : "rotate-0 invisible"
         )}
         onClick={() => toggleSideWindow(active)}
       />
