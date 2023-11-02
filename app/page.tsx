@@ -43,7 +43,7 @@ export default function Home() {
             sideWindowOpen ? " -translate-x-[32rem]" : ""
           )}
         >
-          <div className="flex flex-col space-y-8 md:flex-row md:space-y-0 md:space-x-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 space-y-8 md:flex-row md:space-y-0 md:space-x-8">
             <div className="flex flex-col space-y-8">
               <WelcomeCard />
               <PollCard toggleSideWindow={toggleSideWindow} />

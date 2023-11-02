@@ -5,9 +5,9 @@ import Button from "./Button";
 
 const FilterCard = () => {
   return (
-    <div className="bg-lightBlue border p-6 rounded-[2rem] max-w-xl space-y-4">
+    <div className="bg-lightBlue border p-6 rounded-[2rem] space-y-4 w-[calc(100vw-2rem)] md:w-full">
       <p className="text-BodyLarge opacity-70">Filter</p>
-      <div className="flex w-full space-x-2 overflow-x-scroll">
+      <div className="flex space-x-2 overflow-x-scroll">
         <Button className="!px-2 !py-3">All</Button>
         <Button className="!px-2 !py-3">Polls</Button>
         <Button className="!px-2 !py-3">Announcements</Button>

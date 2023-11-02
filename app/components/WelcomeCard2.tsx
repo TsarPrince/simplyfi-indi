@@ -10,7 +10,7 @@ const WelcomeCard2 = () => {
   return (
     <div className="max-w-xl space-y-12">
       <div>
-        <h2 className="text-TitleLarge2">
+        <h2 className="text-TitleLarge2 mt-10 md:mt-0">
           Your <br />
           Content
         </h2>

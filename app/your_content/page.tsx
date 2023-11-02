@@ -19,19 +19,17 @@ export default function Home() {
   return (
     <div className="relative overflow-x-hidden">
       <NextButton
-        className={clsx("z-10 fixed rotate-180 top-6 left-16")}
+        className={clsx("z-10 fixed rotate-180 top-6 left-4 md:left-16")}
         onClick={() => router.push("/")}
       />
       <div className="bg-lightGray flex w-screen overflow-x-hidden">
         <Container className={"flex justify-center"}>
-          <div className="flex flex-col space-y-8 md:flex-row md:space-y-0 md:space-x-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 space-y-8 md:space-y-0 md:space-x-8">
             <div className="flex flex-col space-y-8">
               <WelcomeCard2 />
             </div>
             <div className="flex flex-col space-y-2">
-              <div className="hidden md:block">
-                <FilterCard />
-              </div>
+              <FilterCard />
               <div className="space-y-2">
                 {[1, 2, 3].map((card, key) => (
                   <DiscussionCardInner key={key} />
