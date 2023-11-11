@@ -19,7 +19,7 @@ const WelcomeCard = () => {
           View All My Subscribers
         </button>
         <button>
-          <Link href="/your_content">
+          <Link href="/your-content">
             <div className="flex items-center space-x-2 bg-green px-12 py-6 rounded-[4rem] border text-BodyLarge hover:rounded-3xl hover:opacity-75 transition-all duration-300">
               <span>View All My Content</span>
               <svg
