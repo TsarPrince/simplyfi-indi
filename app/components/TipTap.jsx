@@ -6,6 +6,7 @@ import TextStyle from "@tiptap/extension-text-style";
 import { EditorProvider, useCurrentEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
+import { useEffect } from "react";
 
 import {
   AiOutlineBold,
@@ -259,7 +260,40 @@ const extensions = [
   TextStyle.configure({ types: [ListItem.name] }),
   Link.configure({
     protocols: ["ftp", "mailto"],
-    openOnClick: true,
+    // openOnClick: false,
+  }).extend({
+    addKeyboardShortcuts() {
+      return {
+        "Mod-k": () => {
+          const previousUrl = this.editor.getAttributes("link").href;
+          const url = window.prompt("URL", previousUrl);
+
+          // cancelled
+          if (url === null) {
+            return;
+          }
+
+          // empty
+          if (url === "") {
+            this.editor
+              .chain()
+              .focus()
+              .extendMarkRange("link")
+              .unsetLink()
+              .run();
+            return;
+          }
+
+          // update link
+          this.editor
+            .chain()
+            .focus()
+            .extendMarkRange("link")
+            .setLink({ href: url })
+            .run();
+        },
+      };
+    },
   }),
   Underline,
   StarterKit.configure({
@@ -309,6 +343,15 @@ display: none;
 `;
 
 const TipTapEditor = () => {
+  useEffect(() => {
+    // Disable Ctrl+k for browser search
+    window.onkeydown = (e) => {
+      if (e.ctrlKey && e.key == "k") {
+        e.preventDefault();
+      }
+    };
+  }, []);
+
   return (
     <EditorProvider
       slotBefore={<MenuBar />}
