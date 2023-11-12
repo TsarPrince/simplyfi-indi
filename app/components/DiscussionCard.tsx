@@ -1,12 +1,15 @@
 import React from "react";
 import NextArrow from "./NextButton";
-import { ActiveSideWindow } from "@/types";
+import { ActiveSideWindow, DbResult, DbResultOk, Discussion } from "@/types";
 import DiscussionCardInner from "./DiscussionCardInner";
+import { getAllDiscussions } from "@/queries/discussion";
 
 const DiscussionCard = ({
   toggleSideWindow,
+  discussion,
 }: {
   toggleSideWindow: (window?: ActiveSideWindow, state?: boolean) => void;
+  discussion?: Discussion;
 }) => {
   return (
     <div className="bg-green border p-6 rounded-[2rem] max-w-xl">
@@ -14,7 +17,7 @@ const DiscussionCard = ({
         <p className="text-BodyLarge opacity-70">Discussions at a glance</p>
         <NextArrow onClick={() => toggleSideWindow("discussion", true)} />
       </div>
-      <DiscussionCardInner />
+      <DiscussionCardInner discussion={discussion} />
     </div>
   );
 };

@@ -4,17 +4,18 @@ import user1 from "public/images/user1.png";
 import user2 from "public/images/user2.png";
 import user3 from "public/images/user3.png";
 import Link from "next/link";
+import { Discussion } from "@/types";
 
-const DiscussionCardInner = () => {
+const DiscussionCardInner = ({ discussion }: { discussion?: Discussion }) => {
+  if (!discussion) return null;
+
   return (
     <div className="bg-white border p-4 rounded-3xl flex flex-col space-y-3 mt-4">
       <div className="flex justify-between">
         <p className="text-BodyMedium2 opacity-40">06/23/23 14:00</p>
         <p className="text-BodyMedium2 opacity-40">Latest</p>
       </div>
-      <p className="text-TitleSmall2">
-        Why AI will be a game changer for consumer apps?
-      </p>
+      <p className="text-TitleSmall2">{discussion.title}</p>
       <div className="flex space-x-6">
         <div className="flex items-center space-x-2">
           <svg
@@ -52,52 +53,24 @@ const DiscussionCardInner = () => {
           Recent Comments on this discussion
         </p>
         <div className="space-y-4">
-          {[
-            {
-              user: {
-                name: "Ann",
-                image: user1,
-              },
-              comment: {
-                title:
-                  "Lorem ipsum dolor sit amet consectetur. Vel arcu sapien nisi volutpat et diam. Pellentesque elementum semper pulvinar.",
-                date: "06/23/23",
-              },
-            },
-            {
-              user: {
-                name: "Ann",
-                image: user2,
-              },
-              comment: {
-                title: "Lorem ipsum dolor sit amet conseur.",
-                date: "06/23/23",
-              },
-            },
-            {
-              user: {
-                name: "Ann",
-                image: user3,
-              },
-              comment: {
-                title: "Lorem ipsum dolor sit amet conseur.",
-                date: "06/23/23",
-              },
-            },
-          ].map((comment, key) => (
+          {discussion.comment.map((comment, key) => (
             <div key={key} className="flex space-x-4">
-              <div className="flex-shrink-0 w-8 h-8">
-                <Image src={comment.user.image} alt={comment.user.name} />
+              <div>
+                <img
+                  className="flex-shrink-0 w-8 h-8 rounded-full object-cover ring-2 ring-slate-200"
+                  src={comment.user?.avatar ?? ""}
+                  alt={comment.user?.name ?? ""}
+                />
               </div>
               <div className="flex-1">
                 <div className="flex justify-between">
-                  <p className="text-BodyMedium">{comment.user.name}</p>
+                  <p className="text-BodyMedium">{comment.user?.name}</p>
                   <p className="text-BodyMedium2 opacity-30">
-                    {comment.comment.date}
+                    {new Date(comment.created_at).toLocaleString()}
                   </p>
                 </div>
                 <p className="text-BodyMedium2 opacity-70 max-w-sm">
-                  {comment.comment.title}
+                  {comment.title}
                 </p>
               </div>
             </div>

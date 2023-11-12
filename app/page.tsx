@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import clsx from "clsx";
-import { ActiveSideWindow } from "@/types";
+import { ActiveSideWindow, DbResult } from "@/types";
 
 import StatsCard from "@/components/StatsCard";
 import WelcomeCard from "@/components/WelcomeCard";
@@ -16,6 +16,14 @@ import PollCard from "@/components/PollCard";
 import PollCardAll from "@/components/PollCardAll";
 import PostCard from "@/components/PostCard";
 import PostCardAll from "@/components/PostCardAll";
+import supabase from "./lib/supabase";
+import {
+  getAllDiscussions,
+  getAllInformation,
+  getAllPolls,
+} from "./queries/discussion";
+import useSWR from "swr";
+import Spinner from "./components/global/Spinner";
 
 export default function Home() {
   const [sideWindowOpen, setSideWindowOpen] = useState(false);
@@ -26,6 +34,36 @@ export default function Home() {
     setSideWindowOpen((sideWindowOpen) => (state ? state : !sideWindowOpen));
     setActive(window);
   };
+
+  const {
+    data: discussion,
+    error: discussionError,
+    isLoading: discussionLoading,
+  } = useSWR("getAllDiscussions", async () => {
+    const { data, error } = await getAllDiscussions;
+    if (error) throw error.message;
+    return data;
+  });
+
+  const {
+    data: poll,
+    error: pollError,
+    isLoading: pollLoading,
+  } = useSWR("getAllPolls", async () => {
+    const { data, error } = await getAllPolls;
+    if (error) throw error.message;
+    return data;
+  });
+
+  const {
+    data: information,
+    error: informationError,
+    isLoading: informationLoading,
+  } = useSWR("getAllInformation", async () => {
+    const { data, error } = await getAllInformation;
+    if (error) throw error.message;
+    return data;
+  });
 
   return (
     <div className="relative overflow-x-hidden">
@@ -46,15 +84,40 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 space-y-8 md:flex-row md:space-y-0 md:space-x-8">
             <div className="flex flex-col space-y-8">
               <WelcomeCard />
-              <PollCard toggleSideWindow={toggleSideWindow} />
+              {pollLoading ? (
+                <Spinner />
+              ) : (
+                <PollCard
+                  toggleSideWindow={toggleSideWindow}
+                  poll={poll?.[0]}
+                />
+              )}
             </div>
             <div className="flex flex-col space-y-8">
-              <InformationCard toggleSideWindow={toggleSideWindow} />
-              <DiscussionCard toggleSideWindow={toggleSideWindow} />
+              {informationLoading ? (
+                <Spinner />
+              ) : (
+                <InformationCard
+                  toggleSideWindow={toggleSideWindow}
+                  information={information?.[0]}
+                />
+              )}
+              {discussionLoading ? (
+                <Spinner />
+              ) : (
+                <DiscussionCard
+                  discussion={discussion?.[0]}
+                  toggleSideWindow={toggleSideWindow}
+                />
+              )}
             </div>
             <div className="flex flex-col space-y-8">
               <StatsCard />
-              <PostCard toggleSideWindow={toggleSideWindow} />
+              {informationLoading ? (
+                <Spinner />
+              ) : (
+                <PostCard toggleSideWindow={toggleSideWindow} />
+              )}
             </div>
           </div>
         </Container>
