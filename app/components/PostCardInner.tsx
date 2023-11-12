@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import MetricChart from "@/app/components/Chart";
+import MetricChart from "@/components/Chart";
 import dummy from "public/images/dummy.png";
 import clsx from "clsx";
 

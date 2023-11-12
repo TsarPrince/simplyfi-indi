@@ -1,6 +1,6 @@
 import React from "react";
 import NextArrow from "./NextButton";
-import { ActiveSideWindow } from "@/app/types";
+import { ActiveSideWindow } from "@/types";
 import DiscussionCardInner from "./DiscussionCardInner";
 
 const DiscussionCard = ({

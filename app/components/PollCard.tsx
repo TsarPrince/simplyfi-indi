@@ -1,6 +1,6 @@
 import React from "react";
-import NextArrow from "@/app/components/NextButton";
-import { ActiveSideWindow } from "@/app/types";
+import NextArrow from "@/components/NextButton";
+import { ActiveSideWindow } from "@/types";
 
 const PollCard = ({
   toggleSideWindow,

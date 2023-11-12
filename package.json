@@ -6,9 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "gen": "npx supabase gen types typescript --project-id wszcwxoobpiexzcvxisj > app/types/database.types.ts"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.38.4",
     "@tiptap/extension-color": "^2.1.12",
     "@tiptap/extension-link": "^2.1.12",
     "@tiptap/extension-text-style": "^2.1.12",
@@ -22,7 +24,9 @@
     "react": "^18",
     "react-circular-progressbar": "^2.1.0",
     "react-dom": "^18",
-    "react-icons": "^4.11.0"
+    "react-icons": "^4.11.0",
+    "supabase": "^1.110.1",
+    "swr": "^2.2.4"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.6",

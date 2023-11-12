@@ -1,7 +1,7 @@
 import React from "react";
 import NextArrow from "./NextButton";
 import dummy from "public/images/dummy.png";
-import { ActiveSideWindow } from "@/app/types";
+import { ActiveSideWindow } from "@/types";
 
 const InformationCard = ({
   toggleSideWindow,

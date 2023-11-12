@@ -2,20 +2,20 @@
 
 import { useState } from "react";
 import clsx from "clsx";
-import { ActiveSideWindow } from "@/app/types";
+import { ActiveSideWindow } from "@/types";
 
-import StatsCard from "@/app/components/StatsCard";
-import WelcomeCard from "@/app/components/WelcomeCard";
-import Container from "@/app/components/Container";
-import NextButton from "@/app/components/NextButton";
-import DiscussionCard from "@/app/components/DiscussionCard";
-import DiscussionCardAll from "@/app/components/DiscussionCardAll";
-import InformationCard from "@/app/components/InformationCard";
-import InformationCardAll from "@/app/components/InformationCardAll";
-import PollCard from "@/app/components/PollCard";
-import PollCardAll from "@/app/components/PollCardAll";
-import PostCard from "@/app/components/PostCard";
-import PostCardAll from "@/app/components/PostCardAll";
+import StatsCard from "@/components/StatsCard";
+import WelcomeCard from "@/components/WelcomeCard";
+import Container from "@/components/Container";
+import NextButton from "@/components/NextButton";
+import DiscussionCard from "@/components/DiscussionCard";
+import DiscussionCardAll from "@/components/DiscussionCardAll";
+import InformationCard from "@/components/InformationCard";
+import InformationCardAll from "@/components/InformationCardAll";
+import PollCard from "@/components/PollCard";
+import PollCardAll from "@/components/PollCardAll";
+import PostCard from "@/components/PostCard";
+import PostCardAll from "@/components/PostCardAll";
 
 export default function Home() {
   const [sideWindowOpen, setSideWindowOpen] = useState(false);

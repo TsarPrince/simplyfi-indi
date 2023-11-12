@@ -3,10 +3,10 @@
 import { useState } from "react";
 import clsx from "clsx";
 
-import StatsCard2 from "@/app/components/StatsCard2";
-import WelcomeCard from "@/app/components/WelcomeCard";
-import Container from "@/app/components/Container";
-import NextButton from "@/app/components/NextButton";
+import StatsCard2 from "@/components/StatsCard2";
+import WelcomeCard from "@/components/WelcomeCard";
+import Container from "@/components/Container";
+import NextButton from "@/components/NextButton";
 import { useRouter } from "next/navigation";
 import WelcomeCard2 from "../components/WelcomeCard2";
 import DiscussionCardAll from "../components/DiscussionCardAll";

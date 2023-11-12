@@ -1,9 +1,9 @@
 import React from "react";
 import NextArrow from "./NextButton";
-import MetricChart from "@/app/components/Chart";
+import MetricChart from "@/components/Chart";
 import dummy from "public/images/dummy.png";
 import Link from "next/link";
-import { ActiveSideWindow } from "@/app/types";
+import { ActiveSideWindow } from "@/types";
 
 const PostCard = ({
   toggleSideWindow,
