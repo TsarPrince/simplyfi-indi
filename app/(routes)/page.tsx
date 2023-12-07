@@ -16,14 +16,14 @@ import PollCard from "@/components/PollCard";
 import PollCardAll from "@/components/PollCardAll";
 import PostCard from "@/components/PostCard";
 import PostCardAll from "@/components/PostCardAll";
-import supabase from "./lib/supabase";
+import supabase from "../lib/supabase";
 import {
   getAllDiscussions,
   getAllInformation,
   getAllPolls,
-} from "./queries/discussion";
+} from "../queries/discussion";
 import useSWR from "swr";
-import Spinner from "./components/global/Spinner";
+import Spinner from "../components/global/Spinner";
 
 export default function Home() {
   const [sideWindowOpen, setSideWindowOpen] = useState(false);

@@ -1,6 +1,6 @@
 import React from "react";
-import Tiptap from "../components/TipTap.jsx";
-import Container from "../components/Container";
+import Tiptap from "@/components/TipTap";
+import Container from "@/components/Container";
 
 const page = () => {
   return (

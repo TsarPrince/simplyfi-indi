@@ -16,7 +16,9 @@ const WelcomeCard2 = () => {
         </h2>
       </div>
       <div className="space-y-6">
-        <Button className="!bg-green">Add new post</Button>
+        <Button className="!bg-green" full>
+          Add new post
+        </Button>
         <div className="bg-green border p-6 rounded-[2rem] space-y-3 max-w-xl flex flex-col items-center">
           <div className="text-center">
             <p className="text-TitleSmall2">{DAY}</p>
@@ -28,20 +30,30 @@ const WelcomeCard2 = () => {
             Keep up with your <br /> Community Ritual
           </p>
           <div className="space-y-2 w-full">
-            <Button className="!bg-lightBlue">Create a new Info Post</Button>
-            <Button>View Full Ritual</Button>
+            <Button className="!bg-lightBlue" full>
+              Create a new Info Post
+            </Button>
+            <Button full>View Full Ritual</Button>
           </div>
         </div>
       </div>
       <div className="space-y-2">
         <p className="text-BodyLarge opacity-70">Quick Links</p>
-        <Button className="bg-lightGray">Make an Announcement</Button>
-        <Button className="bg-lightGray">Drafts</Button>
-        <Button className="bg-lightGray">Feeds</Button>
+        <Button full className="bg-lightGray">
+          Make an Announcement
+        </Button>
+        <Button full className="bg-lightGray">
+          Drafts
+        </Button>
+        <Button full className="bg-lightGray">
+          Feeds
+        </Button>
       </div>
       <div className="space-y-2">
         <p className="text-BodyLarge opacity-70">Community</p>
-        <Button className="bg-lightGray">Community Guidelines</Button>
+        <Button full className="bg-lightGray">
+          Community Guidelines
+        </Button>
       </div>
     </div>
   );

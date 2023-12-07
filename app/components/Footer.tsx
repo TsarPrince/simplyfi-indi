@@ -2,9 +2,11 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div className="text-TitleMedium">
-      <span className="text-white">Public</span>
-      <span className="text-green">HQ</span>
+    <div className="bg-transparent fixed bottom-0 p-4 md:px-16">
+      <div className="text-TitleMedium">
+        <span className="text-gray">Public</span>
+        <span className="text-green">HQ</span>
+      </div>
     </div>
   );
 };
