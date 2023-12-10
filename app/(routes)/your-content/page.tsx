@@ -4,7 +4,6 @@ import { useState } from "react";
 import clsx from "clsx";
 
 import StatsCard2 from "@/components/StatsCard2";
-import WelcomeCard from "@/components/WelcomeCard";
 import Container from "@/components/Container";
 import NextButton from "@/components/NextButton";
 import { useRouter } from "next/navigation";
@@ -23,11 +22,11 @@ export default function Home() {
       />
       <div className="bg-lightGray flex w-screen overflow-x-hidden">
         <Container className={"flex justify-center"}>
-          <div className="grid grid-cols-1 md:grid-cols-3 space-y-8 md:space-y-0 md:space-x-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 space-y-8 md:space-y-0 md:space-x-8">
             <div className="flex flex-col space-y-8">
               <WelcomeCard2 />
             </div>
-            <div className="flex flex-col space-y-2">
+            <div className="flex flex-col space-y-2 col-span-2">
               <FilterCard />
               <div className="space-y-2">
                 {[1, 2, 3].map((card, key) => (

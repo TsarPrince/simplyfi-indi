@@ -20,12 +20,12 @@ const AddLayout = ({
   center?: boolean;
 }) => {
   return (
-    <div className="bg-lightGray flex w-screen overflow-x-hidden">
+    <div className="bg-lightGray flex w-screen min-h-screen overflow-x-hidden">
       <Container className="flex flex-col lg:flex-row w-full lg:h-screen">
         {/* sidebar */}
         <aside className="flex flex-col lg:pr-12 relative">
           <div className="flex">
-            <Link href={"/"}>
+            <Link href={"/your-content"}>
               <NextButton variant="back" text={title} />
             </Link>
           </div>

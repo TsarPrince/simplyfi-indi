@@ -2,7 +2,9 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div className="bg-transparent fixed bottom-0 p-4 w-full md:px-16">
+    // mix-blend-multiply to allow the background to show through
+    // when Popover/Modal is open in /your-content
+    <div className="bg-lightGray mix-blend-multiply md:bg-transparent sm:fixed bottom-0 p-4 w-full md:px-16">
       <div className="text-TitleMedium">
         <span className="text-gray">Public</span>
         <span className="text-green">HQ</span>

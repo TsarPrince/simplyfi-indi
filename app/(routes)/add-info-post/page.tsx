@@ -5,7 +5,7 @@ import Tiptap from "@/components/TipTap";
 import AddLayout from "@/components/AddLayout";
 import clsx from "clsx";
 import Button from "@/components/Button";
-import { Content } from "@tiptap/react";
+import { Content, Editor } from "@tiptap/react";
 
 interface InfoPost {
   question: string;
@@ -21,6 +21,8 @@ const AddInfoPost = () => {
       type: "paragraph",
     },
   ]);
+
+  const editorRef = useRef<Editor | null>(null);
 
   const suggestedPosts = [
     {
@@ -530,6 +532,10 @@ const AddInfoPost = () => {
     setQuestion(suggestion.question);
     setImage(suggestion.image);
     setDescription(suggestion.description);
+
+    if (editorRef.current) {
+      editorRef.current.commands.setContent(suggestion.description);
+    }
   };
 
   const fileInput = useRef<HTMLInputElement>(null);
@@ -620,7 +626,7 @@ const AddInfoPost = () => {
             className="w-full bg-lightGray border-none text-TitleMedium focus:ring-0 p-0"
           />
         </div>
-        <Tiptap />
+        <Tiptap editorRef={editorRef} />
       </div>
     </AddLayout>
   );

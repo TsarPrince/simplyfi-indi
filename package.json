@@ -10,6 +10,7 @@
     "gen": "npx supabase gen types typescript --project-id wszcwxoobpiexzcvxisj > app/types/database.types.ts"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.17",
     "@supabase/supabase-js": "^2.38.4",
     "@tiptap/extension-color": "^2.1.12",
     "@tiptap/extension-link": "^2.1.12",

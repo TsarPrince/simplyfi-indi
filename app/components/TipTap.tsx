@@ -1,7 +1,14 @@
 "use client";
 import { useEffect } from "react";
 
-import { Content, EditorProvider, useCurrentEditor } from "@tiptap/react";
+import {
+  Content,
+  Editor,
+  EditorContent,
+  EditorProvider,
+  useCurrentEditor,
+  useEditor,
+} from "@tiptap/react";
 import { Color } from "@tiptap/extension-color";
 import ListItem from "@tiptap/extension-list-item";
 import TextStyle from "@tiptap/extension-text-style";
@@ -32,9 +39,7 @@ import { MdOutlineKeyboardCommandKey } from "react-icons/md";
 import { useCallback } from "react";
 import Underline from "@tiptap/extension-underline";
 
-const MenuBar = () => {
-  const { editor } = useCurrentEditor();
-
+const MenuBar = ({ editor }: { editor: Editor | null }) => {
   const setLink = useCallback(() => {
     const previousUrl = editor?.getAttributes("link").href;
     const url = window.prompt("URL", previousUrl);
@@ -311,11 +316,9 @@ const extensions = [
 ];
 
 const TipTapEditor = ({
-  content,
-  children,
+  editorRef,
 }: {
-  content?: Content;
-  children?: React.ReactNode;
+  editorRef: React.MutableRefObject<Editor | null>;
 }) => {
   useEffect(() => {
     // Disable Ctrl+k for browser search
@@ -326,14 +329,22 @@ const TipTapEditor = ({
     };
   }, []);
 
+  const editor = useEditor({
+    extensions,
+    content: "",
+  });
+
+  useEffect(() => {
+    if (editor) {
+      editorRef.current = editor;
+    }
+  }, [editor, editorRef]);
+
   return (
-    <EditorProvider
-      slotBefore={<MenuBar />}
-      extensions={extensions}
-      content={content}
-    >
-      {children}
-    </EditorProvider>
+    <>
+      <MenuBar editor={editor} />
+      <EditorContent editor={editor}></EditorContent>
+    </>
   );
 };
 

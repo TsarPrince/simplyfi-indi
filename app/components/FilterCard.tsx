@@ -8,11 +8,21 @@ const FilterCard = () => {
     <div className="bg-lightBlue border p-6 rounded-[2rem] space-y-4 w-[calc(100vw-2rem)] md:w-full">
       <p className="text-BodyLarge opacity-70">Filter</p>
       <div className="flex space-x-2 overflow-x-scroll">
-        <Button className="!px-2 !py-3">All</Button>
-        <Button className="!px-2 !py-3">Polls</Button>
-        <Button className="!px-2 !py-3">Announcements</Button>
-        <Button className="!px-2 !py-3 !bg-white">Discussions</Button>
-        <Button className="!px-2 !py-3">Posts</Button>
+        <Button border className="!px-2 !py-3">
+          All
+        </Button>
+        <Button border className="!px-2 !py-3">
+          Polls
+        </Button>
+        <Button border className="!px-2 !py-3">
+          Announcements
+        </Button>
+        <Button border className="!px-2 !py-3 !bg-white">
+          Discussions
+        </Button>
+        <Button border className="!px-2 !py-3">
+          Posts
+        </Button>
       </div>
 
       <div className="flex items-center justify-center bg-lightBlue rounded-full border pl-4 overflow-hidden transition-all duration-300 focus-within:ring-4 focus-within:ring-blue/50 focus-within:border-blue">

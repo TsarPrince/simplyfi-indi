@@ -38,23 +38,25 @@ const StatsCard = () => {
             <path
               d="M11.0006 6.00059L6.00002 1L0.999435 6.00059"
               stroke="#273648"
-              stroke-width="1.5"
-              stroke-miterlimit="10"
-              stroke-linejoin="round"
+              strokeWidth="1.5"
+              strokeMiterlimit="10"
+              strokeLinejoin="round"
             />
             <path
               d="M6 15.0048L6 1.13989"
               stroke="#273648"
-              stroke-width="1.5"
-              stroke-miterlimit="10"
-              stroke-linejoin="round"
+              strokeWidth="1.5"
+              strokeMiterlimit="10"
+              strokeLinejoin="round"
             />
           </svg>
           <span>12% since Jun 30th</span>
         </p>
       </div>
       <div>
-        <Button className="!bg-brown">Post Update</Button>
+        <Button full border className="!bg-brown">
+          Post Update
+        </Button>
       </div>
     </div>
   );

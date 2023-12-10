@@ -1,9 +1,14 @@
-import Link from "next/link";
 import React from "react";
 import Button from "./Button";
 import getDay from "../utils/getDay";
+import { useRouter } from "next/navigation";
+import DialogAddNewPost from "@/components/yourContent/DialogAddNewPost";
+import DialogCommunityRitual from "./yourContent/DialogCommunityRitual";
+import DialogCommunityRules from "./yourContent/DialogCommunityRules";
 
 const WelcomeCard2 = () => {
+  const router = useRouter();
+
   const DAY = getDay(new Date().getDay());
   const [_, MONTH, DATE, YEAR] = new Date().toDateString().split(" ");
 
@@ -16,9 +21,7 @@ const WelcomeCard2 = () => {
         </h2>
       </div>
       <div className="space-y-6">
-        <Button className="!bg-green" full>
-          Add new post
-        </Button>
+        <DialogAddNewPost />
         <div className="bg-green border p-6 rounded-[2rem] space-y-3 max-w-xl flex flex-col items-center">
           <div className="text-center">
             <p className="text-TitleSmall2">{DAY}</p>
@@ -30,30 +33,33 @@ const WelcomeCard2 = () => {
             Keep up with your <br /> Community Ritual
           </p>
           <div className="space-y-2 w-full">
-            <Button className="!bg-lightBlue" full>
+            <Button
+              className="!bg-lightBlue"
+              full
+              border
+              onClick={() => router.push("/add-info-post")}
+            >
               Create a new Info Post
             </Button>
-            <Button full>View Full Ritual</Button>
+            <DialogCommunityRitual />
           </div>
         </div>
       </div>
       <div className="space-y-2">
         <p className="text-BodyLarge opacity-70">Quick Links</p>
-        <Button full className="bg-lightGray">
+        <Button full border className="bg-lightGray">
           Make an Announcement
         </Button>
-        <Button full className="bg-lightGray">
+        <Button full border className="bg-lightGray">
           Drafts
         </Button>
-        <Button full className="bg-lightGray">
+        <Button full border className="bg-lightGray">
           Feeds
         </Button>
       </div>
       <div className="space-y-2">
         <p className="text-BodyLarge opacity-70">Community</p>
-        <Button full className="bg-lightGray">
-          Community Guidelines
-        </Button>
+        <DialogCommunityRules />
       </div>
     </div>
   );
