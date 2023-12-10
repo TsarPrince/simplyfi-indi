@@ -1,12 +1,13 @@
 "use client";
+import { useEffect } from "react";
 
+import { Content, EditorProvider, useCurrentEditor } from "@tiptap/react";
 import { Color } from "@tiptap/extension-color";
 import ListItem from "@tiptap/extension-list-item";
 import TextStyle from "@tiptap/extension-text-style";
-import { EditorProvider, useCurrentEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
-import { useEffect } from "react";
+import Placeholder from "@tiptap/extension-placeholder";
 
 import {
   AiOutlineBold,
@@ -18,7 +19,6 @@ import { BiUndo, BiRedo, BiCode } from "react-icons/bi";
 import { RiFormatClear } from "react-icons/ri";
 import { MdHorizontalRule, MdFormatListBulleted } from "react-icons/md";
 import { BiSolidQuoteAltLeft, BiLinkAlt } from "react-icons/bi";
-import { BsTextParagraph } from "react-icons/bs";
 import {
   PiTextHOneBold,
   PiTextHTwoBold,
@@ -33,10 +33,10 @@ import { useCallback } from "react";
 import Underline from "@tiptap/extension-underline";
 
 const MenuBar = () => {
-  const { editor } = useCurrentEditor({});
+  const { editor } = useCurrentEditor();
 
   const setLink = useCallback(() => {
-    const previousUrl = editor.getAttributes("link").href;
+    const previousUrl = editor?.getAttributes("link").href;
     const url = window.prompt("URL", previousUrl);
 
     // cancelled
@@ -46,20 +46,25 @@ const MenuBar = () => {
 
     // empty
     if (url === "") {
-      editor.chain().focus().extendMarkRange("link").unsetLink().run();
+      editor?.chain().focus().extendMarkRange("link").unsetLink().run();
       return;
     }
 
     // update link
-    editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
+    editor
+      ?.chain()
+      .focus()
+      .extendMarkRange("link")
+      .setLink({ href: url })
+      .run();
   }, [editor]);
 
   const removeLink = useCallback(() => {
-    editor.chain().focus().unsetLink().run();
+    editor?.chain().focus().unsetLink().run();
   }, [editor]);
 
   if (!editor) {
-    return;
+    return <></>;
   }
 
   return (
@@ -107,13 +112,6 @@ const MenuBar = () => {
       </button> */}
       </div>
       <div className="inline pl-2">
-        <button
-          title="Normal text (Ctrl+Alt+0)"
-          onClick={() => editor.chain().focus().setParagraph().run()}
-          className={editor.isActive("paragraph") ? "is-active" : ""}
-        >
-          <BsTextParagraph />
-        </button>
         <button
           title="Level 1 Heading (Ctrl+Alt+1)"
           onClick={() =>
@@ -257,7 +255,7 @@ const MenuBar = () => {
 
 const extensions = [
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
-  TextStyle.configure({ types: [ListItem.name] }),
+  TextStyle.configure({}),
   Link.configure({
     protocols: ["ftp", "mailto"],
     // openOnClick: false,
@@ -270,7 +268,7 @@ const extensions = [
 
           // cancelled
           if (url === null) {
-            return;
+            return false;
           }
 
           // empty
@@ -281,7 +279,7 @@ const extensions = [
               .extendMarkRange("link")
               .unsetLink()
               .run();
-            return;
+            return true;
           }
 
           // update link
@@ -291,6 +289,7 @@ const extensions = [
             .extendMarkRange("link")
             .setLink({ href: url })
             .run();
+          return true;
         },
       };
     },
@@ -306,43 +305,18 @@ const extensions = [
       keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
     },
   }),
+  Placeholder.configure({
+    placeholder: "Which information post do you want to add?",
+  }),
 ];
 
-const content = `
-<h1>Heading Level 1</h1>
-<h2>Heading Level 2</h2>
-<h3>Heading Level 3</h3>
-<h4>Heading Level 4</h4>
-<h5>Heading Level 5</h5>
-<h6>Heading Level 6</h6>
-<p>
-  this is a <em>basic</em> example of <strong>tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:
-</p>
-<ul>
-  <li>
-    That’s a bullet list with one …
-  </li>
-  <li>
-    … or two list items.
-  </li>
-</ul>
-<p>
-  Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:
-</p>
-<pre><code class="language-css">body {
-display: none;
-}</code></pre>
-<p>
-  I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.
-</p>
-<blockquote>
-  Wow, that’s amazing. Good work, boy! 👏
-  <br />
-  — Mom
-</blockquote>
-`;
-
-const TipTapEditor = () => {
+const TipTapEditor = ({
+  content,
+  children,
+}: {
+  content?: Content;
+  children?: React.ReactNode;
+}) => {
   useEffect(() => {
     // Disable Ctrl+k for browser search
     window.onkeydown = (e) => {
@@ -357,7 +331,9 @@ const TipTapEditor = () => {
       slotBefore={<MenuBar />}
       extensions={extensions}
       content={content}
-    ></EditorProvider>
+    >
+      {children}
+    </EditorProvider>
   );
 };
 

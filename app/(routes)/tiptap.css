@@ -1,8 +1,9 @@
 :root {
-  --green: #4ec2c2;
-  --green-ring: #4ec2c288;
-  --green-hover: #4ec2c222;
-  --gray: #273648;
+  --green: rgb(78, 194, 194);
+  --green-ring: rgba(78, 194, 194, 0.5);
+  --green-hover: rgba(78, 194, 194, 0.1);
+  --gray: rgb(39, 54, 72);
+  --gray-placeholder: rgb(39, 54, 72, 0.6);
 }
 
 /* Menubar (tiptap-buttons) */
@@ -37,15 +38,19 @@
   margin-top: 0.75em;
 }
 .tiptap {
-  border: 2px solid var(--green);
   outline: none;
-  padding: 10px 20px;
   font-weight: 600;
-  border-radius: 20px;
-  transition: all 150ms ease-in-out;
+  transition: all 300ms ease-in-out;
+  border-bottom: 2px solid transparent;
+  height: 16rem;
+  overflow-y: scroll;
+  padding: 0 4px;
+}
+.tiptap:hover {
+  border-color: var(--gray-placeholder);
 }
 .tiptap:focus-within {
-  box-shadow: 0 0 0 2px var(--green-ring);
+  border-color: var(--gray);
 }
 .tiptap ul,
 .tiptap ol {
@@ -118,4 +123,12 @@
   color: var(--green);
   text-decoration: underline;
   text-decoration-thickness: 2px;
+}
+
+.tiptap p.is-editor-empty:first-child::before {
+  color: var(--gray-placeholder);
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
 }
