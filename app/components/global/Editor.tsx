@@ -37,11 +37,8 @@ export default function Editor() {
                         "novel-text-stone-400 novel-underline novel-underline-offset-[3px] hover:novel-text-stone-600 novel-transition-colors novel-cursor-pointer",
                     },
                   },
-                  {
-                    type: "italic",
-                  },
                 ],
-                text: "WYSIWYG",
+                text: "WYSIWIG",
               },
               {
                 type: "text",
@@ -133,7 +130,7 @@ export default function Editor() {
                     content: [
                       {
                         type: "text",
-                        text: "Image uploads (drag & drop / copy & paste, or select from slash menu) ",
+                        text: "Image uploads (drag & drop / copy & paste, or select from slash menu)",
                       },
                     ],
                   },
