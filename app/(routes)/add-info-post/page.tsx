@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import Tiptap from "@/components/TipTap";
+// import Tiptap from "@/components/TipTap";
 import AddLayout from "@/components/AddLayout";
 import clsx from "clsx";
 import Button from "@/components/Button";
