@@ -7,12 +7,134 @@ export default function Editor() {
   const [saveStatus, setSaveStatus] = useState("Saved");
 
   return (
-    <div className="relative w-full max-w-screen-lg overflow-hidden">
+    <div className="relative w-full max-w-screen-lg">
       <div className="absolute right-5 top-5 z-10 mb-5 rounded-lg bg-stone-100 px-2 py-1 text-sm text-stone-400">
         {saveStatus}
       </div>
       <NovelEditor
-        className="relative min-h-[320px] w-full max-w-screen-lg border-stone-200 bg-white rounded-3xl border shadow-lg"
+        className="relative min-h-[320px] w-full max-w-screen-lg bg-white rounded-3xl borde shadow-l"
+        defaultValue={[
+          {
+            type: "heading",
+            attrs: {
+              level: 2,
+            },
+            content: [
+              {
+                type: "text",
+                text: "This is a ",
+              },
+              {
+                type: "text",
+                marks: [
+                  {
+                    type: "italic",
+                  },
+                  {
+                    type: "underline",
+                  },
+                ],
+                text: "WYSIWYG",
+              },
+              {
+                type: "text",
+                text: " editor",
+              },
+            ],
+          },
+          {
+            type: "horizontalRule",
+          },
+          {
+            type: "heading",
+            attrs: {
+              level: 3,
+            },
+            content: [
+              {
+                type: "text",
+                text: "Features",
+              },
+            ],
+          },
+          {
+            type: "orderedList",
+            attrs: {
+              tight: true,
+              start: 1,
+            },
+            content: [
+              {
+                type: "listItem",
+                content: [
+                  {
+                    type: "paragraph",
+                    content: [
+                      {
+                        type: "text",
+                        text: "Slash menu (type ",
+                      },
+                      {
+                        type: "text",
+                        marks: [
+                          {
+                            type: "code",
+                          },
+                        ],
+                        text: "/",
+                      },
+                      {
+                        type: "text",
+                        text: " ) & bubble menu (select any text to open)",
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                type: "listItem",
+                content: [
+                  {
+                    type: "paragraph",
+                    content: [
+                      {
+                        type: "text",
+                        text: "AI autocomplete (type ",
+                      },
+                      {
+                        type: "text",
+                        marks: [
+                          {
+                            type: "code",
+                          },
+                        ],
+                        text: "++",
+                      },
+                      {
+                        type: "text",
+                        text: " to activate, or select from slash menu)",
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                type: "listItem",
+                content: [
+                  {
+                    type: "paragraph",
+                    content: [
+                      {
+                        type: "text",
+                        text: "Image uploads (drag & drop / copy & paste, or select from slash menu) ",
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ]}
         onUpdate={() => {
           setSaveStatus("Unsaved");
         }}
