@@ -28,10 +28,17 @@ export default function Editor() {
                 type: "text",
                 marks: [
                   {
-                    type: "italic",
+                    type: "link",
+                    attrs: {
+                      href: "https://en.wikipedia.org/wiki/WYSIWYG",
+                      target: "_blank",
+                      rel: "noopener noreferrer nofollow",
+                      class:
+                        "novel-text-stone-400 novel-underline novel-underline-offset-[3px] hover:novel-text-stone-600 novel-transition-colors novel-cursor-pointer",
+                    },
                   },
                   {
-                    type: "underline",
+                    type: "italic",
                   },
                 ],
                 text: "WYSIWYG",
