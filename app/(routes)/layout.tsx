@@ -1,9 +1,8 @@
 import "./globals.css";
-import "./tiptap.css";
+// import "./tiptap.css";
 
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
-import Container from "../components/Container";
 import Footer from "../components/Footer";
 
 const montserrat = Montserrat({ subsets: ["latin"] });

@@ -6,6 +6,7 @@ import AddLayout from "@/components/AddLayout";
 import clsx from "clsx";
 import Button from "@/components/Button";
 import { Content, Editor } from "@tiptap/react";
+import NovelEditor from "@/components/global/Editor";
 
 interface InfoPost {
   question: string;
@@ -626,7 +627,8 @@ const AddInfoPost = () => {
             className="w-full bg-lightGray border-none text-TitleMedium focus:ring-0 p-0"
           />
         </div>
-        <Tiptap editorRef={editorRef} />
+        <NovelEditor />
+        {/* <Tiptap editorRef={editorRef} /> */}
       </div>
     </AddLayout>
   );
