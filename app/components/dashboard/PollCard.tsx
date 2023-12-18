@@ -16,8 +16,7 @@ const PollCard = ({
   );
 
   return (
-    <div className="bg-blue border p-6 rounded-[2rem] max-w-xl">
-      <p className="text-BodyLarge opacity-70">Poll Results</p>
+    <div>
       <p className="text-BodyLarge mt-8">{poll.title}</p>
       {/* options */}
       <div className="mt-4 space-y-2">

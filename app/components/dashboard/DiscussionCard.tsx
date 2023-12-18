@@ -6,7 +6,7 @@ import user3 from "public/images/user3.png";
 import Link from "next/link";
 import { Discussion } from "@/types";
 
-const DiscussionCardInner = ({ discussion }: { discussion?: Discussion }) => {
+const DiscussionCard = ({ discussion }: { discussion?: Discussion }) => {
   if (!discussion) return null;
 
   return (
@@ -18,6 +18,7 @@ const DiscussionCardInner = ({ discussion }: { discussion?: Discussion }) => {
       <p className="text-TitleSmall2">{discussion.title}</p>
       <div className="flex space-x-6">
         <div className="flex items-center space-x-2">
+          {/* Comments count */}
           <svg
             width="15"
             height="15"
@@ -30,7 +31,7 @@ const DiscussionCardInner = ({ discussion }: { discussion?: Discussion }) => {
               fill="#4EC2C2"
             />
           </svg>
-          <span>23</span>
+          <span>{discussion.comment?.length}</span>
         </div>
         <div className="flex items-center space-x-2">
           <svg
@@ -102,4 +103,4 @@ const DiscussionCardInner = ({ discussion }: { discussion?: Discussion }) => {
   );
 };
 
-export default DiscussionCardInner;
+export default DiscussionCard;

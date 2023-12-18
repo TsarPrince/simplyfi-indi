@@ -1,22 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import clsx from "clsx";
-import { ActiveSideWindow, DbResult } from "@/types";
+import { ActiveSideWindow } from "@/types";
 
-import StatsCard from "@/components/StatsCard";
-import WelcomeCard from "@/components/WelcomeCard";
 import Container from "@/components/Container";
 import NextButton from "@/components/NextButton";
-import DiscussionCard from "@/components/DiscussionCard";
-import DiscussionCardAll from "@/components/DiscussionCardAll";
-import InformationCard from "@/components/InformationCard";
-import InformationCardAll from "@/components/InformationCardAll";
-import PollCard from "@/components/PollCard";
-import PollCardAll from "@/components/PollCardAll";
-import PostCard from "@/components/PostCard";
-import PostCardAll from "@/components/PostCardAll";
-import supabase from "../lib/supabase";
+import WelcomeCard from "@/components/dashboard/WelcomeCard";
+import PollCard from "@/components/dashboard/PollCard";
+import InformationCard from "@/components/dashboard/InformationCard";
+import DiscussionCard from "@/components/dashboard/DiscussionCard";
+import StatsCard from "@/components/dashboard/StatsCard";
+import PostCard from "@/components/dashboard/PostCard";
 import {
   getAllDiscussions,
   getAllInformation,
@@ -24,6 +19,7 @@ import {
 } from "../queries/discussion";
 import useSWR from "swr";
 import Spinner from "../components/global/Spinner";
+import Box from "@/components/dashboard/Box";
 
 export default function Home() {
   const [sideWindowOpen, setSideWindowOpen] = useState(false);
@@ -32,11 +28,13 @@ export default function Home() {
   const toggleSideWindow = (window?: ActiveSideWindow, state?: boolean) => {
     // toggle active state if no state is passed explicitly
     setSideWindowOpen((sideWindowOpen) => (state ? state : !sideWindowOpen));
-    setActive(window);
+    if (window) {
+      setActive(window);
+    }
   };
 
   const {
-    data: discussion,
+    data: discussions,
     error: discussionError,
     isLoading: discussionLoading,
   } = useSWR("getAllDiscussions", async () => {
@@ -46,7 +44,7 @@ export default function Home() {
   });
 
   const {
-    data: poll,
+    data: polls,
     error: pollError,
     isLoading: pollLoading,
   } = useSWR("getAllPolls", async () => {
@@ -56,7 +54,7 @@ export default function Home() {
   });
 
   const {
-    data: information,
+    data: informations,
     error: informationError,
     isLoading: informationLoading,
   } = useSWR("getAllInformation", async () => {
@@ -66,7 +64,7 @@ export default function Home() {
   });
 
   return (
-    <div className="relative overflow-x-hidden">
+    <div className="relative overflow-x-hidden h-screen">
       <NextButton
         className={clsx(
           "z-10 fixed top-6 left-16",
@@ -87,28 +85,46 @@ export default function Home() {
               {pollLoading ? (
                 <Spinner />
               ) : (
-                <PollCard
-                  toggleSideWindow={toggleSideWindow}
-                  poll={poll?.[0]}
-                />
+                <Box
+                  toggleSideWindow={() => toggleSideWindow("poll", true)}
+                  className="bg-blue"
+                  text="Poll Results"
+                >
+                  <PollCard
+                    toggleSideWindow={toggleSideWindow}
+                    poll={polls?.[0]}
+                  />
+                </Box>
               )}
             </div>
             <div className="flex flex-col space-y-8">
               {informationLoading ? (
                 <Spinner />
               ) : (
-                <InformationCard
-                  toggleSideWindow={toggleSideWindow}
-                  information={information?.[0]}
-                />
+                <Box
+                  toggleSideWindow={() => toggleSideWindow("information", true)}
+                  className="bg-blue"
+                  text="Fresh off the press"
+                >
+                  <InformationCard
+                    information={
+                      informations?.filter(
+                        (information) => !information.flag
+                      )[0]
+                    }
+                  />
+                </Box>
               )}
               {discussionLoading ? (
                 <Spinner />
               ) : (
-                <DiscussionCard
-                  discussion={discussion?.[0]}
-                  toggleSideWindow={toggleSideWindow}
-                />
+                <Box
+                  toggleSideWindow={() => toggleSideWindow("discussion", true)}
+                  className="bg-green"
+                  text="Discussions at a glance"
+                >
+                  <DiscussionCard discussion={discussions?.[0]} />
+                </Box>
               )}
             </div>
             <div className="flex flex-col space-y-8">
@@ -116,21 +132,82 @@ export default function Home() {
               {informationLoading ? (
                 <Spinner />
               ) : (
-                <PostCard toggleSideWindow={toggleSideWindow} />
+                <Box
+                  toggleSideWindow={() => toggleSideWindow("post", true)}
+                  className="bg-brown"
+                  text="Your Information Posts"
+                >
+                  <PostCard
+                    information={
+                      informations?.filter((information) => information.flag)[0]
+                    }
+                  />
+                </Box>
               )}
             </div>
           </div>
         </Container>
+
+        {/* Sidebar */}
+        {/* Initially hidden */}
         <div
           className={clsx(
             "absolute right-0 p-4 md:px-16 md:py-14 transition duration-300 w-[calc(32rem+5rem)]",
             sideWindowOpen ? "" : "translate-x-[calc(32rem+5rem)]"
           )}
         >
-          {active === "poll" && <PollCardAll />}
-          {active === "information" && <InformationCardAll />}
-          {active === "discussion" && <DiscussionCardAll />}
-          {active === "post" && <PostCardAll />}
+          {active === "poll" && (
+            <Box
+              className="bg-blue"
+              toggleSideWindow={() => toggleSideWindow()}
+              text="All Polls"
+            >
+              {polls?.map((information, key) => (
+                <PollCard
+                  key={key}
+                  poll={information}
+                  toggleSideWindow={toggleSideWindow}
+                />
+              ))}
+            </Box>
+          )}
+          {active === "information" && (
+            <Box
+              className="bg-blue"
+              toggleSideWindow={() => toggleSideWindow()}
+              text="All Posts"
+            >
+              {informations
+                ?.filter((information) => !information.flag)
+                .map((information, key) => (
+                  <InformationCard key={key} information={information} />
+                ))}
+            </Box>
+          )}
+          {active === "discussion" && (
+            <Box
+              className="bg-green"
+              toggleSideWindow={() => toggleSideWindow()}
+              text="All Discussions"
+            >
+              {discussions?.map((discussion, key) => (
+                <DiscussionCard key={key} discussion={discussion} />
+              ))}
+            </Box>
+          )}
+          {active === "post" && (
+            <Box
+              className="bg-brown"
+              toggleSideWindow={() => toggleSideWindow()}
+              text="All Information Posts"
+            >
+              {informations
+                ?.filter((information) => information.flag)
+                .map((information, key) => (
+                  <PostCard key={key} information={information} />
+                ))}
+            </Box>
+          )}
         </div>
       </div>
     </div>

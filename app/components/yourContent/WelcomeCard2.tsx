@@ -1,10 +1,10 @@
 import React from "react";
-import Button from "./Button";
-import getDay from "../utils/getDay";
+import Button from "../Button";
+import getDay from "../../utils/getDay";
 import { useRouter } from "next/navigation";
 import DialogAddNewPost from "@/components/yourContent/DialogAddNewPost";
-import DialogCommunityRitual from "./yourContent/DialogCommunityRitual";
-import DialogCommunityRules from "./yourContent/DialogCommunityRules";
+import DialogCommunityRitual from "./DialogCommunityRitual";
+import DialogCommunityRules from "./DialogCommunityRules";
 
 const WelcomeCard2 = () => {
   const router = useRouter();

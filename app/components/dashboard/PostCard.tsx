@@ -1,29 +1,32 @@
-import React, { useState } from "react";
+import React from "react";
 import MetricChart from "@/components/Chart";
-import dummy from "public/images/dummy.png";
-import clsx from "clsx";
+import Link from "next/link";
+import { Information } from "@/types";
 
-const PostCardInner = () => {
-  const [viewFullStats, setViewFullStats] = useState(false);
-
+const PostCard = ({ information }: { information?: Information }) => {
+  if (!information) return null;
   return (
     <div className="bg-white border p-4 rounded-3xl flex flex-col space-y-3 mt-4">
-      <img src={dummy.src} alt="dummy" className="object-cover" />
+      {information.image && (
+        <img
+          src={information.image}
+          alt="dummy"
+          className="h-44 object-cover rounded-3xl"
+        />
+      )}
       <div className="flex justify-between">
-        <p className="text-BodyMedium2 opacity-40">06/23/23 14:00</p>
+        <p className="text-BodyMedium2 opacity-40">
+          {new Date(information.created_at).toLocaleString()}
+        </p>
         <p className="text-BodyMedium2 opacity-40">Info</p>
       </div>
-      <p className="text-TitleSmall2">
-        Studies link emotional wellness to tech usage.
-      </p>
+      <p className="text-TitleSmall2">{information.title}</p>
       <div className="flex">
-        <button
-          onClick={() => setViewFullStats((viewFullStats) => !viewFullStats)}
-        >
+        <Link href="/">
           <div className="flex items-center space-x-2 hover:opacity-75 transition duration-300">
             <span className="text-BodySmall text-green">View Full Stats</span>
           </div>
-        </button>
+        </Link>
       </div>
       <div className="flex space-x-6">
         <div className="flex items-center space-x-2">
@@ -57,14 +60,12 @@ const PostCardInner = () => {
           <span>23</span>
         </div>
       </div>
-      <div className={clsx("space-y-3", viewFullStats ? "" : "hidden")}>
-        <p className="text-BodyMedium2 opacity-40">Engaged Users</p>
-        <MetricChart />
-        <p className="text-BodyMedium2 opacity-40">Shares</p>
-        <MetricChart />
-      </div>
+      <p className="text-BodyMedium2 opacity-40">
+        How is this post performing?
+      </p>
+      <MetricChart />
     </div>
   );
 };
 
-export default PostCardInner;
+export default PostCard;

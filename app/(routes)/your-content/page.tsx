@@ -1,15 +1,14 @@
 "use client";
 
-import { useState } from "react";
 import clsx from "clsx";
-
-import StatsCard2 from "@/components/StatsCard2";
 import Container from "@/components/Container";
 import NextButton from "@/components/NextButton";
 import { useRouter } from "next/navigation";
-import WelcomeCard2 from "@/components/WelcomeCard2";
-import DiscussionCardInner from "@/components/DiscussionCardInner";
-import FilterCard from "@/components/FilterCard";
+import WelcomeCard2 from "@/components/yourContent/WelcomeCard2";
+import StatsCard2 from "@/components/yourContent/StatsCard2";
+import DiscussionCardInner from "@/components/dashboard/DiscussionCard";
+import FilterCard from "@/components/yourContent/FilterCard";
+import WelcomeCard from "@/components/dashboard/WelcomeCard";
 
 export default function Home() {
   const router = useRouter();
