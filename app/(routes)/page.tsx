@@ -72,32 +72,36 @@ export default function Home() {
         )}
         onClick={() => toggleSideWindow(active)}
       />
-      <div className="bg-lightGray flex w-screen overflow-x-hidden">
+      <div className="bg-lightGray relative flex w-screen overflow-x-hidden">
         <Container
           className={clsx(
             "flex justify-center transition duration-300",
             sideWindowOpen ? " -translate-x-[32rem]" : ""
           )}
         >
-          <div className="grid grid-cols-1 md:grid-cols-3 space-y-8 md:flex-row md:space-y-0 md:space-x-8">
-            <div className="flex flex-col space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-12 space-y-8 md:flex-row md:space-y-0 md:space-x-8">
+            <div className="col-span-3 flex flex-col space-y-8">
               <WelcomeCard />
-              {pollLoading ? (
-                <Spinner />
-              ) : (
-                <Box
-                  toggleSideWindow={() => toggleSideWindow("poll", true)}
-                  className="bg-blue"
-                  text="Poll Results"
-                >
-                  <PollCard
-                    toggleSideWindow={toggleSideWindow}
-                    poll={polls?.[0]}
-                  />
-                </Box>
-              )}
+              <div className="flex-1">
+                {pollLoading ? (
+                  <Spinner />
+                ) : (
+                  <Box
+                    toggleSideWindow={() => toggleSideWindow("poll", true)}
+                    className="bg-blue"
+                    text="Poll Results"
+                    fullHeight
+                  >
+                    <PollCard
+                      toggleSideWindow={toggleSideWindow}
+                      poll={polls?.[0]}
+                    />
+                  </Box>
+                )}
+              </div>
             </div>
-            <div className="flex flex-col space-y-8">
+
+            <div className="col-span-5 flex flex-col space-y-8">
               {informationLoading ? (
                 <Spinner />
               ) : (
@@ -115,35 +119,46 @@ export default function Home() {
                   />
                 </Box>
               )}
-              {discussionLoading ? (
-                <Spinner />
-              ) : (
-                <Box
-                  toggleSideWindow={() => toggleSideWindow("discussion", true)}
-                  className="bg-green"
-                  text="Discussions at a glance"
-                >
-                  <DiscussionCard discussion={discussions?.[0]} />
-                </Box>
-              )}
-            </div>
-            <div className="flex flex-col space-y-8">
-              <StatsCard />
-              {informationLoading ? (
-                <Spinner />
-              ) : (
-                <Box
-                  toggleSideWindow={() => toggleSideWindow("post", true)}
-                  className="bg-brown"
-                  text="Your Information Posts"
-                >
-                  <PostCard
-                    information={
-                      informations?.filter((information) => information.flag)[0]
+              <div className="flex-1">
+                {discussionLoading ? (
+                  <Spinner />
+                ) : (
+                  <Box
+                    toggleSideWindow={() =>
+                      toggleSideWindow("discussion", true)
                     }
-                  />
-                </Box>
-              )}
+                    className="bg-green"
+                    text="Discussions at a glance"
+                    fullHeight
+                  >
+                    <DiscussionCard discussion={discussions?.[0]} />
+                  </Box>
+                )}
+              </div>
+            </div>
+
+            <div className="col-span-4 flex flex-col space-y-8">
+              <StatsCard />
+              <div className="flex-1">
+                {informationLoading ? (
+                  <Spinner />
+                ) : (
+                  <Box
+                    toggleSideWindow={() => toggleSideWindow("post", true)}
+                    className="bg-brown"
+                    text="Your Information Posts"
+                    fullHeight
+                  >
+                    <PostCard
+                      information={
+                        informations?.filter(
+                          (information) => information.flag
+                        )[0]
+                      }
+                    />
+                  </Box>
+                )}
+              </div>
             </div>
           </div>
         </Container>
@@ -152,62 +167,68 @@ export default function Home() {
         {/* Initially hidden */}
         <div
           className={clsx(
-            "absolute right-0 p-4 md:px-16 md:py-14 transition duration-300 w-[calc(32rem+5rem)]",
+            "absolute right-0 p-4 md:px-16 md:py-14 transition duration-300 w-[calc(32rem+5rem)] h-full",
             sideWindowOpen ? "" : "translate-x-[calc(32rem+5rem)]"
           )}
         >
-          {active === "poll" && (
-            <Box
-              className="bg-blue"
-              toggleSideWindow={() => toggleSideWindow()}
-              text="All Polls"
-            >
-              {polls?.map((information, key) => (
-                <PollCard
-                  key={key}
-                  poll={information}
-                  toggleSideWindow={toggleSideWindow}
-                />
-              ))}
-            </Box>
-          )}
-          {active === "information" && (
-            <Box
-              className="bg-blue"
-              toggleSideWindow={() => toggleSideWindow()}
-              text="All Posts"
-            >
-              {informations
-                ?.filter((information) => !information.flag)
-                .map((information, key) => (
-                  <InformationCard key={key} information={information} />
+          <div className="h-full overflow-y-scroll">
+            {active === "poll" && (
+              <Box
+                className="bg-blue"
+                toggleSideWindow={() => toggleSideWindow()}
+                text="All Polls"
+                variant="sidebar"
+              >
+                {polls?.map((information, key) => (
+                  <PollCard
+                    key={key}
+                    poll={information}
+                    toggleSideWindow={toggleSideWindow}
+                  />
                 ))}
-            </Box>
-          )}
-          {active === "discussion" && (
-            <Box
-              className="bg-green"
-              toggleSideWindow={() => toggleSideWindow()}
-              text="All Discussions"
-            >
-              {discussions?.map((discussion, key) => (
-                <DiscussionCard key={key} discussion={discussion} />
-              ))}
-            </Box>
-          )}
-          {active === "post" && (
-            <Box
-              className="bg-brown"
-              toggleSideWindow={() => toggleSideWindow()}
-              text="All Information Posts"
-            >
-              {informations
-                ?.filter((information) => information.flag)
-                .map((information, key) => (
-                  <PostCard key={key} information={information} />
+              </Box>
+            )}
+            {active === "information" && (
+              <Box
+                className="bg-blue"
+                toggleSideWindow={() => toggleSideWindow()}
+                text="All Posts"
+                variant="sidebar"
+              >
+                {informations
+                  ?.filter((information) => !information.flag)
+                  .map((information, key) => (
+                    <InformationCard key={key} information={information} />
+                  ))}
+              </Box>
+            )}
+            {active === "discussion" && (
+              <Box
+                className="bg-green"
+                toggleSideWindow={() => toggleSideWindow()}
+                text="All Discussions"
+                variant="sidebar"
+              >
+                {discussions?.map((discussion, key) => (
+                  <DiscussionCard key={key} discussion={discussion} />
                 ))}
-            </Box>
-          )}
+              </Box>
+            )}
+            {active === "post" && (
+              <Box
+                className="bg-brown"
+                toggleSideWindow={() => toggleSideWindow()}
+                text="All Information Posts"
+                variant="sidebar"
+              >
+                {informations
+                  ?.filter((information) => information.flag)
+                  .map((information, key) => (
+                    <PostCard key={key} information={information} />
+                  ))}
+              </Box>
+            )}
+          </div>
         </div>
       </div>
     </div>

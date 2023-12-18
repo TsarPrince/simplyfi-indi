@@ -11,7 +11,7 @@ const Container = ({
   return (
     <div
       className={clsx(
-        "p-4 md:px-16 md:py-14 max-w-[140rem] mx-auto",
+        "p-4 md:px-16 md:py-14 max-w-[100rem] mx-auto",
         className
       )}
     >
