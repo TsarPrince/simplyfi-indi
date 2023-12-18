@@ -5,6 +5,8 @@ import user2 from "public/images/user2.png";
 import user3 from "public/images/user3.png";
 import Link from "next/link";
 import { Discussion } from "@/types";
+import Input from "@/components/Input";
+import Button from "../Button";
 
 const DiscussionCard = ({ discussion }: { discussion?: Discussion }) => {
   if (!discussion) return null;
@@ -70,16 +72,42 @@ const DiscussionCard = ({ discussion }: { discussion?: Discussion }) => {
                     {new Date(comment.created_at).toLocaleString()}
                   </p>
                 </div>
-                <p className="text-BodyMedium2 opacity-70 max-w-sm">
-                  {comment.title}
-                </p>
+                <div className="flex justify-between items-center">
+                  <p className="text-BodyMedium2 opacity-70 max-w-sm">
+                    {comment.title}
+                  </p>
+                  {/* Like */}
+                  <Button className="!p-1">
+                    <svg
+                      width="22"
+                      height="20"
+                      viewBox="0 0 22 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      color="currentColor"
+                    >
+                      <path
+                        opacity="0.4"
+                        d="M19.4578 2.59133C18.9691 2.08683 18.3889 1.68663 17.7503 1.41358C17.1117 1.14054 16.4272 1 15.7359 1C15.0446 1 14.3601 1.14054 13.7215 1.41358C13.0829 1.68663 12.5026 2.08683 12.0139 2.59133L10.9997 3.63785L9.98554 2.59133C8.99842 1.57276 7.6596 1.00053 6.26361 1.00053C4.86761 1.00053 3.52879 1.57276 2.54168 2.59133C1.55456 3.6099 1 4.99139 1 6.43187C1 7.87235 1.55456 9.25383 2.54168 10.2724L3.55588 11.3189L10.9997 19L18.4436 11.3189L19.4578 10.2724C19.9467 9.76814 20.3346 9.16942 20.5992 8.51045C20.8638 7.85148 21 7.14517 21 6.43187C21 5.71857 20.8638 5.01225 20.5992 4.35328C20.3346 3.69431 19.9467 3.09559 19.4578 2.59133Z"
+                        stroke="#273648"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </Button>
+                </div>
+                {/* Report Spam */}
+                <Button className="!p-0">
+                  <span className="text-BodySmall opacity-40">Spam</span>
+                </Button>
               </div>
             </div>
           ))}
         </div>
-        <div className="flex">
+        <div className="">
           <Link href="/">
-            <div className="flex items-center space-x-2 hover:opacity-75 transition duration-300">
+            <div className="flex items-center justify-center w-full space-x-2 hover:opacity-75 transition duration-300">
               <span className="text-BodyMedium text-green">
                 View Full Discussion
               </span>
@@ -98,6 +126,38 @@ const DiscussionCard = ({ discussion }: { discussion?: Discussion }) => {
             </div>
           </Link>
         </div>
+        <Input
+          type="text"
+          placeholder="Keep the conversation going..."
+          className="focus-within:ring-green/50 focus-within:border-green !p-1"
+          adornment={
+            <Button className="!bg-green !px-8">
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 22 22"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M21 1L10 12"
+                  stroke="#273648"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M21 1L14 21L10 12L1 8L21 1Z"
+                  stroke="#273648"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </Button>
+          }
+          adornmentPosition="end"
+        />
       </div>
     </div>
   );

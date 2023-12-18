@@ -64,7 +64,7 @@ export default function Home() {
   });
 
   return (
-    <div className="relative overflow-x-hidden h-screen">
+    <div className="relative overflow-x-hidden">
       <NextButton
         className={clsx(
           "z-10 fixed top-6 left-16",
