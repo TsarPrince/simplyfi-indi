@@ -1,5 +1,5 @@
 import React from "react";
-import MetricChart from "@/components/Chart";
+import MetricChart from "@/components/dashboard/Chart";
 import Link from "next/link";
 import { Information } from "@/types";
 
