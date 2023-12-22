@@ -11,10 +11,10 @@ const config: Config = {
       colors: {
         gray: "#273648",
         lightGray: "#E4F4FB",
-        blue: "#4E91C2",
+        blue: "#D0EBFF",
         lightBlue: "#C2DDFF",
         green: "#4EC2C2",
-        brown: "#C2894E",
+        brown: "#FFF598",
       },
       fontSize: {
         TitleLarge1: ["90px", { fontWeight: 700 }],

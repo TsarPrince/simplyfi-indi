@@ -13,6 +13,14 @@ export type ActiveSideWindow =
   | "post"
   | undefined;
 
+export type Filter =
+  | "All"
+  | "Polls"
+  | "Announcements"
+  | "Discussions"
+  | "Information"
+  | "Posts";
+
 export type Poll = {
   created_at: string;
   id: number;

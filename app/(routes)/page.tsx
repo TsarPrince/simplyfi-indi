@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import { ActiveSideWindow } from "@/types";
 
@@ -64,7 +64,7 @@ export default function Home() {
   });
 
   return (
-    <div className="relative overflow-x-hidden">
+    <div className="bg-lightGray relative h-screen overflow-x-hidden overflow-y-scroll md:overflow-y-auto">
       <NextButton
         className={clsx(
           "z-10 fixed top-6 left-16",
@@ -72,7 +72,14 @@ export default function Home() {
         )}
         onClick={() => toggleSideWindow(active)}
       />
-      <div className="bg-lightGray relative flex w-screen overflow-x-hidden">
+      <div
+        className="bg-lightGray relative flex w-screen overflow-x-hidden"
+        style={{
+          // ranges from 0.64 to 0.86 approx
+          // scale: "0.86",
+          transformOrigin: "top",
+        }}
+      >
         <Container
           className={clsx(
             "flex justify-center transition duration-300",
@@ -80,6 +87,7 @@ export default function Home() {
           )}
         >
           <div className="grid grid-cols-1 md:grid-cols-12 space-y-8 md:flex-row md:space-y-0 md:space-x-8">
+            {/* col - 1 */}
             <div className="col-span-3 flex flex-col space-y-8">
               <WelcomeCard />
               <div className="flex-1">
@@ -91,6 +99,7 @@ export default function Home() {
                     className="bg-blue"
                     text="Poll Results"
                     fullHeight
+                    type="poll"
                   >
                     <PollCard
                       toggleSideWindow={toggleSideWindow}
@@ -101,6 +110,7 @@ export default function Home() {
               </div>
             </div>
 
+            {/* col - 2 */}
             <div className="col-span-5 flex flex-col space-y-8">
               {informationLoading ? (
                 <Spinner />
@@ -109,6 +119,7 @@ export default function Home() {
                   toggleSideWindow={() => toggleSideWindow("information", true)}
                   className="bg-blue"
                   text="Fresh off the press"
+                  type="information"
                 >
                   <InformationCard
                     information={
@@ -130,6 +141,7 @@ export default function Home() {
                     className="bg-green"
                     text="Discussions at a glance"
                     fullHeight
+                    type="discussion"
                   >
                     <DiscussionCard discussion={discussions?.[0]} />
                   </Box>
@@ -137,6 +149,7 @@ export default function Home() {
               </div>
             </div>
 
+            {/* col - 3 */}
             <div className="col-span-4 flex flex-col space-y-8">
               <StatsCard />
               <div className="flex-1">
@@ -148,6 +161,7 @@ export default function Home() {
                     className="bg-brown"
                     text="Your Information Posts"
                     fullHeight
+                    type="post"
                   >
                     <PostCard
                       information={
@@ -167,7 +181,7 @@ export default function Home() {
         {/* Initially hidden */}
         <div
           className={clsx(
-            "absolute right-0 p-4 md:px-16 md:py-14 transition duration-300 w-[calc(32rem+5rem)] h-full",
+            "absolute right-0 p-4 md:px-16 md:py-8 transition duration-300 w-[calc(32rem+5rem)] h-full",
             sideWindowOpen ? "" : "translate-x-[calc(32rem+5rem)]"
           )}
         >
@@ -178,6 +192,7 @@ export default function Home() {
                 toggleSideWindow={() => toggleSideWindow()}
                 text="All Polls"
                 variant="sidebar"
+                type={active}
               >
                 {polls?.map((information, key) => (
                   <PollCard
@@ -194,6 +209,7 @@ export default function Home() {
                 toggleSideWindow={() => toggleSideWindow()}
                 text="All Posts"
                 variant="sidebar"
+                type={active}
               >
                 {informations
                   ?.filter((information) => !information.flag)
@@ -208,6 +224,7 @@ export default function Home() {
                 toggleSideWindow={() => toggleSideWindow()}
                 text="All Discussions"
                 variant="sidebar"
+                type={active}
               >
                 {discussions?.map((discussion, key) => (
                   <DiscussionCard key={key} discussion={discussion} />
@@ -220,6 +237,7 @@ export default function Home() {
                 toggleSideWindow={() => toggleSideWindow()}
                 text="All Information Posts"
                 variant="sidebar"
+                type={active}
               >
                 {informations
                   ?.filter((information) => information.flag)

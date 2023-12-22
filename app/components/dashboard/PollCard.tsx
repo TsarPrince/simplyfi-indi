@@ -6,7 +6,7 @@ const PollCard = ({
   toggleSideWindow,
   poll,
 }: {
-  toggleSideWindow: (window?: ActiveSideWindow, state?: boolean) => void;
+  toggleSideWindow?: (window?: ActiveSideWindow, state?: boolean) => void;
   poll?: Poll;
 }) => {
   if (!poll) return null;
@@ -45,9 +45,12 @@ const PollCard = ({
             ))}
         </div>
       </div>
-      <div className="flex place-content-end my-8">
-        <NextArrow onClick={() => toggleSideWindow("poll", true)} />
-      </div>
+
+      {toggleSideWindow && (
+        <div className="flex place-content-end my-8">
+          <NextArrow onClick={() => toggleSideWindow("poll", true)} />
+        </div>
+      )}
     </div>
   );
 };

@@ -12,7 +12,7 @@ const StatsCard = () => {
   }, []);
 
   return (
-    <div className="bg-brown border p-6 rounded-[2rem] max-w-xl">
+    <div className="bg-brown p-6 rounded-[2rem] max-w-xl">
       <div className="grid grid-rows-2 divide-y divide-gray/20 gap-2">
         {/* row 1 */}
         <div className="grid grid-cols-3 divide-x divide-gray/10">

@@ -6,7 +6,7 @@ import { Information } from "@/types";
 const PostCard = ({ information }: { information?: Information }) => {
   if (!information) return null;
   return (
-    <div className="bg-white h-[calc(100%-3rem)] border p-4 rounded-3xl flex flex-col space-y-3 mt-4">
+    <div className="bg-white h-[calc(100%-3rem)] p-4 rounded-3xl flex flex-col space-y-3 mt-4">
       {information.image && (
         <img
           src={information.image}

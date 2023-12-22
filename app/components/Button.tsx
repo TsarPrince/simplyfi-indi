@@ -16,14 +16,14 @@ const Button = ({
   return (
     <button
       className={clsx(
-        "flex items-center space-x-2 bg-transparent px-12 py-3 md:px-16 rounded-full text-BodyLarge hover:opacity-75 focus:opacity-75 active:scale-95 transition-all duration-150",
+        "flex items-center justify-center space-x-2 bg-transparent px-12 py-3 md:px-16 rounded-full text-BodyLarge hover:opacity-75 focus:opacity-75 active:scale-95 transition-all duration-150",
         full ? "w-full" : "",
         border ? "border" : "",
         className
       )}
       onClick={onClick}
     >
-      <span className="text-center w-full">{children}</span>
+      {children}
     </button>
   );
 };

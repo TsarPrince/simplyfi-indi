@@ -3,27 +3,37 @@
 import React from "react";
 import Button from "../Button";
 import Input from "@/components/Input";
+import { ActiveSideWindow, Filter } from "@/types";
+import clsx from "clsx";
+import pascalCase from "@/utils/pascalCase";
 
-const FilterCard = () => {
+const FilterCard = ({
+  activeTab,
+  setActiveTab,
+}: {
+  activeTab: Filter;
+  setActiveTab: React.Dispatch<React.SetStateAction<Filter>>;
+}) => {
+  console.log(activeTab);
   return (
-    <div className="bg-lightBlue border p-6 rounded-[2rem] space-y-4 w-[calc(100vw-2rem)] md:w-full">
+    <div className="bg-lightBlue p-6 rounded-[2rem] space-y-4 w-[calc(100vw-2rem)] md:w-full">
       <p className="text-BodyLarge opacity-70">Filter</p>
-      <div className="flex space-x-2 overflow-x-scroll">
-        <Button border className="!px-2 !py-3">
-          All
-        </Button>
-        <Button border className="!px-2 !py-3">
-          Polls
-        </Button>
-        <Button border className="!px-2 !py-3">
-          Announcements
-        </Button>
-        <Button border className="!px-2 !py-3 !bg-white">
-          Discussions
-        </Button>
-        <Button border className="!px-2 !py-3">
-          Posts
-        </Button>
+      <div className="flex p-2 space-x-2 justify-between overflow-x-scroll">
+        {["All", "Polls", "Information", "Discussions", "Posts"].map(
+          (tab, key) => (
+            <Button
+              key={key}
+              border
+              className={clsx(
+                "!px-4 flex-1",
+                tab === activeTab ? "!bg-brown" : ""
+              )}
+              onClick={() => setActiveTab(tab as Filter)}
+            >
+              {tab}
+            </Button>
+          )
+        )}
       </div>
 
       <Input

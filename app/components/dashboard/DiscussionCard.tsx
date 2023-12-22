@@ -1,8 +1,4 @@
 import React from "react";
-import Image from "next/image";
-import user1 from "public/images/user1.png";
-import user2 from "public/images/user2.png";
-import user3 from "public/images/user3.png";
 import Link from "next/link";
 import { Discussion } from "@/types";
 import Input from "@/components/Input";
@@ -12,7 +8,7 @@ const DiscussionCard = ({ discussion }: { discussion?: Discussion }) => {
   if (!discussion) return null;
 
   return (
-    <div className="bg-white h-[calc(100%-3rem)] border p-4 rounded-3xl flex flex-col justify-between space-y-3 mt-4">
+    <div className="bg-white h-[calc(100%-3rem)] p-4 rounded-3xl flex flex-col justify-between space-y-3 mt-4">
       <div>
         <div className="flex justify-between">
           <p className="text-BodyMedium2 opacity-40">06/23/23 14:00</p>
@@ -129,38 +125,40 @@ const DiscussionCard = ({ discussion }: { discussion?: Discussion }) => {
           </div>
         </div>
       </div>
-      <Input
-        type="text"
-        placeholder="Keep the conversation going..."
-        className="focus-within:ring-green/50 focus-within:border-green !p-1"
-        adornment={
-          <Button className="!bg-green !px-8">
-            <svg
-              width="22"
-              height="22"
-              viewBox="0 0 22 22"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M21 1L10 12"
-                stroke="#273648"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M21 1L14 21L10 12L1 8L21 1Z"
-                stroke="#273648"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </Button>
-        }
-        adornmentPosition="end"
-      />
+      <form>
+        <Input
+          type="text"
+          placeholder="Keep the conversation going..."
+          className="focus-within:ring-green/50 focus-within:border-green !p-1"
+          adornment={
+            <Button className="!bg-green !px-8">
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 22 22"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M21 1L10 12"
+                  stroke="#273648"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M21 1L14 21L10 12L1 8L21 1Z"
+                  stroke="#273648"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </Button>
+          }
+          adornmentPosition="end"
+        />
+      </form>
     </div>
   );
 };
