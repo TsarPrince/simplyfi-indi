@@ -73,7 +73,7 @@ const Box = ({
             />
           ))}
       </div>
-      <div className={clsx("h-full")}>{children}</div>
+      <div className={clsx("h-full space-y-6")}>{children}</div>
     </div>
   );
 };

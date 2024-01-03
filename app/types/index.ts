@@ -30,6 +30,7 @@ export type Poll = {
     id: number;
     poll_id: number;
     title: string;
+    order: number;
     poll_vote: {
       created_at: string;
       id: number;

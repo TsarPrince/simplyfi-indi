@@ -22,7 +22,7 @@ const WelcomeCard2 = () => {
       </div>
       <div className="space-y-6">
         <DialogAddNewPost />
-        <div className="bg-green border p-6 rounded-[2rem] space-y-3 max-w-xl flex flex-col items-center">
+        <div className="bg-lightBlue p-6 rounded-[2rem] space-y-3 max-w-xl flex flex-col items-center">
           <div className="text-center">
             <p className="text-TitleSmall2">{DAY}</p>
             <p className="text-TitleSmall2">
@@ -34,9 +34,8 @@ const WelcomeCard2 = () => {
           </p>
           <div className="space-y-2 w-full">
             <Button
-              className="!bg-lightBlue"
+              className="!bg-white"
               full
-              border
               onClick={() => router.push("/add-info-post")}
             >
               Create a new Info Post

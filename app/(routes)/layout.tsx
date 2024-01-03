@@ -1,6 +1,8 @@
 import "./globals.css";
+import "react-toastify/dist/ReactToastify.css";
 // import "./tiptap.css";
 
+import { ToastContainer } from "react-toastify";
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import Footer from "../components/Footer";
@@ -28,6 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={montserrat.className}>
+        <ToastContainer />
         {children}
         <Footer />
       </body>

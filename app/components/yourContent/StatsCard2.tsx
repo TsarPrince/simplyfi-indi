@@ -1,11 +1,19 @@
 "use client";
 
 import React from "react";
-import Button from "../Button";
+import Button from "@/components/Button";
+import useSWR from "swr";
+import { getAllMetrics } from "@/queries/metric";
 
 const StatsCard = () => {
+  const { data, error, isLoading } = useSWR("getAllMetrics", async () => {
+    const { data, error } = await getAllMetrics;
+    if (error) throw error.message;
+    return data;
+  });
+  console.log(data);
   return (
-    <div className="bg-brown border p-6 rounded-[2rem] max-w-xl space-y-8">
+    <div className="bg-brown p-6 rounded-[2rem] max-w-xl space-y-8">
       <div className="flex justify-between">
         <p className="text-BodyMedium2 opacity-60">Updated : July 22nd</p>
         <button>

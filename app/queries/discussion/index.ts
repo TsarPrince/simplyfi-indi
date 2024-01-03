@@ -5,14 +5,4 @@ const getAllDiscussions = supabase
   .select("*, comment(*, user(*))")
   .order("created_at", { ascending: false });
 
-const getAllPolls = supabase
-  .from("poll")
-  .select("*, poll_option(*, poll_vote(*))")
-  .order("created_at", { ascending: false });
-
-const getAllInformation = supabase
-  .from("information")
-  .select("*")
-  .order("created_at", { ascending: false });
-
-export { getAllDiscussions, getAllPolls, getAllInformation };
+export { getAllDiscussions };

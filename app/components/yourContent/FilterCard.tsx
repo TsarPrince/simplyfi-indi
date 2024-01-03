@@ -3,9 +3,8 @@
 import React from "react";
 import Button from "../Button";
 import Input from "@/components/Input";
-import { ActiveSideWindow, Filter } from "@/types";
+import { Filter } from "@/types";
 import clsx from "clsx";
-import pascalCase from "@/utils/pascalCase";
 
 const FilterCard = ({
   activeTab,
@@ -39,7 +38,7 @@ const FilterCard = ({
       <Input
         type="text"
         placeholder="Search"
-        className="bg-lightBlue focus-within:ring-blue/50 focus-within:border-blue"
+        className="bg-lightBlue focus-within:ring-blue focus-within:border-blue"
         adornment={
           <svg
             width="18"

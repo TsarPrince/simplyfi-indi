@@ -1,0 +1,32 @@
+[
+  {
+    "question": "What users think about daily meditation?",
+    "options": [
+      { "order": 1, "option": "Helps with stress" },
+      { "order": 2, "option": "Improves focus" },
+      { "order": 3, "option": "No noticeable effect" },
+      { "order": 4, "option": "Prefer other relaxation methods" },
+      { "order": 5, "option": "" }
+    ]
+  },
+  {
+    "question": "The best way to decompress after work?",
+    "options": [
+      { "order": 1, "option": "Physical exercise" },
+      { "order": 2, "option": "Watching TV/movies" },
+      { "order": 3, "option": "Reading" },
+      { "order": 4, "option": "Socializing" },
+      { "order": 5, "option": "" }
+    ]
+  },
+  {
+    "question": "How disappointed would you be if you couldn’t use PublicHQ anymore?",
+    "options": [
+      { "order": 1, "option": "It's a daily necessity" },
+      { "order": 2, "option": "Slightly inconvenienced" },
+      { "order": 3, "option": "Would find an alternative immediately" },
+      { "order": 4, "option": "Barely affected" },
+      { "order": 5, "option": "" }
+    ]
+  }
+]

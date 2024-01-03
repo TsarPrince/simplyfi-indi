@@ -9,7 +9,7 @@ const DialogAddNewPost = () => {
 
   return (
     <div>
-      <Button onClick={() => setOpen(true)} full border className="bg-white">
+      <Button onClick={() => setOpen(true)} full className="bg-white">
         Add new post
       </Button>
       <MyDialog open={open} setOpen={setOpen} title="Add Post">

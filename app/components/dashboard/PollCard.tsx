@@ -24,9 +24,9 @@ const PollCard = ({
           {poll.poll_option
             ?.map((option) => ({
               title: option.title,
-              percentage: Math.round(
-                (option.poll_vote.length / totalVotes) * 100
-              ),
+              percentage: totalVotes
+                ? Math.round((option.poll_vote.length / totalVotes) * 100)
+                : 0,
             }))
             .map((option, key) => (
               <div

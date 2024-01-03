@@ -12,11 +12,9 @@ import InformationCard from "@/components/dashboard/InformationCard";
 import DiscussionCard from "@/components/dashboard/DiscussionCard";
 import StatsCard from "@/components/dashboard/StatsCard";
 import PostCard from "@/components/dashboard/PostCard";
-import {
-  getAllDiscussions,
-  getAllInformation,
-  getAllPolls,
-} from "../queries/discussion";
+import { getAllDiscussions } from "@/queries/discussion";
+import { getAllPolls } from "@/queries/poll";
+import { getAllInformation } from "@/queries/information";
 import useSWR from "swr";
 import Spinner from "../components/global/Spinner";
 import Box from "@/components/dashboard/Box";

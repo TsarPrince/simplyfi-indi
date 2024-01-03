@@ -2,7 +2,13 @@
 
 import AddLayout from "@/components/AddLayout";
 import Button from "@/components/Button";
-import React, { useState } from "react";
+import { createPoll, createOptions } from "@/queries/poll";
+import React, { useEffect, useState } from "react";
+import { mutate } from "swr";
+import { ToastContentProps, toast } from "react-toastify";
+import getUser from "@/utils/getUser";
+import { usePathname } from "next/navigation";
+import suggestedPolls from "@/constants/suggestedPolls.json";
 
 const MAX_OPTIONS = 12;
 const MIN_OPTIONS = 2;
@@ -16,20 +22,82 @@ interface Poll {
 }
 
 const AddPoll = () => {
-  const [question, setQuestion] = useState(
-    "What users think about daily meditation?"
-  );
-  const [options, setOptions] = useState([
-    { order: 1, option: "" },
-    { order: 2, option: "" },
-  ]);
+  const pathname = usePathname();
 
-  const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  let poll: Poll = {
+    question: "",
+    options: [
+      { order: 1, option: "" },
+      { order: 2, option: "" },
+    ],
+  };
+
+  // populate content from localstorage
+  useEffect(() => {
+    const pollCache = localStorage.getItem("poll");
+    if (pollCache) {
+      const poll = JSON.parse(pollCache);
+      setQuestion(poll.question);
+      setOptions(poll.options);
+    }
+  }, []);
+
+  const [question, setQuestion] = useState(poll.question);
+  const [options, setOptions] = useState(poll.options);
+
+  // multiple event handlers ahead
+  const onFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log({
-      question,
-      options: options.filter((option) => option.option),
+
+    const createPollAssignOptions = async () => {
+      const user = await getUser(pathname);
+
+      // create poll first
+      const { data: poll, error: pollError } = await createPoll({
+        title: question,
+        user_id: user.id,
+      });
+      if (pollError) throw pollError;
+      if (poll) {
+        // assign options to poll
+        const { data, error } = await createOptions(
+          options
+            // remove empty options from state variable
+            .filter((option) => option.option !== "")
+            .map((option) => ({
+              poll_id: poll[0].id,
+              title: option.option,
+              order: option.order,
+            }))
+        );
+        if (error) throw error;
+        setQuestion("");
+        setOptions([
+          { order: 1, option: "" },
+          { order: 2, option: "" },
+        ]);
+        localStorage.removeItem("poll");
+      }
+      mutate("getAllPolls");
+    };
+
+    toast.promise(createPollAssignOptions, {
+      pending: "Creating Poll",
+      success: "Your poll is live!",
+      error: {
+        render({ data }: ToastContentProps<any>) {
+          return data.message;
+        },
+      },
     });
+  };
+
+  const onQuestionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuestion(e.target.value);
+    localStorage.setItem(
+      "poll",
+      JSON.stringify({ question: e.target.value, options })
+    );
   };
 
   const onOptionsChange = (
@@ -54,6 +122,10 @@ const AddPoll = () => {
       }
     }
     setOptions(newOptions);
+    localStorage.setItem(
+      "poll",
+      JSON.stringify({ question, options: newOptions })
+    );
   };
 
   // remove option if input is empty on blur
@@ -76,42 +148,12 @@ const AddPoll = () => {
         });
       }
       setOptions(newOptions);
+      localStorage.setItem(
+        "poll",
+        JSON.stringify({ question, options: newOptions })
+      );
     }
   };
-
-  const suggestedPolls = [
-    {
-      question: "What users think about daily meditation?",
-      options: [
-        { order: 1, option: "Helps with stress" },
-        { order: 2, option: "Improves focus" },
-        { order: 3, option: "No noticeable effect" },
-        { order: 4, option: "Prefer other relaxation methods" },
-        { order: 5, option: "" },
-      ],
-    },
-    {
-      question: "The best way to decompress after work?",
-      options: [
-        { order: 1, option: "Physical exercise" },
-        { order: 2, option: "Watching TV/movies" },
-        { order: 3, option: "Reading" },
-        { order: 4, option: "Socializing" },
-        { order: 5, option: "" },
-      ],
-    },
-    {
-      question:
-        "How disappointed would you be if you couldn’t use PublicHQ anymore?",
-      options: [
-        { order: 1, option: "It's a daily necessity" },
-        { order: 2, option: "Slightly inconvenienced" },
-        { order: 3, option: "Would find an alternative immediately" },
-        { order: 4, option: "Barely affected" },
-        { order: 5, option: "" },
-      ],
-    },
-  ];
 
   const sidebarSuggestionAction = (suggestion: Poll) => {
     setQuestion(suggestion.question);
@@ -134,7 +176,7 @@ const AddPoll = () => {
             required
             type="text"
             value={question}
-            onChange={(e) => setQuestion(e.target.value)}
+            onChange={(e) => onQuestionChange(e)}
             placeholder="Ask Question"
             className="w-full bg-lightGray border-none text-TitleMedium focus:ring-0 p-0"
           />

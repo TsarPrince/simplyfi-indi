@@ -2,54 +2,85 @@
 
 import AddLayout from "@/components/AddLayout";
 import Button from "@/components/Button";
+import { createMetric } from "@/queries/metric";
+import { Database, Enums } from "@/types/database.types";
+import convertNumber from "@/utils/convertNumber";
+import formatNumber from "@/utils/formatNumber";
 import clsx from "clsx";
 import React, { useState } from "react";
+import { ToastContentProps, toast } from "react-toastify";
+import { mutate } from "swr";
+import { Tables } from "@/types/database.types";
 
-interface Metric {
-  question: string;
-  description: string;
-  value: string;
-}
+type Metric = Tables<"metric">;
 
 const AddMetric = () => {
   const [question, setQuestion] = useState("");
-  const [description, setDescription] = useState("");
-  const [value, setValue] = useState("");
+  const [description, setDescription] = useState<string | null>();
+  const [value, setValue] = useState(""); // is a number, but string @frontend for formatting
+  const [symbol, setSymbol] = useState<
+    Database["public"]["Enums"]["symbol"] | "NULL"
+  >("NULL");
 
   const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log({
-      name,
+      question,
       description,
       value,
+      symbol,
     });
+
+    // const create = async () => {
+    //   // create poll first
+    //   const { data, error } = await createMetric({
+    //     name: question,
+    //     description,
+    //     value,
+    //   });
+    //   if (error) throw error;
+    //   mutate("getAllMetrics");
+    // };
+    // toast.promise(create, {
+    //   pending: "Adding new Metric",
+    //   success: "Done!",
+    //   error: {
+    //     render({ data }: ToastContentProps<any>) {
+    //       return data.message;
+    //     },
+    //   },
+    // });
   };
 
   const suggestedMetrics = [
     {
-      question: "Weekly User Growth",
+      name: "Weekly User Growth",
       description:
         "This metric tracks the percentage increase in the number of unique users actively using your web application each week. It helps measure your user acquisition efforts and understand the overall health of your user base.",
-      value: "3%",
+      value: 3,
+      symbol: null,
     },
     {
-      question: "Average Subscriber Growth",
+      name: "Average Subscriber Growth",
       description:
         "This metric tracks the average number of new subscribers you acquire each week. It helps you assess the effectiveness of your subscription strategy and identify opportunities for improvement.",
-      value: "100",
+      value: 100,
+      symbol: "PERCENTAGE",
     },
     {
-      question: "Average Weekly Ad Spend",
+      name: "Average Weekly Ad Spend",
       description:
         "This metric tracks the average amount you spend on advertising your web application each week. It helps you assess the return on investment (ROI) of your ad campaigns and optimize your spending for maximum impact.",
-      value: "$5,000",
+      value: 5000,
+      symbol: "DOLLAR",
     },
   ];
 
   const sidebarSuggestionAction = (suggestion: Metric) => {
-    setQuestion(suggestion.question);
+    setQuestion(suggestion.name);
     setDescription(suggestion.description);
-    setValue(suggestion.value);
+    setValue(formatNumber(suggestion.value?.toString()) || "");
+    setSymbol(suggestion.symbol);
   };
   return (
     <AddLayout
@@ -77,7 +108,6 @@ const AddMetric = () => {
             </div>
             <div className="flex border-b-2 border-gray/50 focus-within:border-gray transition-all duration-300">
               <input
-                required
                 type="text"
                 className="bg-white pl-0 border-none w-full text-BodyLarge placeholder:opacity-50 focus:ring-0"
                 placeholder="Why do you care about this metric?"
@@ -87,13 +117,32 @@ const AddMetric = () => {
             </div>
             <div className="flex border-b-2 border-gray/50 focus-within:border-gray transition-all duration-300">
               <input
-                required
                 type="text"
                 className="bg-white pl-0 border-none w-full text-BodyLarge placeholder:opacity-50 focus:ring-0"
                 placeholder="Metric Value"
-                value={value}
+                // remove all non numeric characters
+                // add comma to every 3 digits
+                value={formatNumber(value)}
                 onChange={(e) => setValue(e.target.value)}
               />
+              <select
+                name=""
+                id=""
+                className="border-none"
+                value={symbol}
+                onChange={(e) => setSymbol(e.target.value)}
+                defaultValue={"NULL"}
+              >
+                {[
+                  { sign: "", value: "NULL" },
+                  { sign: "%", value: "PERCENTAGE" },
+                  { sign: "$", value: "DOLLAR" },
+                ].map((symbol, key) => (
+                  <option key={key} value={symbol.value}>
+                    {symbol.sign}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
 

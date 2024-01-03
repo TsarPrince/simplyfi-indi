@@ -9,11 +9,9 @@ import StatsCard2 from "@/components/yourContent/StatsCard2";
 import DiscussionCard from "@/components/dashboard/DiscussionCard";
 import FilterCard from "@/components/yourContent/FilterCard";
 import useSWR from "swr";
-import {
-  getAllDiscussions,
-  getAllInformation,
-  getAllPolls,
-} from "@/queries/discussion";
+import { getAllDiscussions } from "@/queries/discussion";
+import { getAllPolls } from "@/queries/poll";
+import { getAllInformation } from "@/queries/information";
 import Spinner from "@/components/global/Spinner";
 import Box from "@/components/dashboard/Box";
 import PollCard from "@/components/dashboard/PollCard";
@@ -64,29 +62,34 @@ export default function Home() {
         className={clsx("z-10 fixed rotate-180 top-6 left-4 md:left-16")}
         onClick={() => router.push("/")}
       />
-      <div className="bg-lightGray flex w-screen overflow-x-hidden">
+      <div className="bg-lightGray flex w-screen overflow-x-hidden min-h-screen">
         <Container className={"flex justify-center"}>
-          <div className="grid grid-cols-1 md:grid-cols-4 space-y-8 md:space-y-0 md:space-x-8">
+          <div className="relative grid grid-cols-1 md:grid-cols-4 space-y-8 md:space-y-0 md:space-x-8">
             {/* col - 1 */}
             <div className="flex flex-col space-y-8">
               <WelcomeCard2 />
             </div>
 
             {/* col - 2 */}
-            <div className="flex flex-col space-y-2 col-span-2">
+            <div className="flex flex-col space-y-4 col-span-2">
               <FilterCard activeTab={activeTab} setActiveTab={setActiveTab} />
-              <div className="space-y-2">
+              <div className="">
                 {pollLoading ? (
                   <Spinner />
                 ) : (
                   <Box
-                    className="bg-blue"
+                    className="bg-green"
                     text={pascalCase(activeTab)}
-                    type="poll"
+                    type="discussion"
                   >
                     {(activeTab === "Polls" || activeTab === "All") &&
                       polls?.map((information, key) => (
-                        <PollCard key={key} poll={information} />
+                        <div
+                          className="bg-lightBlue p-4 pt-0 mt-4 rounded-3xl"
+                          key={key}
+                        >
+                          <PollCard poll={information} />
+                        </div>
                       ))}
 
                     {(activeTab === "Posts" || activeTab === "All") &&
