@@ -129,29 +129,40 @@ export interface Database {
       metric: {
         Row: {
           created_at: string
-          description: string | null
+          description: string
           id: number
           name: string
           symbol: Database["public"]["Enums"]["symbol"] | null
-          value: number | null
+          user_id: string | null
+          value: number
         }
         Insert: {
           created_at?: string
-          description?: string | null
+          description: string
           id?: number
           name: string
           symbol?: Database["public"]["Enums"]["symbol"] | null
-          value?: number | null
+          user_id?: string | null
+          value: number
         }
         Update: {
           created_at?: string
-          description?: string | null
+          description?: string
           id?: number
           name?: string
           symbol?: Database["public"]["Enums"]["symbol"] | null
-          value?: number | null
+          user_id?: string | null
+          value?: number
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "metric_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       poll: {
         Row: {
@@ -184,21 +195,18 @@ export interface Database {
       }
       poll_option: {
         Row: {
-          created_at: string
           id: number
           order: number
           poll_id: number
           title: string
         }
         Insert: {
-          created_at?: string
           id?: number
           order: number
           poll_id: number
           title: string
         }
         Update: {
-          created_at?: string
           id?: number
           order?: number
           poll_id?: number
@@ -219,19 +227,19 @@ export interface Database {
           created_at: string
           id: number
           poll_option_id: number
-          user_id: number
+          user_id: string | null
         }
         Insert: {
           created_at?: string
           id?: number
           poll_option_id: number
-          user_id: number
+          user_id?: string | null
         }
         Update: {
           created_at?: string
           id?: number
           poll_option_id?: number
-          user_id?: number
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -245,7 +253,7 @@ export interface Database {
             foreignKeyName: "poll_vote_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: "user"
+            referencedRelation: "users"
             referencedColumns: ["id"]
           }
         ]

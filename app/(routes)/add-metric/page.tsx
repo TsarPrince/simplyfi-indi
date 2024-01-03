@@ -10,76 +10,59 @@ import clsx from "clsx";
 import React, { useState } from "react";
 import { ToastContentProps, toast } from "react-toastify";
 import { mutate } from "swr";
-import { Tables } from "@/types/database.types";
+import suggestedMetrics from "@/constants/suggestedMetrics.json";
+import getUser from "@/utils/getUser";
+import { usePathname } from "next/navigation";
 
-type Metric = Tables<"metric">;
+interface Metric {
+  question: string;
+  symbol: "PERCENTAGE" | "DOLLAR" | null;
+  value: number;
+  description: string;
+  created_at: string;
+  user_id: string | null;
+}
+type MetricSymbol = Enums<"symbol"> | null;
 
 const AddMetric = () => {
+  const pathname = usePathname();
+
   const [question, setQuestion] = useState("");
-  const [description, setDescription] = useState<string | null>();
+  const [description, setDescription] = useState("");
   const [value, setValue] = useState(""); // is a number, but string @frontend for formatting
-  const [symbol, setSymbol] = useState<
-    Database["public"]["Enums"]["symbol"] | "NULL"
-  >("NULL");
+  const [symbol, setSymbol] = useState<MetricSymbol>(null);
 
   const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log({
-      question,
-      description,
-      value,
-      symbol,
-    });
 
-    // const create = async () => {
-    //   // create poll first
-    //   const { data, error } = await createMetric({
-    //     name: question,
-    //     description,
-    //     value,
-    //   });
-    //   if (error) throw error;
-    //   mutate("getAllMetrics");
-    // };
-    // toast.promise(create, {
-    //   pending: "Adding new Metric",
-    //   success: "Done!",
-    //   error: {
-    //     render({ data }: ToastContentProps<any>) {
-    //       return data.message;
-    //     },
-    //   },
-    // });
+    const create = async () => {
+      const user = await getUser(pathname);
+      const { data, error } = await createMetric({
+        name: question,
+        description,
+        value: convertNumber(value),
+        symbol: symbol,
+        user_id: user.id,
+      });
+      if (error) throw error;
+      mutate("getAllMetrics");
+    };
+
+    toast.promise(create, {
+      pending: "Adding new Metric",
+      success: "Done!",
+      error: {
+        render({ data }: ToastContentProps<any>) {
+          return data.message;
+        },
+      },
+    });
   };
 
-  const suggestedMetrics = [
-    {
-      name: "Weekly User Growth",
-      description:
-        "This metric tracks the percentage increase in the number of unique users actively using your web application each week. It helps measure your user acquisition efforts and understand the overall health of your user base.",
-      value: 3,
-      symbol: null,
-    },
-    {
-      name: "Average Subscriber Growth",
-      description:
-        "This metric tracks the average number of new subscribers you acquire each week. It helps you assess the effectiveness of your subscription strategy and identify opportunities for improvement.",
-      value: 100,
-      symbol: "PERCENTAGE",
-    },
-    {
-      name: "Average Weekly Ad Spend",
-      description:
-        "This metric tracks the average amount you spend on advertising your web application each week. It helps you assess the return on investment (ROI) of your ad campaigns and optimize your spending for maximum impact.",
-      value: 5000,
-      symbol: "DOLLAR",
-    },
-  ];
-
   const sidebarSuggestionAction = (suggestion: Metric) => {
-    setQuestion(suggestion.name);
+    setQuestion(suggestion.question);
     setDescription(suggestion.description);
-    setValue(formatNumber(suggestion.value?.toString()) || "");
+    setValue(formatNumber(String(suggestion.value)));
     setSymbol(suggestion.symbol);
   };
   return (
@@ -122,23 +105,20 @@ const AddMetric = () => {
                 placeholder="Metric Value"
                 // remove all non numeric characters
                 // add comma to every 3 digits
-                value={formatNumber(value)}
-                onChange={(e) => setValue(e.target.value)}
+                value={value}
+                onChange={(e) => setValue(formatNumber(e.target.value))}
               />
               <select
-                name=""
-                id=""
                 className="border-none"
-                value={symbol}
-                onChange={(e) => setSymbol(e.target.value)}
-                defaultValue={"NULL"}
+                value={symbol ?? ""}
+                onChange={(e) => setSymbol(e.target.value as MetricSymbol)}
               >
                 {[
-                  { sign: "", value: "NULL" },
+                  { sign: "", value: null },
                   { sign: "%", value: "PERCENTAGE" },
                   { sign: "$", value: "DOLLAR" },
                 ].map((symbol, key) => (
-                  <option key={key} value={symbol.value}>
+                  <option key={key} value={symbol.value ?? undefined}>
                     {symbol.sign}
                   </option>
                 ))}

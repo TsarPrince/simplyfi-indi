@@ -25,17 +25,17 @@ export type Poll = {
   created_at: string;
   id: number;
   title: string;
+  user_id: string;
   poll_option: {
-    created_at: string;
     id: number;
+    order: number;
     poll_id: number;
     title: string;
-    order: number;
     poll_vote: {
       created_at: string;
       id: number;
       poll_option_id: number;
-      user_id: number;
+      user_id: string | null;
     }[];
   }[];
 };

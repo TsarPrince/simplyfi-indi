@@ -1,21 +1,25 @@
-"use client";
-
 import React from "react";
-import Button from "@/components/Button";
-import useSWR from "swr";
-import { getAllMetrics } from "@/queries/metric";
+import Button from "../Button";
 
-const StatsCard = () => {
-  const { data, error, isLoading } = useSWR("getAllMetrics", async () => {
-    const { data, error } = await getAllMetrics;
-    if (error) throw error.message;
-    return data;
-  });
-  console.log(data);
+import { Tables } from "@/types/database.types";
+import formatNumber from "@/utils/formatNumber";
+type Metric = Tables<"metric">;
+
+const MetricCard = ({ metric }: { metric: Metric }) => {
+  let formattedValue = formatNumber(metric.value);
+  if (metric.symbol == "PERCENTAGE") {
+    formattedValue = `${metric.value}%`;
+  }
+  if (metric.symbol == "DOLLAR") {
+    formattedValue = `$${formatNumber(metric.value)}`;
+  }
+
   return (
     <div className="bg-brown p-6 rounded-[2rem] max-w-xl space-y-8">
       <div className="flex justify-between">
-        <p className="text-BodyMedium2 opacity-60">Updated : July 22nd</p>
+        <p className="text-BodyMedium2 opacity-60">
+          Updated : {new Date(metric.created_at).toLocaleDateString()}
+        </p>
         <button>
           <svg
             width="18"
@@ -33,8 +37,8 @@ const StatsCard = () => {
         </button>
       </div>
       <div className="flex flex-col justify-center items-center">
-        <p className="text-BodyMedium2 opacity-60">Total Users</p>
-        <p className="text-TitleLarge2">1,567</p>
+        <p className="text-BodyMedium2 opacity-60">{metric.name}</p>
+        <p className="text-TitleLarge2">{formattedValue}</p>
         <p className="flex space-x-2 text-BodyMedium2 opacity-60">
           <svg
             width="12"
@@ -70,4 +74,4 @@ const StatsCard = () => {
   );
 };
 
-export default StatsCard;
+export default MetricCard;

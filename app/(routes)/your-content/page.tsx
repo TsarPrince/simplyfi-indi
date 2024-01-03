@@ -5,7 +5,6 @@ import Container from "@/components/Container";
 import NextButton from "@/components/NextButton";
 import { useRouter } from "next/navigation";
 import WelcomeCard2 from "@/components/yourContent/WelcomeCard2";
-import StatsCard2 from "@/components/yourContent/StatsCard2";
 import DiscussionCard from "@/components/dashboard/DiscussionCard";
 import FilterCard from "@/components/yourContent/FilterCard";
 import useSWR from "swr";
@@ -20,6 +19,8 @@ import PostCard from "@/components/dashboard/PostCard";
 import { useState } from "react";
 import { ActiveSideWindow, Filter } from "@/types";
 import pascalCase from "@/utils/pascalCase";
+import { getAllMetrics } from "@/queries/metric";
+import MetricCard from "@/components/yourContent/MetricCard";
 
 export default function Home() {
   const router = useRouter();
@@ -56,6 +57,16 @@ export default function Home() {
     return data;
   });
 
+  const {
+    data: metric,
+    error: metricError,
+    isLoading: metricLoading,
+  } = useSWR("getAllMetrics", async () => {
+    const { data, error } = await getAllMetrics;
+    if (error) throw error.message;
+    return data;
+  });
+
   return (
     <div className="relative overflow-x-hidden">
       <NextButton
@@ -83,12 +94,12 @@ export default function Home() {
                     type="discussion"
                   >
                     {(activeTab === "Polls" || activeTab === "All") &&
-                      polls?.map((information, key) => (
+                      polls?.map((poll, key) => (
                         <div
                           className="bg-lightBlue p-4 pt-0 mt-4 rounded-3xl"
                           key={key}
                         >
-                          <PollCard poll={information} />
+                          <PollCard poll={poll} />
                         </div>
                       ))}
 
@@ -120,7 +131,13 @@ export default function Home() {
 
             {/* col - 3 */}
             <div className="flex flex-col space-y-2">
-              <StatsCard2 />
+              {metricLoading ? (
+                <Spinner />
+              ) : (
+                metric?.map((metric, key) => (
+                  <MetricCard key={key} metric={metric} />
+                ))
+              )}
             </div>
           </div>
         </Container>

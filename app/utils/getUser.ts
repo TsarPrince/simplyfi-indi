@@ -6,6 +6,8 @@ const getUser = async (pathname: string) => {
     error,
   } = await supabase.auth.getUser();
 
+  if (error) throw Error(error.message);
+
   // if !user => redirect to signIn
   if (!user) {
     supabase.auth.signInWithOAuth({
