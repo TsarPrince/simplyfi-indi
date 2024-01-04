@@ -1,11 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { Discussion } from "@/types";
 import Input from "@/components/Input";
 import Button from "../Button";
+import getUser from "@/utils/getUser";
+import { usePathname } from "next/navigation";
+import { postComment } from "@/queries/discussion";
+import { ToastContentProps, toast } from "react-toastify";
 
 const DiscussionCard = ({ discussion }: { discussion?: Discussion }) => {
+  const pathname = usePathname();
+  const [comment, setComment] = useState("");
+
   if (!discussion) return null;
+  console.log(discussion);
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const create = async () => {
+      const user = await getUser(pathname);
+      const { data, error } = await postComment({
+        discussion_id: discussion.id,
+        title: comment,
+        user_id: user.id,
+      });
+      if (error) throw error;
+      setComment("");
+      // mutate("getAllDiscussions");
+    };
+
+    toast.promise(create, {
+      pending: "Posting comment...",
+      success: "Done!",
+      error: {
+        render({ data }: ToastContentProps<any>) {
+          return data.message;
+        },
+      },
+    });
+  };
 
   return (
     <div className="bg-white h-[calc(100%-3rem)] p-4 rounded-3xl flex flex-col justify-between space-y-3 mt-4">
@@ -58,13 +91,15 @@ const DiscussionCard = ({ discussion }: { discussion?: Discussion }) => {
                 <div>
                   <img
                     className="flex-shrink-0 w-8 h-8 rounded-full object-cover ring-2 ring-slate-200"
-                    src={comment.user?.avatar ?? ""}
-                    alt={comment.user?.name ?? ""}
+                    src={comment.user_id.avatar_url ?? ""}
+                    alt={comment.user_id.full_name ?? ""}
                   />
                 </div>
                 <div className="flex-1">
                   <div className="flex justify-between">
-                    <p className="text-BodyMedium">{comment.user?.name}</p>
+                    <p className="text-BodyMedium">
+                      {comment.user_id.full_name}
+                    </p>
                     <p className="text-BodyMedium2 opacity-30">
                       {new Date(comment.created_at).toLocaleString()}
                     </p>
@@ -125,8 +160,10 @@ const DiscussionCard = ({ discussion }: { discussion?: Discussion }) => {
           </div>
         </div>
       </div>
-      <form>
+      <form onSubmit={(e) => handleSubmit(e)}>
         <Input
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
           type="text"
           placeholder="Keep the conversation going..."
           className="focus-within:ring-green/50 focus-within:border-green !p-1"

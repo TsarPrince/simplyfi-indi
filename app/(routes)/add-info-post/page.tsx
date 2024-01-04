@@ -7,6 +7,13 @@ import clsx from "clsx";
 import Button from "@/components/Button";
 import { Content, Editor } from "@tiptap/react";
 import NovelEditor from "@/components/global/Editor";
+import suggestedPosts from "@/constants/suggestedPosts.json";
+import getUser from "@/utils/getUser";
+import { usePathname } from "next/navigation";
+import { createInformation } from "@/queries/information";
+import { mutate } from "swr";
+import supabase from "@/lib/supabase";
+import { ToastContentProps, toast } from "react-toastify";
 
 interface InfoPost {
   question: string;
@@ -15,6 +22,7 @@ interface InfoPost {
 }
 
 const AddInfoPost = () => {
+  const pathname = usePathname();
   const [question, setQuestion] = useState("");
   const [image, setImage] = useState("");
   const [description, setDescription] = useState<Content>([
@@ -25,512 +33,9 @@ const AddInfoPost = () => {
 
   const editorRef = useRef<Editor | null>(null);
 
-  const suggestedPosts = [
-    {
-      question: "What users think about daily meditation?",
-      image:
-        "https://images.unsplash.com/photo-1593811167562-9cef47bfc4d7?w=512",
-      description: [
-        {
-          type: "paragraph",
-          content: [
-            {
-              type: "text",
-              marks: [
-                {
-                  type: "italic",
-                },
-              ],
-              text: "Daily meditation",
-            },
-            {
-              type: "text",
-              text: " has been a topic of interest for many. In this post, we delve into what users actually think about incorporating meditation into their daily routines.",
-            },
-          ],
-        },
-        {
-          type: "paragraph",
-          content: [
-            {
-              type: "text",
-              marks: [
-                {
-                  type: "bold",
-                },
-              ],
-              text: "User Opinions",
-            },
-          ],
-        },
-        {
-          type: "orderedList",
-          attrs: {
-            start: 1,
-          },
-          content: [
-            {
-              type: "listItem",
-              attrs: {
-                color: "",
-              },
-              content: [
-                {
-                  type: "paragraph",
-                  content: [
-                    {
-                      type: "text",
-                      marks: [
-                        {
-                          type: "bold",
-                        },
-                      ],
-                      text: "Increased Focus and Clarity",
-                    },
-                  ],
-                },
-                {
-                  type: "bulletList",
-                  content: [
-                    {
-                      type: "listItem",
-                      attrs: {
-                        color: "",
-                      },
-                      content: [
-                        {
-                          type: "paragraph",
-                          content: [
-                            {
-                              type: "text",
-                              text: "Many users report a significant improvement in their focus and mental clarity since starting daily meditation.",
-                            },
-                          ],
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              type: "listItem",
-              attrs: {
-                color: "",
-              },
-              content: [
-                {
-                  type: "paragraph",
-                  content: [
-                    {
-                      type: "text",
-                      marks: [
-                        {
-                          type: "bold",
-                        },
-                      ],
-                      text: "Stress Reduction",
-                    },
-                  ],
-                },
-                {
-                  type: "bulletList",
-                  content: [
-                    {
-                      type: "listItem",
-                      attrs: {
-                        color: "",
-                      },
-                      content: [
-                        {
-                          type: "paragraph",
-                          content: [
-                            {
-                              type: "text",
-                              text: "A large number of users have mentioned how meditation helps in reducing stress and anxiety levels.",
-                            },
-                          ],
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              type: "listItem",
-              attrs: {
-                color: "",
-              },
-              content: [
-                {
-                  type: "paragraph",
-                  content: [
-                    {
-                      type: "text",
-                      marks: [
-                        {
-                          type: "bold",
-                        },
-                      ],
-                      text: "Improved Sleep Quality",
-                    },
-                  ],
-                },
-                {
-                  type: "bulletList",
-                  content: [
-                    {
-                      type: "listItem",
-                      attrs: {
-                        color: "",
-                      },
-                      content: [
-                        {
-                          type: "paragraph",
-                          content: [
-                            {
-                              type: "text",
-                              text: "Several users noted an enhancement in their sleep patterns, attributing it to their meditation practice.",
-                            },
-                          ],
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-        {
-          type: "paragraph",
-          content: [
-            {
-              type: "text",
-              marks: [
-                {
-                  type: "bold",
-                },
-              ],
-              text: "Conclusion",
-            },
-          ],
-        },
-        {
-          type: "paragraph",
-          content: [
-            {
-              type: "text",
-              text: "In summary, the general consensus among users is positive, highlighting the benefits of daily meditation on mental health and overall well-being.",
-            },
-          ],
-        },
-      ],
-    },
-    {
-      question: "The best way to decompress after work?",
-      image:
-        "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?q=80&w=512",
-      description: [
-        {
-          type: "paragraph",
-          content: [
-            {
-              type: "text",
-              text: "After a long day at work, finding ways to decompress is crucial. Here are some of the best methods shared by our community members.",
-            },
-          ],
-        },
-        {
-          type: "paragraph",
-          content: [
-            {
-              type: "text",
-              marks: [
-                {
-                  type: "bold",
-                },
-              ],
-              text: "Decompression Techniques",
-            },
-          ],
-        },
-        {
-          type: "bulletList",
-          content: [
-            {
-              type: "listItem",
-              attrs: {
-                color: "",
-              },
-              content: [
-                {
-                  type: "paragraph",
-                  content: [
-                    {
-                      type: "text",
-                      marks: [
-                        {
-                          type: "bold",
-                        },
-                      ],
-                      text: "Physical Activity",
-                    },
-                    {
-                      type: "text",
-                      text: ": Engaging in physical activities like walking, yoga, or gym sessions.",
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              type: "listItem",
-              attrs: {
-                color: "",
-              },
-              content: [
-                {
-                  type: "paragraph",
-                  content: [
-                    {
-                      type: "text",
-                      marks: [
-                        {
-                          type: "bold",
-                        },
-                      ],
-                      text: "Mindfulness and Relaxation",
-                    },
-                    {
-                      type: "text",
-                      text: ": Practices such as meditation or listening to calming music.",
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              type: "listItem",
-              attrs: {
-                color: "",
-              },
-              content: [
-                {
-                  type: "paragraph",
-                  content: [
-                    {
-                      type: "text",
-                      marks: [
-                        {
-                          type: "bold",
-                        },
-                      ],
-                      text: "Hobbies",
-                    },
-                    {
-                      type: "text",
-                      text: ": Indulging in hobbies like reading, painting, or gardening.",
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-        {
-          type: "paragraph",
-          content: [
-            {
-              type: "text",
-              marks: [
-                {
-                  type: "bold",
-                },
-              ],
-              text: "Conclusion",
-            },
-          ],
-        },
-        {
-          type: "paragraph",
-          content: [
-            {
-              type: "text",
-              text: "Finding the right activity that helps you unwind is key to maintaining a healthy work-life balance.",
-            },
-          ],
-        },
-      ],
-    },
-    {
-      question:
-        "How disappointed would you be if you couldn’t use PublicHQ anymore?",
-      image:
-        "https://images.unsplash.com/photo-1691497300501-63c76ebd6a2a?q=80&w=512",
-      description: [
-        {
-          type: "paragraph",
-          content: [
-            {
-              type: "text",
-              text: "PublicHQ has become an integral part of many of our lives. But how would you feel if it was no longer available?",
-            },
-          ],
-        },
-        {
-          type: "paragraph",
-          content: [
-            {
-              type: "text",
-              marks: [
-                {
-                  type: "bold",
-                },
-              ],
-              text: "User Reactions",
-            },
-          ],
-        },
-        {
-          type: "bulletList",
-          content: [
-            {
-              type: "listItem",
-              attrs: {
-                color: "",
-              },
-              content: [
-                {
-                  type: "paragraph",
-                  content: [
-                    {
-                      type: "text",
-                      marks: [
-                        {
-                          type: "bold",
-                        },
-                      ],
-                      text: "Major Disappointment",
-                    },
-                    {
-                      type: "text",
-                      text: ': "I would be extremely disappointed. PublicHQ is a part of my daily routine." - ',
-                    },
-                    {
-                      type: "text",
-                      marks: [
-                        {
-                          type: "italic",
-                        },
-                      ],
-                      text: "User A",
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              type: "listItem",
-              attrs: {
-                color: "",
-              },
-              content: [
-                {
-                  type: "paragraph",
-                  content: [
-                    {
-                      type: "text",
-                      marks: [
-                        {
-                          type: "bold",
-                        },
-                      ],
-                      text: "Finding Alternatives",
-                    },
-                    {
-                      type: "text",
-                      text: ': "It would be inconvenient, but I\'d look for other similar platforms." - ',
-                    },
-                    {
-                      type: "text",
-                      marks: [
-                        {
-                          type: "italic",
-                        },
-                      ],
-                      text: "User B",
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              type: "listItem",
-              attrs: {
-                color: "",
-              },
-              content: [
-                {
-                  type: "paragraph",
-                  content: [
-                    {
-                      type: "text",
-                      marks: [
-                        {
-                          type: "bold",
-                        },
-                      ],
-                      text: "Indifference",
-                    },
-                    {
-                      type: "text",
-                      text: ": \"I don't use it often, so it wouldn't affect me much.\" - ",
-                    },
-                    {
-                      type: "text",
-                      marks: [
-                        {
-                          type: "italic",
-                        },
-                      ],
-                      text: "User C",
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-        {
-          type: "paragraph",
-          content: [
-            {
-              type: "text",
-              marks: [
-                {
-                  type: "bold",
-                },
-              ],
-              text: "Conclusion",
-            },
-          ],
-        },
-        {
-          type: "paragraph",
-          content: [
-            {
-              type: "text",
-              text: "The responses vary, but it's clear that PublicHQ holds significant value for many of its users.",
-            },
-          ],
-        },
-      ],
-    },
-  ];
   const sidebarSuggestionAction = (suggestion: InfoPost) => {
     setQuestion(suggestion.question);
+
     setImage(suggestion.image);
     setDescription(suggestion.description);
 
@@ -555,6 +60,65 @@ const AddInfoPost = () => {
     }
   };
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const create = async () => {
+      const user = await getUser(pathname);
+
+      // if image is set via suggestedPosts
+      // the same will be stored as image URL (no upload to supabase storage)
+      if (fileInput.current) {
+        const avatarFile = fileInput.current.files?.[0];
+        console.log({ avatarFile });
+        if (avatarFile) {
+          // upload to supabase storage
+          const fileName = `${Date.now()}-${avatarFile.name}`;
+          const { data, error } = await supabase.storage
+            .from("media")
+            .upload(`${user.id}/${fileName}`, avatarFile, {
+              contentType: avatarFile.type,
+              // defaults
+              cacheControl: "3600",
+              upsert: false,
+            });
+          if (data) {
+            setImage(data.path);
+          } else if (error) {
+            throw error;
+          }
+        }
+      }
+
+      console.log({
+        title: question,
+        content: description,
+        status: "PUBLISHED",
+        image,
+        user_id: user.id,
+      });
+      const { data, error } = await createInformation({
+        title: question,
+        content: description,
+        status: "PUBLISHED",
+        image,
+        user_id: user.id,
+      });
+      if (error) throw error;
+      // mutate("getAllInformation");
+    };
+
+    toast.promise(create, {
+      pending: "Posting Information",
+      success: "Done!",
+      error: {
+        render({ data }: ToastContentProps<any>) {
+          return data.message;
+        },
+      },
+    });
+  };
+
   return (
     <AddLayout
       title="Add Info Post"
@@ -563,7 +127,7 @@ const AddInfoPost = () => {
       sidebarSuggestionAction={sidebarSuggestionAction}
       center={false}
     >
-      <div className="space-y-8">
+      <form onSubmit={(e) => handleSubmit(e)} className="space-y-8">
         <div className="flex flex-row-reverse border-b border-gray/50 py-2 lg:-ml-12">
           <Button className="!bg-green">Post</Button>
         </div>
@@ -571,7 +135,7 @@ const AddInfoPost = () => {
           <input
             type="file"
             id="image"
-            className="hidden"
+            className="hidden max-w-screen-lg"
             ref={fileInput}
             onInput={showPreview}
           />
@@ -627,9 +191,9 @@ const AddInfoPost = () => {
             className="w-full bg-lightGray border-none text-TitleMedium focus:ring-0 p-0"
           />
         </div>
-        <NovelEditor />
+        <NovelEditor setDescription={setDescription} />
         {/* <Tiptap editorRef={editorRef} /> */}
-      </div>
+      </form>
     </AddLayout>
   );
 };

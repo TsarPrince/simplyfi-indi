@@ -54,7 +54,6 @@ export type Discussion = {
   content: string | null;
   created_at: string;
   id: number;
-  image: string | null;
   status: "PUBLISHED" | "DRAFT" | "ARCHIVE";
   title: string | null;
   comment: {
@@ -62,13 +61,10 @@ export type Discussion = {
     discussion_id: number;
     id: number;
     title: string;
-    user_id: number;
-    user: {
-      avatar: string | null;
-      created_at: string;
-      email: string | null;
+    user_id: {
       id: number;
-      name: string | null;
-    } | null;
+      avatar_url: string | null;
+      full_name: string | null;
+    };
   }[];
 };

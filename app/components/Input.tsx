@@ -1,19 +1,18 @@
 import clsx from "clsx";
 import React from "react";
 
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  adornment?: React.ReactNode;
+  adornmentPosition?: "start" | "end";
+}
+
 const Input = ({
   type,
   className,
-  placeholder,
   adornment,
   adornmentPosition,
-}: {
-  type: "text";
-  className?: string;
-  placeholder?: string;
-  adornment?: React.ReactNode;
-  adornmentPosition?: "start" | "end";
-}) => {
+  ...inputProps
+}: InputProps) => {
   switch (type) {
     case "text":
       return (
@@ -25,10 +24,9 @@ const Input = ({
         >
           {adornmentPosition === "start" && adornment}
           <input
-            type="text"
+            {...inputProps}
             required
             className="w-full bg-transparent border-none py-3 focus:ring-0"
-            placeholder={placeholder}
           />
           {adornmentPosition === "end" && adornment}
         </div>

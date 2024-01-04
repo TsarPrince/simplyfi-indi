@@ -2,8 +2,13 @@
 
 import { useState } from "react";
 import { Editor as NovelEditor } from "novel";
+import { Content } from "@tiptap/react";
 
-export default function Editor() {
+export default function Editor({
+  setDescription,
+}: {
+  setDescription: React.Dispatch<React.SetStateAction<Content>>;
+}) {
   const [saveStatus, setSaveStatus] = useState("Saved");
 
   return (
@@ -139,8 +144,11 @@ export default function Editor() {
             ],
           },
         ]}
-        onUpdate={() => {
+        onUpdate={(editor) => {
           setSaveStatus("Unsaved");
+          if (editor) {
+            setDescription(editor.getJSON());
+          }
         }}
         onDebouncedUpdate={() => {
           setSaveStatus("Saving...");

@@ -15,20 +15,31 @@ export interface Database {
           created_at: string
           id: number
           title: string
+          user_id: string | null
         }
         Insert: {
           content?: string | null
           created_at?: string
           id?: number
           title: string
+          user_id?: string | null
         }
         Update: {
           content?: string | null
           created_at?: string
           id?: number
           title?: string
+          user_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "announcement_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       comment: {
         Row: {
@@ -36,21 +47,21 @@ export interface Database {
           discussion_id: number
           id: number
           title: string
-          user_id: number
+          user_id: string
         }
         Insert: {
           created_at?: string
           discussion_id: number
           id?: number
           title: string
-          user_id: number
+          user_id: string
         }
         Update: {
           created_at?: string
           discussion_id?: number
           id?: number
           title?: string
-          user_id?: number
+          user_id?: string
         }
         Relationships: [
           {
@@ -64,7 +75,7 @@ export interface Database {
             foreignKeyName: "comment_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: "user"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           }
         ]
@@ -74,57 +85,76 @@ export interface Database {
           content: string | null
           created_at: string
           id: number
-          image: string | null
           status: Database["public"]["Enums"]["status"]
           title: string
+          user_id: string
         }
         Insert: {
           content?: string | null
           created_at?: string
           id?: number
-          image?: string | null
           status?: Database["public"]["Enums"]["status"]
           title: string
+          user_id: string
         }
         Update: {
           content?: string | null
           created_at?: string
           id?: number
-          image?: string | null
           status?: Database["public"]["Enums"]["status"]
           title?: string
+          user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "discussion_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       information: {
         Row: {
-          content: string | null
+          content: Json | null
           created_at: string
           flag: boolean
           id: number
           image: string | null
           status: Database["public"]["Enums"]["status"]
           title: string
+          user_id: string
         }
         Insert: {
-          content?: string | null
+          content?: Json | null
           created_at?: string
           flag?: boolean
           id?: number
           image?: string | null
           status?: Database["public"]["Enums"]["status"]
           title: string
+          user_id: string
         }
         Update: {
-          content?: string | null
+          content?: Json | null
           created_at?: string
           flag?: boolean
           id?: number
           image?: string | null
           status?: Database["public"]["Enums"]["status"]
           title?: string
+          user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "information_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       metric: {
         Row: {
@@ -133,7 +163,7 @@ export interface Database {
           id: number
           name: string
           symbol: Database["public"]["Enums"]["symbol"] | null
-          user_id: string | null
+          user_id: string
           value: number
         }
         Insert: {
@@ -142,7 +172,7 @@ export interface Database {
           id?: number
           name: string
           symbol?: Database["public"]["Enums"]["symbol"] | null
-          user_id?: string | null
+          user_id: string
           value: number
         }
         Update: {
@@ -151,7 +181,7 @@ export interface Database {
           id?: number
           name?: string
           symbol?: Database["public"]["Enums"]["symbol"] | null
-          user_id?: string | null
+          user_id?: string
           value?: number
         }
         Relationships: [
@@ -159,7 +189,7 @@ export interface Database {
             foreignKeyName: "metric_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           }
         ]
@@ -188,7 +218,7 @@ export interface Database {
             foreignKeyName: "poll_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           }
         ]
@@ -258,29 +288,31 @@ export interface Database {
           }
         ]
       }
-      user: {
+      profiles: {
         Row: {
-          avatar: string | null
-          created_at: string
-          email: string | null
-          id: number
-          name: string | null
+          avatar_url: string | null
+          full_name: string | null
+          id: string
         }
         Insert: {
-          avatar?: string | null
-          created_at?: string
-          email?: string | null
-          id?: number
-          name?: string | null
+          avatar_url?: string | null
+          full_name?: string | null
+          id: string
         }
         Update: {
-          avatar?: string | null
-          created_at?: string
-          email?: string | null
-          id?: number
-          name?: string | null
+          avatar_url?: string | null
+          full_name?: string | null
+          id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "profiles_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
       }
     }
     Views: {

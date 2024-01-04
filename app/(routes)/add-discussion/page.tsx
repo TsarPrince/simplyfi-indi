@@ -4,6 +4,12 @@ import AddLayout from "@/components/AddLayout";
 import Button from "@/components/Button";
 import clsx from "clsx";
 import React, { useState } from "react";
+import suggestedDiscussions from "@/constants/suggestedDiscussions.json";
+import getUser from "@/utils/getUser";
+import { usePathname } from "next/navigation";
+import { createDiscussion } from "@/queries/discussion";
+import { ToastContentProps, toast } from "react-toastify";
+import { mutate } from "swr";
 
 const MAX_QUESTION_LENGHT = 1200;
 
@@ -12,6 +18,7 @@ interface Discussion {
 }
 
 const AddPoll = () => {
+  const pathname = usePathname();
   const [question, setQuestion] = useState("");
 
   const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -19,20 +26,28 @@ const AddPoll = () => {
     console.log({
       question,
     });
-  };
+    const create = async () => {
+      const user = await getUser(pathname);
+      console.log(user);
+      const { data, error } = await createDiscussion({
+        title: question,
+        user_id: user.id,
+        status: "PUBLISHED",
+      });
+      if (error) throw error;
+      // mutate("getAllDiscussions");
+    };
 
-  const suggestedDiscussions = [
-    {
-      question: "What users think about daily meditation?",
-    },
-    {
-      question: "The best way to decompress after work?",
-    },
-    {
-      question:
-        "How disappointed would you be if you couldn’t use PublicHQ anymore?",
-    },
-  ];
+    toast.promise(create, {
+      pending: "Creating new Discussion",
+      success: "Done!",
+      error: {
+        render({ data }: ToastContentProps<any>) {
+          return data.message;
+        },
+      },
+    });
+  };
 
   const sidebarSuggestionAction = (suggestion: Discussion) => {
     setQuestion(suggestion.question);
