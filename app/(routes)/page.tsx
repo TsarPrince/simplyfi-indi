@@ -141,7 +141,6 @@ export default function Home() {
                     fullHeight
                     type="discussion"
                   >
-                    {/* @ts-ignore */}
                     <DiscussionCard discussion={discussions?.[0]} />
                   </Box>
                 )}
@@ -227,7 +226,6 @@ export default function Home() {
               >
                 {discussions?.map((discussion, key) => (
                   <>
-                    {/* @ts-ignore */}
                     <DiscussionCard key={key} discussion={discussion} />
                   </>
                 ))}
