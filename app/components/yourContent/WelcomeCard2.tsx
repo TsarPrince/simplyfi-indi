@@ -1,14 +1,12 @@
 import React from "react";
 import Button from "../Button";
 import getDay from "../../utils/getDay";
-import { useRouter } from "next/navigation";
 import DialogAddNewPost from "@/components/yourContent/DialogAddNewPost";
 import DialogCommunityRitual from "./DialogCommunityRitual";
 import DialogCommunityRules from "./DialogCommunityRules";
+import Link from "next/link";
 
 const WelcomeCard2 = () => {
-  const router = useRouter();
-
   const DAY = getDay(new Date().getDay());
   const [_, MONTH, DATE, YEAR] = new Date().toDateString().split(" ");
 
@@ -33,13 +31,11 @@ const WelcomeCard2 = () => {
             Keep up with your <br /> Community Ritual
           </p>
           <div className="space-y-2 w-full">
-            <Button
-              className="!bg-white"
-              full
-              onClick={() => router.push("/add-info-post")}
-            >
-              Create a new Info Post
-            </Button>
+            <Link href="/add-info-post">
+              <Button className="!bg-white" full>
+                Create a new Info Post
+              </Button>
+            </Link>
             <DialogCommunityRitual />
           </div>
         </div>

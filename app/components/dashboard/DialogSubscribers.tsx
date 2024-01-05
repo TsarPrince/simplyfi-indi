@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Button from "@/components/Button";
 import MyDialog from "@/components/global/Dialog";
-import { useRouter } from "next/navigation";
 import Input from "@/components/Input";
 import useSWR from "swr";
 import { getAllProfiles } from "@/queries/profile";

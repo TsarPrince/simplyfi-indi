@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import Button from "@/components/Button";
 import MyDialog from "@/components/global/Dialog";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const DialogAddNewPost = () => {
   const [open, setOpen] = useState(false);
-  const router = useRouter();
 
   return (
     <div>
@@ -22,14 +21,11 @@ const DialogAddNewPost = () => {
             { title: "Information Post", href: "/add-info-post" },
           ].map((post, key) => (
             <li key={key}>
-              <Button
-                full
-                border
-                className="bg-white"
-                onClick={() => router.push(post.href)}
-              >
-                {post.title}
-              </Button>
+              <Link href={post.href}>
+                <Button full border className="bg-white">
+                  {post.title}
+                </Button>
+              </Link>
             </li>
           ))}
         </ul>

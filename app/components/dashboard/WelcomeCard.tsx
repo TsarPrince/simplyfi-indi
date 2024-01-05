@@ -1,12 +1,9 @@
 import Link from "next/link";
 import React from "react";
 import Button from "@/components/Button";
-import { useRouter } from "next/navigation";
 import DialogSubscribers from "@/components/dashboard/DialogSubscribers";
 
 const WelcomeCard = () => {
-  const router = useRouter();
-
   return (
     <div className="max-w-xl space-y-4">
       <div>
@@ -21,37 +18,37 @@ const WelcomeCard = () => {
       </div>
       <div className="space-y-2">
         <DialogSubscribers />
-        <Button
-          full
-          className="!bg-green py-6"
-          onClick={() => router.push("/your-content")}
-        >
-          <span>View All My Content</span>
-          <svg
-            width="26"
-            height="20"
-            viewBox="0 0 26 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M16.3444 1.64581L24.6986 10L16.3444 18.3542"
-              stroke="#273648"
-              strokeWidth="2"
-              strokeMiterlimit="10"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M1.30146 10H24.4647"
-              stroke="#273648"
-              strokeWidth="2"
-              strokeMiterlimit="10"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </Button>
+        <div>
+          <Link href="/your-content">
+            <Button full className="!bg-green py-6">
+              <span>View All My Content</span>
+              <svg
+                width="26"
+                height="20"
+                viewBox="0 0 26 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M16.3444 1.64581L24.6986 10L16.3444 18.3542"
+                  stroke="#273648"
+                  strokeWidth="2"
+                  strokeMiterlimit="10"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M1.30146 10H24.4647"
+                  stroke="#273648"
+                  strokeWidth="2"
+                  strokeMiterlimit="10"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </Button>
+          </Link>
+        </div>
       </div>
     </div>
   );

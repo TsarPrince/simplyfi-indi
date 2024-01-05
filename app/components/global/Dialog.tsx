@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { Dialog, Transition } from "@headlessui/react";
 
 export default function MyDialog({

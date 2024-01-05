@@ -3,7 +3,6 @@
 import clsx from "clsx";
 import Container from "@/components/Container";
 import NextButton from "@/components/NextButton";
-import { useRouter } from "next/navigation";
 import WelcomeCard2 from "@/components/yourContent/WelcomeCard2";
 import DiscussionCard from "@/components/dashboard/DiscussionCard";
 import FilterCard from "@/components/yourContent/FilterCard";
@@ -21,10 +20,9 @@ import { ActiveSideWindow, Filter } from "@/types";
 import pascalCase from "@/utils/pascalCase";
 import { getAllMetrics } from "@/queries/metric";
 import MetricCard from "@/components/yourContent/MetricCard";
+import Link from "next/link";
 
 export default function Home() {
-  const router = useRouter();
-
   const [activeTab, setActiveTab] = useState<Filter>("All");
 
   const {
@@ -69,10 +67,11 @@ export default function Home() {
 
   return (
     <div className="relative overflow-x-hidden">
-      <NextButton
-        className={clsx("z-10 fixed rotate-180 top-6 left-4 md:left-16")}
-        onClick={() => router.push("/")}
-      />
+      <Link href="/">
+        <NextButton
+          className={clsx("z-10 fixed rotate-180 top-6 left-4 md:left-16")}
+        />
+      </Link>
       <div className="bg-lightGray flex w-screen overflow-x-hidden min-h-screen">
         <Container className={"flex justify-center"}>
           <div className="relative grid grid-cols-1 md:grid-cols-4 space-y-8 md:space-y-0 md:space-x-8">
