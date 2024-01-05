@@ -1,6 +1,11 @@
 import React from "react";
 import NextArrow from "@/components/NextButton";
 import { ActiveSideWindow, Poll } from "@/types";
+import getUser from "@/utils/getUser";
+import { usePathname } from "next/navigation";
+import { castVote } from "@/queries/poll";
+import { ToastContentProps, toast } from "react-toastify";
+import { mutate } from "swr";
 
 const PollCard = ({
   toggleSideWindow,
@@ -9,11 +14,35 @@ const PollCard = ({
   toggleSideWindow?: (window?: ActiveSideWindow, state?: boolean) => void;
   poll?: Poll;
 }) => {
+  const pathname = usePathname();
   if (!poll) return null;
   const totalVotes = poll.poll_option.reduce(
     (acc, option) => acc + option.poll_vote.length,
     0
   );
+
+  const handleOptionClick = (poll_option_id: number) => {
+    const create = async () => {
+      const user = await getUser(pathname);
+      console.log(user);
+      const { data, error } = await castVote({
+        poll_option_id,
+        user_id: user.id,
+      });
+      if (error) throw error;
+      mutate("getAllPolls");
+    };
+
+    toast.promise(create, {
+      pending: "Casting your vote...",
+      success: "Done!",
+      error: {
+        render({ data }: ToastContentProps<any>) {
+          return data.message;
+        },
+      },
+    });
+  };
 
   return (
     <div className="flex flex-col justify-between h-full">
@@ -23,6 +52,7 @@ const PollCard = ({
         <div className="mt-4 space-y-2">
           {poll.poll_option
             ?.map((option) => ({
+              id: option.id,
               title: option.title,
               percentage: totalVotes
                 ? Math.round((option.poll_vote.length / totalVotes) * 100)
@@ -31,14 +61,16 @@ const PollCard = ({
             .map((option, key) => (
               <div
                 key={key}
-                className={`relative z-0 text-BodyMedium bg-white px-4 py-3 flex justify-between rounded-xl overflow-hidden`}
+                className={`cursor-pointer relative z-0 text-BodyMedium bg-white px-4 py-3 flex justify-between rounded-xl overflow-hidden`}
+                onClick={() => handleOptionClick(option.id)}
               >
                 <div
-                  className="absolute bg-green bg-opacity-60 inset-0 -z-10"
+                  className="absolute bg-green bg-opacity-60 inset-0 -z-10 transition-all duration-300"
                   style={{ width: `${option.percentage}%` }}
                 ></div>
                 <p>{option.title}</p>
-                <p className="text-BodyMedium text-green">
+                {/* mix-blend-multiply for enhaced color on 100% botes */}
+                <p className="text-BodyMedium text-green mix-blend-multiply">
                   {option.percentage} %
                 </p>
               </div>

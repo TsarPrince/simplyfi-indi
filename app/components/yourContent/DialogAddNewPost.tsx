@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Button from "../Button";
-import MyDialog from "../global/Dialog";
+import Button from "@/components/Button";
+import MyDialog from "@/components/global/Dialog";
 import { useRouter } from "next/navigation";
 
 const DialogAddNewPost = () => {

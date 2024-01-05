@@ -1,7 +1,8 @@
 import Link from "next/link";
 import React from "react";
-import Button from "../Button";
+import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
+import DialogSubscribers from "@/components/dashboard/DialogSubscribers";
 
 const WelcomeCard = () => {
   const router = useRouter();
@@ -19,9 +20,7 @@ const WelcomeCard = () => {
         <h2 className="text-TitleLarge2">1,576</h2>
       </div>
       <div className="space-y-2">
-        <Button full className="!bg-white py-6">
-          View All My Subscribers
-        </Button>
+        <DialogSubscribers />
         <Button
           full
           className="!bg-green py-6"

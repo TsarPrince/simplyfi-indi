@@ -13,6 +13,7 @@ const DiscussionCard = ({ discussion }: { discussion?: Discussion }) => {
   const pathname = usePathname();
   const [comment, setComment] = useState("");
   if (!discussion) return null;
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -64,7 +65,6 @@ const DiscussionCard = ({ discussion }: { discussion?: Discussion }) => {
       },
     });
   };
-
   const handleSpam = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     comment: Comment
@@ -99,7 +99,9 @@ const DiscussionCard = ({ discussion }: { discussion?: Discussion }) => {
           <p className="text-BodyMedium2 opacity-40">06/23/23 14:00</p>
           <p className="text-BodyMedium2 opacity-40">Latest</p>
         </div>
-        <p className="text-TitleSmall2">{discussion.title}</p>
+        <Link href={`/discussion/${discussion.id}`}>
+          <p className="text-TitleSmall2">{discussion.title}</p>
+        </Link>
         <div className="flex space-x-6">
           <div className="flex items-center space-x-2">
             {/* Comments count */}
@@ -205,7 +207,7 @@ const DiscussionCard = ({ discussion }: { discussion?: Discussion }) => {
             ))}
           </div>
           <div className="">
-            <Link href="/">
+            <Link href={`discussion/${discussion.id}`}>
               <div className="flex items-center justify-center w-full space-x-2 hover:opacity-75 transition duration-300">
                 <span className="text-BodyMedium text-green">
                   View Full Discussion

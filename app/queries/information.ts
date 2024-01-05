@@ -6,7 +6,10 @@ const getAllInformation = supabase
   .select("*")
   .order("created_at", { ascending: false });
 
+const getInformationById = (id: string) =>
+  supabase.from("information").select("*").eq("id", id).single();
+
 const createInformation = (values: TablesInsert<"information">) =>
   supabase.from("information").insert([values]).select();
 
-export { getAllInformation, createInformation };
+export { getAllInformation, getInformationById, createInformation };

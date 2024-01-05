@@ -17,7 +17,7 @@ export default function Editor({
         {saveStatus}
       </div>
       <NovelEditor
-        className="relative min-h-[320px] w-full max-w-screen-lg bg-white rounded-3xl borde shadow-l"
+        className="relative min-h-[320px] w-full max-w-screen-lg bg-white rounded-3xl"
         defaultValue={[
           {
             type: "heading",

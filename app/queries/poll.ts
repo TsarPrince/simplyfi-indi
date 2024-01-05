@@ -15,4 +15,7 @@ const createOptions = (values: TablesInsert<"poll_option">[]) =>
     .insert([...values])
     .select();
 
-export { getAllPolls, createPoll, createOptions };
+const castVote = (values: TablesInsert<"poll_vote">) =>
+  supabase.from("poll_vote").insert([values]).select();
+
+export { getAllPolls, createPoll, createOptions, castVote };

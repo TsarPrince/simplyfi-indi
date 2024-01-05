@@ -30,12 +30,12 @@ const AddInfoPost = () => {
       type: "paragraph",
     },
   ]);
+  const [flag, setFlag] = useState(false);
 
   const editorRef = useRef<Editor | null>(null);
 
   const sidebarSuggestionAction = (suggestion: InfoPost) => {
     setQuestion(suggestion.question);
-
     setImage(suggestion.image);
     setDescription(suggestion.description);
 
@@ -66,11 +66,10 @@ const AddInfoPost = () => {
     const create = async () => {
       const user = await getUser(pathname);
 
-      // if image is set via suggestedPosts
-      // the same will be stored as image URL (no upload to supabase storage)
       if (fileInput.current) {
+        // if image is set via suggestedPosts
+        // the same will be stored as image URL (no upload to supabase storage)
         const avatarFile = fileInput.current.files?.[0];
-        console.log({ avatarFile });
         if (avatarFile) {
           // upload to supabase storage
           const fileName = `${Date.now()}-${avatarFile.name}`;
@@ -90,19 +89,21 @@ const AddInfoPost = () => {
               status: "PUBLISHED",
               image: data.path,
               user_id: user.id,
+              flag,
             });
             if (error) throw error;
           }
+        } else {
+          const { data, error } = await createInformation({
+            title: question,
+            content: description,
+            status: "PUBLISHED",
+            image,
+            user_id: user.id,
+            flag,
+          });
+          if (error) throw error;
         }
-      } else {
-        const { data, error } = await createInformation({
-          title: question,
-          content: description,
-          status: "PUBLISHED",
-          image,
-          user_id: user.id,
-        });
-        if (error) throw error;
       }
 
       // mutate("getAllInformation");
@@ -193,6 +194,17 @@ const AddInfoPost = () => {
         </div>
         <NovelEditor setDescription={setDescription} />
         {/* <Tiptap editorRef={editorRef} /> */}
+        <label className="flex space-x-2 items-center">
+          <input
+            type="checkbox"
+            className="text-green border-green focus:ring-green"
+            checked={flag}
+            onChange={(e) => setFlag(e.target.checked)}
+          />
+          <span className="text-BodyLarge opacity-50">
+            Mark for Interesting Reads
+          </span>
+        </label>
       </form>
     </AddLayout>
   );

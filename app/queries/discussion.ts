@@ -8,12 +8,20 @@ const getAllDiscussions = supabase
     "*, comment(id, title, created_at, user_id(*), comment_like(*), comment_spam(*))"
   )
   .order("created_at", { ascending: false })
-
   // fix for @ts-ignore, see:
   // https://supabase.com/docs/guides/database/joins-and-nesting
   // https://supabase.com/docs/guides/api/rest/generating-types
-
   .returns<Discussion[]>();
+
+const getDiscussionById = (id: string) =>
+  supabase
+    .from("discussion")
+    .select(
+      "*, comment(id, title, created_at, user_id(*), comment_like(*), comment_spam(*))"
+    )
+    .eq("id", id)
+    // .single();
+    .returns<Discussion[]>();
 
 const createDiscussion = (values: TablesInsert<"discussion">) =>
   supabase.from("discussion").insert([values]).select();
@@ -29,6 +37,7 @@ const reportComment = (values: TablesInsert<"comment_spam">) =>
 
 export {
   getAllDiscussions,
+  getDiscussionById,
   createDiscussion,
   postComment,
   likeComment,

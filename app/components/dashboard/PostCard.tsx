@@ -20,7 +20,9 @@ const PostCard = ({ information }: { information?: Information }) => {
         </p>
         <p className="text-BodyMedium2 opacity-40">Info</p>
       </div>
-      <p className="text-TitleSmall2">{information.title}</p>
+      <Link href={`information/${information.id}`}>
+        <p className="text-TitleSmall2">{information.title}</p>
+      </Link>
       <div className="flex">
         <Link href="/">
           <div className="flex items-center space-x-2 hover:opacity-75 transition duration-300">

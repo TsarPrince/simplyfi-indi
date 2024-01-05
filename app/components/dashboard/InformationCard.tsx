@@ -1,6 +1,7 @@
 import { Information } from "@/types";
 import React from "react";
 import { resolveImageURL } from "@/utils/resolveImageURL";
+import Link from "next/link";
 
 const InformationCard = ({ information }: { information?: Information }) => {
   if (!information) return null;
@@ -17,7 +18,9 @@ const InformationCard = ({ information }: { information?: Information }) => {
       <p className="text-BodyMedium2 opacity-40">
         {new Date(information.created_at).toLocaleString()}
       </p>
-      <p className="text-TitleSmall2">{information.title}</p>
+      <Link href={`information/${information.id}`}>
+        <p className="text-TitleSmall2">{information.title}</p>
+      </Link>
     </div>
   );
 };
