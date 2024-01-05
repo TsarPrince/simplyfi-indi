@@ -1,6 +1,6 @@
 import { Information } from "@/types";
 import React from "react";
-import { resolveImageURL } from "@/utils/resolveImageUrl";
+import { resolveImageURL } from "@/utils/resolveImageURL";
 
 const InformationCard = ({ information }: { information?: Information }) => {
   if (!information) return null;
