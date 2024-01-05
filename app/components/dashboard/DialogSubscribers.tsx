@@ -24,7 +24,7 @@ const DialogSubscribers = () => {
         View All My Subscribers
       </Button>
       <MyDialog open={open} setOpen={setOpen} title="Subscribers">
-        <div className="py-4 px-6 min-w-[28rem] space-y-4">
+        <div className="py-4 px-6 md:min-w-[28rem] space-y-4">
           <Input
             value={filter}
             onChange={(e) => setFilter(e.target.value)}

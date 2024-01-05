@@ -14,7 +14,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   if (!information) return <></>;
 
   return (
-    <div className="grid grid-cols-3 h-screen overflow-y-hidden">
+    <div className="md:grid grid-cols-3 md:h-screen overflow-y-hidden">
       <div className="bg-lightGray">
         <Container>
           <div className="space-y-4">
