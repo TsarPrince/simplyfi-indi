@@ -1,18 +1,17 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import { Discussion } from "@/types";
+import { Comment, Discussion } from "@/types";
 import Input from "@/components/Input";
 import Button from "../Button";
 import getUser from "@/utils/getUser";
 import { usePathname } from "next/navigation";
-import { postComment } from "@/queries/discussion";
+import { likeComment, postComment, reportComment } from "@/queries/discussion";
 import { ToastContentProps, toast } from "react-toastify";
 import { mutate } from "swr";
 
 const DiscussionCard = ({ discussion }: { discussion?: Discussion }) => {
   const pathname = usePathname();
   const [comment, setComment] = useState("");
-  console.log(discussion);
   if (!discussion) return null;
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -31,6 +30,59 @@ const DiscussionCard = ({ discussion }: { discussion?: Discussion }) => {
 
     toast.promise(create, {
       pending: "Posting comment...",
+      success: "Done!",
+      error: {
+        render({ data }: ToastContentProps<any>) {
+          return data.message;
+        },
+      },
+    });
+  };
+  const handleLike = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    comment: Comment
+  ) => {
+    e.preventDefault();
+
+    const create = async () => {
+      const user = await getUser(pathname);
+      const { data, error } = await likeComment({
+        comment: comment.id,
+        user_id: user.id,
+      });
+      if (error) throw error;
+      mutate("getAllDiscussions");
+    };
+
+    toast.promise(create, {
+      pending: "Posting like...",
+      success: "Done!",
+      error: {
+        render({ data }: ToastContentProps<any>) {
+          return data.message;
+        },
+      },
+    });
+  };
+
+  const handleSpam = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    comment: Comment
+  ) => {
+    e.preventDefault();
+
+    const create = async () => {
+      const user = await getUser(pathname);
+      const { data, error } = await reportComment({
+        comment: comment.id,
+        user_id: user.id,
+      });
+      if (error) throw error;
+      mutate("getAllDiscussions");
+    };
+
+    toast.promise(create, {
+      pending: "Marking as spam...",
       success: "Done!",
       error: {
         render({ data }: ToastContentProps<any>) {
@@ -86,6 +138,7 @@ const DiscussionCard = ({ discussion }: { discussion?: Discussion }) => {
             Recent Comments on this discussion
           </p>
           <div className="space-y-4">
+            {/* comments */}
             {discussion.comment.slice(0, 2).map((comment, key) => (
               <div key={key} className="flex space-x-4">
                 <div>
@@ -109,7 +162,10 @@ const DiscussionCard = ({ discussion }: { discussion?: Discussion }) => {
                       {comment.title}
                     </p>
                     {/* Like */}
-                    <Button className="!p-1">
+                    <Button
+                      className="!p-1"
+                      onClick={(e) => handleLike(e, comment)}
+                    >
                       <svg
                         width="22"
                         height="20"
@@ -127,11 +183,22 @@ const DiscussionCard = ({ discussion }: { discussion?: Discussion }) => {
                           strokeLinejoin="round"
                         />
                       </svg>
+                      <span className="text-BodyMedium2">
+                        {comment.comment_like?.length}
+                      </span>
                     </Button>
                   </div>
                   {/* Report Spam */}
-                  <Button className="!p-0">
+                  <Button
+                    className="!p-0"
+                    onClick={(e) => {
+                      handleSpam(e, comment);
+                    }}
+                  >
                     <span className="text-BodySmall opacity-40">Spam</span>
+                    <span className="text-BodySmall opacity-40">
+                      {comment.comment_spam?.length}
+                    </span>
                   </Button>
                 </div>
               </div>

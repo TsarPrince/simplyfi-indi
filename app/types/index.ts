@@ -59,16 +59,29 @@ export type Discussion = {
   status: "PUBLISHED" | "DRAFT" | "ARCHIVE";
   title: string;
   user_id: string;
-  comment: {
-    created_at: string;
-    discussion_id: number;
+  comment: Comment[];
+};
+
+export type Comment = {
+  created_at: string;
+  discussion_id: number;
+  id: number;
+  title: string;
+  user_id: {
     id: number;
-    title: string;
-    user_id: {
-      id: number;
-      avatar_url: string | null;
-      full_name: string | null;
-    };
-    // user_id: string & {}[];
+    avatar_url: string | null;
+    full_name: string | null;
+  };
+  comment_like: {
+    created_at: string;
+    id: number;
+    comment: number;
+    user_id: string;
+  }[];
+  comment_spam: {
+    created_at: string;
+    id: number;
+    comment: number;
+    user_id: string;
   }[];
 };

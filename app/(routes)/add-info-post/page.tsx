@@ -82,29 +82,29 @@ const AddInfoPost = () => {
               cacheControl: "3600",
               upsert: false,
             });
+          if (error) throw error;
           if (data) {
-            setImage(data.path);
-          } else if (error) {
-            throw error;
+            const { data: result, error } = await createInformation({
+              title: question,
+              content: description,
+              status: "PUBLISHED",
+              image: data.path,
+              user_id: user.id,
+            });
+            if (error) throw error;
           }
         }
+      } else {
+        const { data, error } = await createInformation({
+          title: question,
+          content: description,
+          status: "PUBLISHED",
+          image,
+          user_id: user.id,
+        });
+        if (error) throw error;
       }
 
-      console.log({
-        title: question,
-        content: description,
-        status: "PUBLISHED",
-        image,
-        user_id: user.id,
-      });
-      const { data, error } = await createInformation({
-        title: question,
-        content: description,
-        status: "PUBLISHED",
-        image,
-        user_id: user.id,
-      });
-      if (error) throw error;
       // mutate("getAllInformation");
     };
 

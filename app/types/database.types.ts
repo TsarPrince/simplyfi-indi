@@ -80,6 +80,78 @@ export interface Database {
           }
         ]
       }
+      comment_like: {
+        Row: {
+          comment: number
+          created_at: string
+          id: number
+          user_id: string
+        }
+        Insert: {
+          comment: number
+          created_at?: string
+          id?: number
+          user_id: string
+        }
+        Update: {
+          comment?: number
+          created_at?: string
+          id?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "comment_like_comment_fkey"
+            columns: ["comment"]
+            isOneToOne: false
+            referencedRelation: "comment"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "comment_like_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      comment_spam: {
+        Row: {
+          comment: number
+          created_at: string
+          id: number
+          user_id: string
+        }
+        Insert: {
+          comment: number
+          created_at?: string
+          id?: number
+          user_id: string
+        }
+        Update: {
+          comment?: number
+          created_at?: string
+          id?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "comment_spam_comment_fkey"
+            columns: ["comment"]
+            isOneToOne: false
+            referencedRelation: "comment"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "comment_spam_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       discussion: {
         Row: {
           content: string | null

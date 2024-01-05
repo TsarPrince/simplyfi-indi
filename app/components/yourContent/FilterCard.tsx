@@ -13,7 +13,6 @@ const FilterCard = ({
   activeTab: Filter;
   setActiveTab: React.Dispatch<React.SetStateAction<Filter>>;
 }) => {
-  console.log(activeTab);
   return (
     <div className="bg-lightBlue p-6 rounded-[2rem] space-y-4 w-[calc(100vw-2rem)] md:w-full">
       <p className="text-BodyLarge opacity-70">Filter</p>
