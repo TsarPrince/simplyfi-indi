@@ -141,6 +141,7 @@ export default function Home() {
                     fullHeight
                     type="discussion"
                   >
+                    {/* @ts-ignore */}
                     <DiscussionCard discussion={discussions?.[0]} />
                   </Box>
                 )}
@@ -225,7 +226,10 @@ export default function Home() {
                 type={active}
               >
                 {discussions?.map((discussion, key) => (
-                  <DiscussionCard key={key} discussion={discussion} />
+                  <>
+                    {/* @ts-ignore */}
+                    <DiscussionCard key={key} discussion={discussion} />
+                  </>
                 ))}
               </Box>
             )}

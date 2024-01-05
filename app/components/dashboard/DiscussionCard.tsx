@@ -7,13 +7,13 @@ import getUser from "@/utils/getUser";
 import { usePathname } from "next/navigation";
 import { postComment } from "@/queries/discussion";
 import { ToastContentProps, toast } from "react-toastify";
+import { mutate } from "swr";
 
 const DiscussionCard = ({ discussion }: { discussion?: Discussion }) => {
   const pathname = usePathname();
   const [comment, setComment] = useState("");
-
-  if (!discussion) return null;
   console.log(discussion);
+  if (!discussion) return null;
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -26,7 +26,7 @@ const DiscussionCard = ({ discussion }: { discussion?: Discussion }) => {
       });
       if (error) throw error;
       setComment("");
-      // mutate("getAllDiscussions");
+      mutate("getAllDiscussions");
     };
 
     toast.promise(create, {

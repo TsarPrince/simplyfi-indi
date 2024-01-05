@@ -1,4 +1,5 @@
 import { PostgrestError } from "@supabase/supabase-js";
+import { Json } from "./database.types"; /*  Json not equivalent to JSON */
 
 export type DbResult<T> = T extends PromiseLike<infer U> ? U : never;
 export type DbResultOk<T> = T extends PromiseLike<{ data: infer U }>
@@ -41,13 +42,14 @@ export type Poll = {
 };
 
 export type Information = {
-  content: string | null;
+  content: Json;
   created_at: string;
   flag: boolean;
   id: number;
   image: string | null;
   status: "PUBLISHED" | "DRAFT" | "ARCHIVE";
   title: string;
+  user_id: string;
 };
 
 export type Discussion = {
@@ -55,7 +57,8 @@ export type Discussion = {
   created_at: string;
   id: number;
   status: "PUBLISHED" | "DRAFT" | "ARCHIVE";
-  title: string | null;
+  title: string;
+  user_id: string;
   comment: {
     created_at: string;
     discussion_id: number;
@@ -66,5 +69,6 @@ export type Discussion = {
       avatar_url: string | null;
       full_name: string | null;
     };
+    // user_id: string & {}[];
   }[];
 };
