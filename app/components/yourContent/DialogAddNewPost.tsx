@@ -17,7 +17,7 @@ const DialogAddNewPost = () => {
           {[
             { title: "Poll", href: "/add-poll" },
             { title: "Metric", href: "/add-metric" },
-            { title: "Announcement", href: "/add-announcement" },
+            { title: "Announcement", href: "/your-content" },
             { title: "Discussion", href: "/add-discussion" },
             { title: "Information Post", href: "/add-info-post" },
           ].map((post, key) => (
