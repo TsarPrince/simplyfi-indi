@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,16 +8,19 @@
   --scroll-width: 8px;
 }
 
-* {
-  color: #273648;
-}
-
 .poll-clip-path {
   clip-path: polygon(75% 0, 100% 21%, 100% 100%, 0 100%, 0 0);
 }
 
 .custom-class-for-zero-padding .ProseMirror {
   padding: 0;
+}
+
+/* react-toastify */
+.Toastify__close-button {
+  align-self: normal !important;
+  padding-right: 1rem !important;
+  color: #fff !important;
 }
 
 /* width */

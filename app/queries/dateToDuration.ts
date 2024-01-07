@@ -1,4 +1,5 @@
-export const msToTime = (duration: number) => {
+export const dateToDuration = (date: Date) => {
+  const duration = new Date().getTime() - date.getTime();
   let seconds = Math.floor((duration / 1000) % 60),
     minutes = Math.floor((duration / (1000 * 60)) % 60),
     hours = Math.floor((duration / (1000 * 60 * 60)) % 24),

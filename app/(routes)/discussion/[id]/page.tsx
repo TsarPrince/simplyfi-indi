@@ -10,6 +10,11 @@ export default async function Page({ params }: { params: { id: string } }) {
   const discussion = data?.[0];
   if (!discussion) return <></>;
 
+  discussion.comment?.sort(
+    (a, b) =>
+      new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+  );
+
   return (
     <div className="md:grid grid-cols-3 md:h-screen overflow-y-hidden">
       <div className="bg-brown">

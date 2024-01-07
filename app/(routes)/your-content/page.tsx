@@ -32,7 +32,15 @@ export default function Home() {
   } = useSWR("getAllDiscussions", async () => {
     const { data, error } = await getAllDiscussions;
     if (error) throw error.message;
-    return data;
+    // sort comments in descending order of created_at
+    return data.map((discussion) => {
+      discussion.comment = discussion.comment.sort((a, b) => {
+        return (
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        );
+      });
+      return discussion;
+    });
   });
 
   const {

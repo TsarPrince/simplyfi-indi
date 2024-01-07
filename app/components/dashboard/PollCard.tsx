@@ -16,10 +16,6 @@ const PollCard = ({
 }) => {
   const pathname = usePathname();
   if (!poll) return null;
-  const totalVotes = poll.poll_option.reduce(
-    (acc, option) => acc + option.poll_vote.length,
-    0
-  );
 
   const handleOptionClick = (poll_option_id: number) => {
     const create = async () => {
@@ -43,6 +39,11 @@ const PollCard = ({
       },
     });
   };
+
+  const totalVotes = poll.poll_option.reduce(
+    (acc, option) => acc + option.poll_vote.length,
+    0
+  );
 
   return (
     <div className="flex flex-col justify-between h-full">
@@ -68,9 +69,11 @@ const PollCard = ({
                   className="absolute bg-green bg-opacity-60 inset-0 -z-10 transition-all duration-300"
                   style={{ width: `${option.percentage}%` }}
                 ></div>
-                <p>{option.title}</p>
-                {/* mix-blend-multiply for enhaced color on 100% botes */}
-                <p className="text-BodyMedium text-green mix-blend-multiply">
+                {/* select-none so voting an option on mobile doesn't selects the text beneath unintentionally */}
+                <p className="select-none">{option.title}</p>
+                {/* mix-blend-multiply for enhaced color on 100% votes */}
+                {/* flex-shrink-0 so percentage and % symbol doesn't split in 2 lines */}
+                <p className="text-BodyMedium text-green mix-blend-multiply select-none flex-shrink-0">
                   {option.percentage} %
                 </p>
               </div>

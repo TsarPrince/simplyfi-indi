@@ -6,6 +6,7 @@ import { ToastContainer } from "react-toastify";
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import Footer from "../components/Footer";
+import clsx from "clsx";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -29,8 +30,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={montserrat.className}>
-        <ToastContainer />
+      <body className={clsx(montserrat.className, "text-gray")}>
+        <ToastContainer
+          toastStyle={{
+            fontFamily: "Montserrat",
+            borderRadius: "9999px",
+            boxShadow: "inset 0 0 0 2px #ffffff22",
+            backgroundColor: "#273648",
+            color: "#fff",
+          }}
+          position="bottom-center"
+        />
         {children}
         <Footer />
       </body>
