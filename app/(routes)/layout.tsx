@@ -38,6 +38,7 @@ export default function RootLayout({
             boxShadow: "inset 0 0 0 2px #ffffff22",
             backgroundColor: "#273648",
             color: "#fff",
+            margin: "1rem 1rem",
           }}
           position="bottom-center"
         />

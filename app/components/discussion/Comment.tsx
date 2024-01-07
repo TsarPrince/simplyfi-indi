@@ -9,7 +9,7 @@ import { usePathname } from "next/navigation";
 import { mutate } from "swr";
 
 const CommentSingle = ({ comment }: { comment: Comment }) => {
-  const MAX_COMMENT_LENGTH = 160;
+  const MAX_COMMENT_LENGTH = 90;
 
   const pathname = usePathname();
   const [more, setMore] = useState(false);

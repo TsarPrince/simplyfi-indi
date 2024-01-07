@@ -6,6 +6,7 @@
 
 :root {
   --scroll-width: 8px;
+  --toastify-toast-width: 420px !important;
 }
 
 .poll-clip-path {
