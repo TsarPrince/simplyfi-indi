@@ -62,7 +62,7 @@ const PollCard = ({
             .map((option, key) => (
               <div
                 key={key}
-                className={`cursor-pointer relative z-0 text-BodyMedium bg-white px-4 py-3 flex justify-between rounded-xl overflow-hidden`}
+                className={`cursor-pointer relative z-0 text-BodyMedium bg-white px-4 py-3 flex justify-between items-center rounded-xl overflow-hidden`}
                 onClick={() => handleOptionClick(option.id)}
               >
                 <div

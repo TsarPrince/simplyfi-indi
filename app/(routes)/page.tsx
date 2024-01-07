@@ -19,6 +19,11 @@ import useSWR from "swr";
 import Spinner from "../components/global/Spinner";
 import Box from "@/components/dashboard/Box";
 import { toast } from "react-toastify";
+import LoadingSkeleton from "@/components/skeletons/LoadingSkeleton";
+import PollSkeleton from "@/components/skeletons/PollSkeleton";
+import InformationSkeleton from "@/components/skeletons/InformationSkeleton";
+import DiscussionSkeleton from "@/components/skeletons/DiscussionSkeleton";
+import PostSkeleton from "@/components/skeletons/PostSkeleton";
 
 export default function Home() {
   const [sideWindowOpen, setSideWindowOpen] = useState(false);
@@ -99,7 +104,7 @@ export default function Home() {
               <WelcomeCard />
               <div className="flex-1">
                 {pollLoading ? (
-                  <Spinner />
+                  <PollSkeleton />
                 ) : (
                   <Box
                     toggleSideWindow={() => toggleSideWindow("poll", true)}
@@ -120,7 +125,7 @@ export default function Home() {
             {/* col - 2 */}
             <div className="col-span-5 flex flex-col space-y-8">
               {informationLoading ? (
-                <Spinner />
+                <InformationSkeleton />
               ) : (
                 <Box
                   toggleSideWindow={() => toggleSideWindow("information", true)}
@@ -139,7 +144,7 @@ export default function Home() {
               )}
               <div className="flex-1">
                 {discussionLoading ? (
-                  <Spinner />
+                  <DiscussionSkeleton />
                 ) : (
                   <Box
                     toggleSideWindow={() =>
@@ -161,7 +166,7 @@ export default function Home() {
               <StatsCard />
               <div className="flex-1">
                 {informationLoading ? (
-                  <Spinner />
+                  <PostSkeleton />
                 ) : (
                   <Box
                     toggleSideWindow={() => toggleSideWindow("post", true)}
