@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 import { likeComment, postComment, reportComment } from "@/queries/discussion";
 import { ToastContentProps, toast } from "react-toastify";
 import { mutate } from "swr";
-import { dateToDuration } from "@/queries/dateToDuration";
+import { dateToDuration } from "@/utils/dateToDuration";
 import CommentSingle from "../discussion/Comment";
 
 const DiscussionCard = ({ discussion }: { discussion?: Discussion }) => {

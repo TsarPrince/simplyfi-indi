@@ -44,6 +44,14 @@ export default function Home() {
   } = useSWR("getAllDiscussions", async () => {
     const { data, error } = await getAllDiscussions;
     if (error) throw error.message;
+
+    // remove comment if comment_spam is more than 3
+    data.forEach((discussion) => {
+      discussion.comment = discussion.comment.filter(
+        (comment) => comment.comment_spam.length <= 3
+      );
+    });
+
     // sort comments in descending order of created_at
     return data.map((discussion) => {
       discussion.comment = discussion.comment.sort((a, b) => {

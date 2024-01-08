@@ -32,6 +32,9 @@ const postComment = (values: TablesInsert<"comment">) =>
 const likeComment = (values: TablesInsert<"comment_like">) =>
   supabase.from("comment_like").insert([values]).select();
 
+const unlikeComment = (id: number) =>
+  supabase.from("comment_like").delete().eq("id", id).select();
+
 const reportComment = (values: TablesInsert<"comment_spam">) =>
   supabase.from("comment_spam").insert([values]).select();
 
@@ -41,5 +44,6 @@ export {
   createDiscussion,
   postComment,
   likeComment,
+  unlikeComment,
   reportComment,
 };
