@@ -44,7 +44,7 @@ const DiscussionClient = ({ discussion }: { discussion: Discussion }) => {
   return (
     <div className="flex flex-col justify-between h-full">
       {/* Section - 1 */}
-      <div className="mt-12 space-y-4 h-[calc(100vh-5rem-56px)] overflow-y-scroll">
+      <div className="mt-12 space-y-4 h-[calc(100vh-6rem-56px)] overflow-y-scroll">
         {discussion.comment.map((comment, key) => (
           <Comment comment={comment} key={key} revalidate={true} />
         ))}
