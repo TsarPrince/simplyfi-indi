@@ -1,10 +1,21 @@
 "use client";
 
+import formatNumber from "@/utils/formatNumber";
 import React, { useEffect, useState } from "react";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
-const StatsCard = () => {
+const StatsCard = ({
+  numOfUsers,
+  numOfPolls,
+  numOfPosts,
+  numOfAnnouncements,
+}: {
+  numOfUsers?: number;
+  numOfPolls?: number;
+  numOfPosts?: number;
+  numOfAnnouncements?: number;
+}) => {
   const [percentage, setPercentage] = useState(0);
 
   useEffect(() => {
@@ -18,7 +29,7 @@ const StatsCard = () => {
         <div className="grid grid-cols-3 divide-x divide-gray/10">
           <div className="col-span-1">
             <p className="text-BodySmall">Total users</p>
-            <p className="text-TitleMedium">1,567</p>
+            <p className="text-TitleMedium">{formatNumber(numOfUsers)}</p>
           </div>
           <div className="col-span-2 pl-4">
             <div className="flex space-x-2 md:space-x-6">
@@ -44,11 +55,11 @@ const StatsCard = () => {
         {/* row 2 */}
         <div className="grid grid-cols-3 divide-x divide-gray/10 pt-2">
           <div className="">
-            <p className="text-TitleMedium">2</p>
+            <p className="text-TitleMedium">{numOfPolls}</p>
             <p className="text-BodySmall">On-going polls</p>
           </div>
           <div className="pl-4">
-            <p className="text-TitleMedium">3</p>
+            <p className="text-TitleMedium">{numOfPosts}</p>
             <p className="text-BodySmall">Interesting reads</p>
           </div>
           <div className="pl-4">

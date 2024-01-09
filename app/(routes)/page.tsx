@@ -24,6 +24,8 @@ import PollSkeleton from "@/components/skeletons/PollSkeleton";
 import InformationSkeleton from "@/components/skeletons/InformationSkeleton";
 import DiscussionSkeleton from "@/components/skeletons/DiscussionSkeleton";
 import PostSkeleton from "@/components/skeletons/PostSkeleton";
+import StatsSkeleton from "@/components/skeletons/StatsSkeleton";
+import { getAllProfiles } from "@/queries/profile";
 
 export default function Home() {
   const [sideWindowOpen, setSideWindowOpen] = useState(false);
@@ -83,6 +85,16 @@ export default function Home() {
     return data;
   });
 
+  const {
+    data: profiles,
+    error: profilesError,
+    isLoading: profilesLoading,
+  } = useSWR("getAllProfiles", async () => {
+    const { data, error } = await getAllProfiles;
+    if (error) throw error.message;
+    return data;
+  });
+
   return (
     <div className="bg-lightGray relative h-screen overflow-x-hidden overflow-y-scroll md:overflow-y-auto">
       <NextButton
@@ -109,7 +121,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-12 space-y-8 md:flex-row md:space-y-0 md:space-x-8">
             {/* col - 1 */}
             <div className="col-span-3 flex flex-col space-y-8">
-              <WelcomeCard />
+              <WelcomeCard subscribersCount={profiles?.length} />
               <div className="flex-1">
                 {pollLoading ? (
                   <PollSkeleton />
@@ -171,7 +183,22 @@ export default function Home() {
 
             {/* col - 3 */}
             <div className="col-span-4 flex flex-col space-y-8">
-              <StatsCard />
+              {profilesLoading ||
+              pollLoading ||
+              informationLoading ||
+              discussionLoading ? (
+                <StatsSkeleton />
+              ) : (
+                <StatsCard
+                  numOfUsers={profiles?.length}
+                  numOfPolls={polls?.length}
+                  numOfPosts={
+                    informations?.filter((information) => information.flag)
+                      .length
+                  }
+                />
+              )}
+
               <div className="flex-1">
                 {informationLoading ? (
                   <PostSkeleton />

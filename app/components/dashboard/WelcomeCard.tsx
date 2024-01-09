@@ -2,8 +2,9 @@ import Link from "next/link";
 import React from "react";
 import Button from "@/components/Button";
 import DialogSubscribers from "@/components/dashboard/DialogSubscribers";
+import formatNumber from "@/utils/formatNumber";
 
-const WelcomeCard = () => {
+const WelcomeCard = ({ subscribersCount }: { subscribersCount?: number }) => {
   return (
     <div className="max-w-xl space-y-4">
       <div>
@@ -14,7 +15,9 @@ const WelcomeCard = () => {
       </div>
       <div>
         <p className="text-TitleSmall opacity-60">Your subscribers</p>
-        <h2 className="text-TitleLarge2">1,576</h2>
+        <h2 className="text-TitleLarge2">
+          {formatNumber(subscribersCount) || "—"}
+        </h2>
       </div>
       <div className="space-y-2">
         <DialogSubscribers />

@@ -7,6 +7,8 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import Footer from "../components/Footer";
 import clsx from "clsx";
+import { usePathname } from "next/navigation";
+import { Router } from "next/router";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 

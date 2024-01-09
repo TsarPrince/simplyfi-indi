@@ -11,7 +11,7 @@ const WelcomeCard2 = () => {
   const [_, MONTH, DATE, YEAR] = new Date().toDateString().split(" ");
 
   return (
-    <div className="max-w-xl space-y-12">
+    <div className="max-w-xl space-y-12 pt-12 3xl:pt-4">
       <div>
         <h2 className="text-TitleLarge2 mt-10 md:mt-0">
           Your <br />
