@@ -123,36 +123,36 @@ export default function Home() {
             <div className="col-span-3 flex flex-col space-y-8">
               <WelcomeCard subscribersCount={profiles?.length} />
               <div className="flex-1">
-                {pollLoading ? (
-                  <PollSkeleton />
-                ) : (
-                  <Box
-                    toggleSideWindow={() => toggleSideWindow("poll", true)}
-                    className="bg-blue"
-                    text="Poll Results"
-                    fullHeight
-                    type="poll"
-                  >
+                <Box
+                  toggleSideWindow={() => toggleSideWindow("poll", true)}
+                  className="bg-blue"
+                  text="Poll Results"
+                  fullHeight
+                  type="poll"
+                >
+                  {pollLoading ? (
+                    <PollSkeleton />
+                  ) : (
                     <PollCard
                       toggleSideWindow={toggleSideWindow}
                       poll={polls?.[0]}
                     />
-                  </Box>
-                )}
+                  )}
+                </Box>
               </div>
             </div>
 
             {/* col - 2 */}
             <div className="col-span-5 flex flex-col space-y-8">
-              {informationLoading ? (
-                <InformationSkeleton />
-              ) : (
-                <Box
-                  toggleSideWindow={() => toggleSideWindow("information", true)}
-                  className="bg-blue"
-                  text="Fresh off the press"
-                  type="information"
-                >
+              <Box
+                toggleSideWindow={() => toggleSideWindow("information", true)}
+                className="bg-blue"
+                text="Fresh off the press"
+                type="information"
+              >
+                {informationLoading ? (
+                  <InformationSkeleton />
+                ) : (
                   <InformationCard
                     information={
                       informations?.filter(
@@ -160,24 +160,22 @@ export default function Home() {
                       )[0]
                     }
                   />
-                </Box>
-              )}
-              <div className="flex-1">
-                {discussionLoading ? (
-                  <DiscussionSkeleton />
-                ) : (
-                  <Box
-                    toggleSideWindow={() =>
-                      toggleSideWindow("discussion", true)
-                    }
-                    className="bg-green"
-                    text="Discussions at a glance"
-                    fullHeight
-                    type="discussion"
-                  >
-                    <DiscussionCard discussion={discussions?.[0]} />
-                  </Box>
                 )}
+              </Box>
+              <div className="flex-1">
+                <Box
+                  toggleSideWindow={() => toggleSideWindow("discussion", true)}
+                  className="bg-green"
+                  text="Discussions at a glance"
+                  fullHeight
+                  type="discussion"
+                >
+                  {discussionLoading ? (
+                    <DiscussionSkeleton />
+                  ) : (
+                    <DiscussionCard discussion={discussions?.[0]} />
+                  )}
+                </Box>
               </div>
             </div>
 
@@ -200,16 +198,16 @@ export default function Home() {
               )}
 
               <div className="flex-1">
-                {informationLoading ? (
-                  <PostSkeleton />
-                ) : (
-                  <Box
-                    toggleSideWindow={() => toggleSideWindow("post", true)}
-                    className="bg-brown"
-                    text="Your Information Posts"
-                    fullHeight
-                    type="post"
-                  >
+                <Box
+                  toggleSideWindow={() => toggleSideWindow("post", true)}
+                  className="bg-brown"
+                  text="Your Information Posts"
+                  fullHeight
+                  type="post"
+                >
+                  {informationLoading ? (
+                    <InformationSkeleton />
+                  ) : (
                     <PostCard
                       information={
                         informations?.filter(
@@ -217,8 +215,8 @@ export default function Home() {
                         )[0]
                       }
                     />
-                  </Box>
-                )}
+                  )}
+                </Box>
               </div>
             </div>
           </div>

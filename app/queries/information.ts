@@ -15,7 +15,7 @@ const getFilteredInformation = (searchQuery: string) =>
       "title",
       searchQuery
         .trim()
-        .replace(/[^a-zA-Z0-9 ]/g, "")
+        .replace(/[^a-zA-Z0-9' ]/g, "")
         .replace(/\s+/g, "|")
     );
 

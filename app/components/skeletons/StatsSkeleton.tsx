@@ -1,6 +1,4 @@
 import React from "react";
-import Box from "../dashboard/Box";
-import LoadingSkeleton from "./LoadingSkeleton";
 
 const StatsSkeleton = ({
   children,

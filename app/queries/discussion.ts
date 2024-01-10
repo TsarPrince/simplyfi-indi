@@ -24,7 +24,7 @@ const getFilteredDiscussions = (searchQuery: string) =>
       "title",
       searchQuery
         .trim()
-        .replace(/[^a-zA-Z0-9 ]/g, "")
+        .replace(/[^a-zA-Z0-9' ]/g, "")
         .replace(/\s+/g, "|")
     )
     .returns<Discussion[]>();

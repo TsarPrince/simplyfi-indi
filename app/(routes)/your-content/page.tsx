@@ -28,6 +28,8 @@ import { getAllMetrics } from "@/queries/metric";
 import MetricCard from "@/components/yourContent/MetricCard";
 import Link from "next/link";
 import PollSkeleton from "@/components/skeletons/PollSkeleton";
+import InformationSkeleton from "@/components/skeletons/InformationSkeleton";
+import DiscussionSkeleton from "@/components/skeletons/DiscussionSkeleton";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<Filter>("All");
@@ -62,7 +64,7 @@ export default function Home() {
   });
 
   const {
-    data: informations,
+    data: information,
     error: informationError,
     isLoading: informationLoading,
   } = useSWR("getAllInformation", async () => {
@@ -102,10 +104,10 @@ export default function Home() {
   });
 
   const {
-    data: filteredInformations,
-    error: filteredInformationsError,
-    isLoading: filteredInformationsLoading,
-  } = useSWR(`getFilteredInformations?q=${searchQuery}`, async () => {
+    data: filteredInformation,
+    error: filteredInformationError,
+    isLoading: filteredInformationLoading,
+  } = useSWR(`getFilteredInformation?q=${searchQuery}`, async () => {
     const { data, error } = await getFilteredInformation(searchQuery);
     if (error) throw error.message;
     return data;
@@ -141,65 +143,114 @@ export default function Home() {
                     text={pascalCase(activeTab)}
                     type="discussion"
                   >
-                    {(activeTab === "Polls" || activeTab === "All") &&
-                      (searchQuery
-                        ? filteredPolls?.map((poll, key) => (
-                            <div
-                              className="bg-lightBlue p-4 pt-0 mt-4 rounded-3xl"
-                              key={key}
-                            >
-                              <PollCard poll={poll} />
-                            </div>
-                          ))
-                        : polls?.map((poll, key) => (
-                            <div
-                              className="bg-lightBlue p-4 pt-0 mt-4 rounded-3xl"
-                              key={key}
-                            >
-                              <PollCard poll={poll} />
-                            </div>
-                          )))}
-
-                    {(activeTab === "Posts" || activeTab === "All") &&
-                      (searchQuery
-                        ? filteredInformations
-                            ?.filter((information) => information.flag)
-                            .map((information, key) => (
-                              <PostCard key={key} information={information} />
-                            ))
-                        : informations
-                            ?.filter((information) => information.flag)
-                            .map((information, key) => (
-                              <PostCard key={key} information={information} />
-                            )))}
-
-                    {(activeTab === "Discussions" || activeTab === "All") &&
-                      (searchQuery
-                        ? filteredDiscussions?.map((discussion, key) => (
-                            <DiscussionCard key={key} discussion={discussion} />
-                          ))
-                        : discussions?.map((discussion, key) => (
-                            <DiscussionCard key={key} discussion={discussion} />
-                          )))}
-
-                    {(activeTab === "Information" || activeTab === "All") &&
-                      (searchQuery
-                        ? filteredInformations
-                            ?.filter((information) => !information.flag)
-                            .map((information, key) => (
-                              <InformationCard
+                    {searchQuery &&
+                      filteredDiscussions?.length === 0 &&
+                      filteredInformation?.length === 0 &&
+                      filteredPolls?.length === 0 && (
+                        <div
+                          className="relative p-4 flex flex-col items-center justify-center h-96 rounded-3xl overflow-hidden bg-red-500 mt-4"
+                          style={{
+                            backgroundImage: "url('/images/404.png')",
+                            backgroundRepeat: "no-repeat",
+                            backgroundPosition: "center",
+                            backgroundSize: "cover",
+                          }}
+                        >
+                          <div className="absolute inset-0 bg-black/50"></div>
+                          <p className="mt-4 text-TitleMedium text-center text-white z-0">
+                            {`Uh Oh! No results matched your query: “${searchQuery}”`}
+                          </p>
+                        </div>
+                      )}
+                    {(activeTab === "Polls" || activeTab === "All") && (
+                      <>
+                        {(filteredPollsLoading || pollLoading) && (
+                          <PollSkeleton />
+                        )}
+                        {searchQuery
+                          ? filteredPolls?.map((poll, key) => (
+                              <div
+                                className="bg-lightBlue p-4 pt-0 mt-4 rounded-3xl"
                                 key={key}
-                                information={information}
+                              >
+                                <PollCard poll={poll} />
+                              </div>
+                            ))
+                          : polls?.map((poll, key) => (
+                              <div
+                                className="bg-lightBlue p-4 pt-0 mt-4 rounded-3xl"
+                                key={key}
+                              >
+                                <PollCard poll={poll} />
+                              </div>
+                            ))}
+                      </>
+                    )}
+
+                    {(activeTab === "Posts" || activeTab === "All") && (
+                      <>
+                        {(filteredInformationLoading || informationLoading) && (
+                          <InformationSkeleton />
+                        )}
+                        {searchQuery
+                          ? filteredInformation
+                              ?.filter((information) => information.flag)
+                              .map((information, key) => (
+                                <PostCard key={key} information={information} />
+                              ))
+                          : information
+                              ?.filter((information) => information.flag)
+                              .map((information, key) => (
+                                <PostCard key={key} information={information} />
+                              ))}
+                      </>
+                    )}
+
+                    {(activeTab === "Discussions" || activeTab === "All") && (
+                      <>
+                        {(filteredDiscussionsLoading || discussionLoading) && (
+                          <DiscussionSkeleton />
+                        )}
+                        {searchQuery
+                          ? filteredDiscussions?.map((discussion, key) => (
+                              <DiscussionCard
+                                key={key}
+                                discussion={discussion}
                               />
                             ))
-                        : informations
-                            ?.filter((information) => !information.flag)
-                            .map((information, key) => (
-                              <InformationCard
+                          : discussions?.map((discussion, key) => (
+                              <DiscussionCard
                                 key={key}
-                                information={information}
+                                discussion={discussion}
                               />
-                            )))}
+                            ))}
+                      </>
+                    )}
+
+                    {(activeTab === "Information" || activeTab === "All") && (
+                      <>
+                        {(filteredInformationLoading || informationLoading) ?? (
+                          <InformationSkeleton />
+                        )}
+                        {searchQuery
+                          ? filteredInformation
+                              ?.filter((information) => !information.flag)
+                              .map((information, key) => (
+                                <InformationCard
+                                  key={key}
+                                  information={information}
+                                />
+                              ))
+                          : information
+                              ?.filter((information) => !information.flag)
+                              .map((information, key) => (
+                                <InformationCard
+                                  key={key}
+                                  information={information}
+                                />
+                              ))}
+                      </>
+                    )}
                   </Box>
                 }
               </div>
