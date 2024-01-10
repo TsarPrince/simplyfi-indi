@@ -9,9 +9,13 @@ import clsx from "clsx";
 const FilterCard = ({
   activeTab,
   setActiveTab,
+  searchQuery,
+  setSearchQuery,
 }: {
   activeTab: Filter;
   setActiveTab: React.Dispatch<React.SetStateAction<Filter>>;
+  searchQuery: string;
+  setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   return (
     <div className="bg-lightBlue p-6 rounded-[2rem] space-y-4 w-[calc(100vw-2rem)] md:w-full">
@@ -38,6 +42,8 @@ const FilterCard = ({
         type="text"
         placeholder="Search"
         className="bg-lightBlue focus-within:ring-blue focus-within:border-blue"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
         adornment={
           <svg
             width="18"

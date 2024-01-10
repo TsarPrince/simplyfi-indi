@@ -7,9 +7,15 @@ import WelcomeCard2 from "@/components/yourContent/WelcomeCard2";
 import DiscussionCard from "@/components/dashboard/DiscussionCard";
 import FilterCard from "@/components/yourContent/FilterCard";
 import useSWR from "swr";
-import { getAllDiscussions } from "@/queries/discussion";
-import { getAllPolls } from "@/queries/poll";
-import { getAllInformation } from "@/queries/information";
+import {
+  getAllDiscussions,
+  getFilteredDiscussions,
+} from "@/queries/discussion";
+import { getAllPolls, getFilteredPolls } from "@/queries/poll";
+import {
+  getAllInformation,
+  getFilteredInformation,
+} from "@/queries/information";
 import Spinner from "@/components/global/Spinner";
 import Box from "@/components/dashboard/Box";
 import PollCard from "@/components/dashboard/PollCard";
@@ -21,9 +27,11 @@ import pascalCase from "@/utils/pascalCase";
 import { getAllMetrics } from "@/queries/metric";
 import MetricCard from "@/components/yourContent/MetricCard";
 import Link from "next/link";
+import PollSkeleton from "@/components/skeletons/PollSkeleton";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<Filter>("All");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const {
     data: discussions,
@@ -73,6 +81,36 @@ export default function Home() {
     return data;
   });
 
+  const {
+    data: filteredPolls,
+    error: filteredPollsError,
+    isLoading: filteredPollsLoading,
+  } = useSWR(`getFilteredPolls?q=${searchQuery}`, async () => {
+    const { data, error } = await getFilteredPolls(searchQuery);
+    if (error) throw error.message;
+    return data;
+  });
+
+  const {
+    data: filteredDiscussions,
+    error: filteredDiscussionsError,
+    isLoading: filteredDiscussionsLoading,
+  } = useSWR(`getFilteredDiscussions?q=${searchQuery}`, async () => {
+    const { data, error } = await getFilteredDiscussions(searchQuery);
+    if (error) throw error.message;
+    return data;
+  });
+
+  const {
+    data: filteredInformations,
+    error: filteredInformationsError,
+    isLoading: filteredInformationsLoading,
+  } = useSWR(`getFilteredInformations?q=${searchQuery}`, async () => {
+    const { data, error } = await getFilteredInformation(searchQuery);
+    if (error) throw error.message;
+    return data;
+  });
+
   return (
     <div className="relative overflow-x-hidden">
       <Link href="/">
@@ -90,49 +128,80 @@ export default function Home() {
 
             {/* col - 2 */}
             <div className="flex flex-col space-y-4 col-span-2">
-              <FilterCard activeTab={activeTab} setActiveTab={setActiveTab} />
+              <FilterCard
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+              />
               <div className="">
-                {pollLoading ? (
-                  <Spinner />
-                ) : (
+                {
                   <Box
                     className="bg-green"
                     text={pascalCase(activeTab)}
                     type="discussion"
                   >
                     {(activeTab === "Polls" || activeTab === "All") &&
-                      polls?.map((poll, key) => (
-                        <div
-                          className="bg-lightBlue p-4 pt-0 mt-4 rounded-3xl"
-                          key={key}
-                        >
-                          <PollCard poll={poll} />
-                        </div>
-                      ))}
+                      (searchQuery
+                        ? filteredPolls?.map((poll, key) => (
+                            <div
+                              className="bg-lightBlue p-4 pt-0 mt-4 rounded-3xl"
+                              key={key}
+                            >
+                              <PollCard poll={poll} />
+                            </div>
+                          ))
+                        : polls?.map((poll, key) => (
+                            <div
+                              className="bg-lightBlue p-4 pt-0 mt-4 rounded-3xl"
+                              key={key}
+                            >
+                              <PollCard poll={poll} />
+                            </div>
+                          )))}
 
                     {(activeTab === "Posts" || activeTab === "All") &&
-                      informations
-                        ?.filter((information) => information.flag)
-                        .map((information, key) => (
-                          <PostCard key={key} information={information} />
-                        ))}
+                      (searchQuery
+                        ? filteredInformations
+                            ?.filter((information) => information.flag)
+                            .map((information, key) => (
+                              <PostCard key={key} information={information} />
+                            ))
+                        : informations
+                            ?.filter((information) => information.flag)
+                            .map((information, key) => (
+                              <PostCard key={key} information={information} />
+                            )))}
 
                     {(activeTab === "Discussions" || activeTab === "All") &&
-                      discussions?.map((discussion, key) => (
-                        <DiscussionCard key={key} discussion={discussion} />
-                      ))}
+                      (searchQuery
+                        ? filteredDiscussions?.map((discussion, key) => (
+                            <DiscussionCard key={key} discussion={discussion} />
+                          ))
+                        : discussions?.map((discussion, key) => (
+                            <DiscussionCard key={key} discussion={discussion} />
+                          )))}
 
                     {(activeTab === "Information" || activeTab === "All") &&
-                      informations
-                        ?.filter((information) => !information.flag)
-                        .map((information, key) => (
-                          <InformationCard
-                            key={key}
-                            information={information}
-                          />
-                        ))}
+                      (searchQuery
+                        ? filteredInformations
+                            ?.filter((information) => !information.flag)
+                            .map((information, key) => (
+                              <InformationCard
+                                key={key}
+                                information={information}
+                              />
+                            ))
+                        : informations
+                            ?.filter((information) => !information.flag)
+                            .map((information, key) => (
+                              <InformationCard
+                                key={key}
+                                information={information}
+                              />
+                            )))}
                   </Box>
-                )}
+                }
               </div>
             </div>
 

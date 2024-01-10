@@ -13,6 +13,22 @@ const getAllDiscussions = supabase
   // https://supabase.com/docs/guides/api/rest/generating-types
   .returns<Discussion[]>();
 
+const getFilteredDiscussions = (searchQuery: string) =>
+  supabase
+    .from("discussion")
+    .select(
+      "*, comment(id, title, created_at, user_id(*), comment_like(*), comment_spam(*))"
+    )
+    .order("created_at", { ascending: false })
+    .textSearch(
+      "title",
+      searchQuery
+        .trim()
+        .replace(/[^a-zA-Z0-9 ]/g, "")
+        .replace(/\s+/g, "|")
+    )
+    .returns<Discussion[]>();
+
 const getDiscussionById = (id: string) =>
   supabase
     .from("discussion")
@@ -40,6 +56,7 @@ const reportComment = (values: TablesInsert<"comment_spam">) =>
 
 export {
   getAllDiscussions,
+  getFilteredDiscussions,
   getDiscussionById,
   createDiscussion,
   postComment,
