@@ -30,6 +30,7 @@ import Link from "next/link";
 import PollSkeleton from "@/components/skeletons/PollSkeleton";
 import InformationSkeleton from "@/components/skeletons/InformationSkeleton";
 import DiscussionSkeleton from "@/components/skeletons/DiscussionSkeleton";
+import MetricSkeleton from "@/components/skeletons/MetricSkeleton";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<Filter>("All");
@@ -259,7 +260,11 @@ export default function Home() {
             {/* col - 3 */}
             <div className="flex flex-col space-y-2">
               {metricLoading ? (
-                <Spinner />
+                <>
+                  <MetricSkeleton />
+                  <MetricSkeleton />
+                  <MetricSkeleton />
+                </>
               ) : (
                 metric?.map((metric, key) => (
                   <MetricCard key={key} metric={metric} />

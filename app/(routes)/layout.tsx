@@ -9,6 +9,7 @@ import Footer from "../components/Footer";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
 import { Router } from "next/router";
+import Script from "next/script";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -33,6 +34,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={clsx(montserrat.className, "text-gray")}>
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-XRJKGBT4JM" />
+        <Script id="google-analytics">
+          {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+ 
+          gtag('config', 'G-XRJKGBT4JM');
+        `}
+        </Script>
         <ToastContainer
           toastStyle={{
             fontFamily: "Montserrat",
