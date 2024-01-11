@@ -99,7 +99,7 @@ export default function Home() {
     <div className="bg-lightGray relative h-screen overflow-x-hidden overflow-y-scroll md:overflow-y-auto">
       <NextButton
         className={clsx(
-          "z-10 fixed top-6 left-16",
+          "z-10 fixed top-6 left-10",
           sideWindowOpen ? "rotate-180 visible" : "rotate-0 invisible"
         )}
         onClick={() => toggleSideWindow(active)}

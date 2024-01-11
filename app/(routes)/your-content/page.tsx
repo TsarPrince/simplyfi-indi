@@ -118,7 +118,7 @@ export default function Home() {
     <div className="relative overflow-x-hidden">
       <Link href="/">
         <NextButton
-          className={clsx("z-10 fixed rotate-180 top-6 left-4 md:left-16")}
+          className={clsx("z-10 fixed rotate-180 top-6 left-4 md:left-10")}
         />
       </Link>
       <div className="bg-lightGray flex w-screen overflow-x-hidden min-h-screen">

@@ -17,7 +17,7 @@ const Button = ({
     <button
       className={clsx(
         "flex items-center justify-center space-x-2 bg-transparent px-12 py-3 md:px-16 rounded-full text-BodyLarge hover:opacity-75 focus:opacity-75 active:scale-95 transition-all duration-300",
-        full ? "w-full" : "",
+        full ? "w-full !px-2" : "",
         border ? "border" : "",
         className
       )}
