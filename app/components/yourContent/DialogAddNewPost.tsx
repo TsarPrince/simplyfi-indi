@@ -22,7 +22,7 @@ const DialogAddNewPost = () => {
           ].map((post, key) => (
             <li key={key}>
               <Link href={post.href}>
-                <Button full border className="bg-white">
+                <Button full border className="bg-white !px-12">
                   {post.title}
                 </Button>
               </Link>
