@@ -19,7 +19,9 @@ const InformationCard = ({ information }: { information?: Information }) => {
         {new Date(information.created_at).toLocaleString()}
       </p>
       <Link href={`information/${information.id}`}>
-        <p className="text-TitleSmall2">{information.title}</p>
+        <p className="text-TitleSmall2 line-clamp-2" title={information.title}>
+          {information.title}
+        </p>
       </Link>
     </div>
   );

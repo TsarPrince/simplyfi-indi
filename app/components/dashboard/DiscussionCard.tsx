@@ -102,7 +102,9 @@ const DiscussionCard = ({ discussion }: { discussion?: Discussion }) => {
           <p className="text-BodyMedium2 opacity-40">Latest</p>
         </div>
         <Link href={`/discussion/${discussion.id}`}>
-          <p className="text-TitleSmall2">{discussion.title}</p>
+          <p className="text-TitleSmall2 line-clamp-2" title={discussion.title}>
+            {discussion.title}
+          </p>
         </Link>
         <div className="flex space-x-6">
           <div className="flex items-center space-x-2">

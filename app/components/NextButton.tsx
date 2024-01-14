@@ -25,9 +25,9 @@ const NextButton = ({ className, onClick, text, variant }: NextButtonProps) => {
             <path
               d="M13 13.7606L1 1.49219M13 1.49219L1 13.7607"
               stroke="#273648"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
         ) : (

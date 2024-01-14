@@ -48,7 +48,9 @@ const PollCard = ({
   return (
     <div className="flex flex-col justify-between h-full">
       <div>
-        <p className="text-BodyLarge mt-8">{poll.title}</p>
+        <p className="text-BodyLarge mt-8 line-clamp-2" title={poll.title}>
+          {poll.title}
+        </p>
         {/* options */}
         <div className="mt-4 space-y-2">
           {poll.poll_option
@@ -70,7 +72,12 @@ const PollCard = ({
                   style={{ width: `${option.percentage}%` }}
                 ></div>
                 {/* select-none so voting an option on mobile doesn't selects the text beneath unintentionally */}
-                <p className="select-none">{option.title}</p>
+                <p
+                  className="select-none line-clamp-1 pr-2"
+                  title={option.title}
+                >
+                  {option.title}
+                </p>
                 {/* mix-blend-multiply for enhaced color on 100% votes */}
                 {/* flex-shrink-0 so percentage and % symbol doesn't split in 2 lines */}
                 <p className="text-BodyMedium text-green mix-blend-multiply select-none flex-shrink-0">

@@ -8,7 +8,7 @@ type Metric = Tables<"metric">;
 const MetricCard = ({ metric }: { metric: Metric }) => {
   let formattedValue = formatNumber(metric.value);
   if (metric.symbol == "PERCENTAGE") {
-    formattedValue = `${metric.value}%`;
+    formattedValue = `${metric.value || ""}%`;
   }
   if (metric.symbol == "DOLLAR") {
     formattedValue = `$${formatNumber(metric.value)}`;

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
+import useSWR from "swr";
 import { ActiveSideWindow } from "@/types";
 
 import Container from "@/components/Container";
@@ -15,21 +16,18 @@ import PostCard from "@/components/dashboard/PostCard";
 import { getAllDiscussions } from "@/queries/discussion";
 import { getAllPolls } from "@/queries/poll";
 import { getAllInformation } from "@/queries/information";
-import useSWR from "swr";
-import Spinner from "../components/global/Spinner";
 import Box from "@/components/dashboard/Box";
-import { toast } from "react-toastify";
-import LoadingSkeleton from "@/components/skeletons/LoadingSkeleton";
 import PollSkeleton from "@/components/skeletons/PollSkeleton";
 import InformationSkeleton from "@/components/skeletons/InformationSkeleton";
 import DiscussionSkeleton from "@/components/skeletons/DiscussionSkeleton";
-import PostSkeleton from "@/components/skeletons/PostSkeleton";
 import StatsSkeleton from "@/components/skeletons/StatsSkeleton";
 import { getAllProfiles } from "@/queries/profile";
 
 export default function Home() {
   const [sideWindowOpen, setSideWindowOpen] = useState(false);
   const [active, setActive] = useState<ActiveSideWindow>();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const sidebarRef = useRef<HTMLDivElement>(null);
 
   const toggleSideWindow = (window?: ActiveSideWindow, state?: boolean) => {
     // toggle active state if no state is passed explicitly
@@ -38,6 +36,38 @@ export default function Home() {
       setActive(window);
     }
   };
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const sidebar = sidebarRef.current;
+    const offset = 80; // 5rem
+
+    if (container && sidebar) {
+      const containerWidth = container.clientWidth;
+      const sidebarWidth = sidebar.clientWidth;
+
+      // if both windows overflow the screen
+      // translate both to the left by an extra overlowShift
+      let overflowShift = 0;
+      if (containerWidth + sidebarWidth > innerWidth) {
+        overflowShift = (containerWidth + sidebarWidth - innerWidth) / 2;
+      }
+
+      // switch translateX depending on sideWindowOpen
+      if (sideWindowOpen) {
+        container.style.transform = `translateX(${
+          -sidebarWidth / 2 - overflowShift
+        }px)`;
+        sidebar.style.transform = `translateX(${
+          (containerWidth + sidebarWidth - innerWidth - offset) / 2 -
+          overflowShift
+        }px)`;
+      } else {
+        container.style.transform = "translateX(0px)";
+        sidebar.style.transform = `translateX(100%)`;
+      }
+    }
+  }, [sideWindowOpen]);
 
   const {
     data: discussions,
@@ -108,19 +138,17 @@ export default function Home() {
         className="bg-lightGray relative flex w-screen overflow-x-hidden"
         style={{
           // ranges from 0.64 to 0.86 approx
-          // scale: "0.86",
+          // scale: "0.64",
           transformOrigin: "top",
         }}
       >
         <Container
-          className={clsx(
-            "flex justify-center transition duration-300",
-            sideWindowOpen ? " -translate-x-[32rem]" : ""
-          )}
+          className={clsx("flex justify-center transition duration-300")}
+          ref={containerRef}
         >
-          <div className="grid grid-cols-1 md:grid-cols-12 space-y-8 md:flex-row md:space-y-0 md:space-x-8">
+          <div className="grid grid-cols-1 md:grid-cols-12 space-y-8 md:flex-row md:space-y-0 md:space-x-4">
             {/* col - 1 */}
-            <div className="col-span-3 flex flex-col space-y-8">
+            <div className="col-span-3 flex flex-col space-y-4">
               <WelcomeCard subscribersCount={profiles?.length} />
               <div className="flex-1">
                 <Box
@@ -143,7 +171,7 @@ export default function Home() {
             </div>
 
             {/* col - 2 */}
-            <div className="col-span-5 flex flex-col space-y-8">
+            <div className="col-span-5 flex flex-col space-y-4">
               <Box
                 toggleSideWindow={() => toggleSideWindow("information", true)}
                 className="bg-blue"
@@ -180,7 +208,7 @@ export default function Home() {
             </div>
 
             {/* col - 3 */}
-            <div className="col-span-4 flex flex-col space-y-8">
+            <div className="col-span-4 flex flex-col space-y-4">
               {profilesLoading ||
               pollLoading ||
               informationLoading ||
@@ -223,12 +251,12 @@ export default function Home() {
         </Container>
 
         {/* Sidebar */}
-        {/* Initially hidden */}
+        {/* Initially hidden - translateX managed by useEffect */}
         <div
           className={clsx(
-            "absolute right-0 p-4 md:px-16 md:py-8 transition duration-300 w-[calc(32rem+5rem)] h-full",
-            sideWindowOpen ? "" : "translate-x-[calc(32rem+5rem)]"
+            "absolute right-0 p-4 md:py-8 transition duration-300 w-[28rem] h-full"
           )}
+          ref={sidebarRef}
         >
           <div className="h-full overflow-y-scroll">
             {active === "poll" && (

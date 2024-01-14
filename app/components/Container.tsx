@@ -1,23 +1,22 @@
 import clsx from "clsx";
-import React, { useRef } from "react";
+import React, { forwardRef } from "react";
 
-const Container = ({
-  className,
-  children,
-}: {
+interface ContainerProps {
   className?: string;
   children?: React.ReactNode;
-}) => {
-  return (
-    <div
-      className={clsx(
-        "p-4 md:px-10 md:py-8 max-w-screen-xl mx-auto",
-        className
-      )}
-    >
-      {children}
-    </div>
-  );
-};
+}
 
+const Container = forwardRef<HTMLDivElement, ContainerProps>((props, ref) => (
+  <div
+    className={clsx(
+      "p-4 md:px-10 md:py-8 max-w-screen-xl mx-auto",
+      props.className
+    )}
+    ref={ref}
+  >
+    {props.children}
+  </div>
+));
+
+Container.displayName = "Container";
 export default Container;

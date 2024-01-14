@@ -21,7 +21,9 @@ const PostCard = ({ information }: { information?: Information }) => {
         <p className="text-BodyMedium2 opacity-40">Info</p>
       </div>
       <Link href={`information/${information.id}`}>
-        <p className="text-TitleSmall2">{information.title}</p>
+        <p className="text-TitleSmall2 line-clamp-2" title={information.title}>
+          {information.title}
+        </p>
       </Link>
       <div className="flex">
         <Link href="/">

@@ -67,8 +67,8 @@ const DiscussionSkeleton = ({
                 </svg>
                 <div className="flex-1 space-y-2">
                   <div className="h-2.5 bg-slate-200 rounded-full w-24 md:w-32"></div>
-                  <div className="h-2.5 bg-slate-300 opacity-40 rounded-full md:w-96"></div>
-                  <div className="h-2.5 bg-slate-300 opacity-40 rounded-full md:w-96"></div>
+                  <div className="h-2.5 bg-slate-300 opacity-40 rounded-full w-full"></div>
+                  <div className="h-2.5 bg-slate-300 opacity-40 rounded-full w-full"></div>
                   <div className="h-2.5 bg-slate-300 opacity-40 rounded-full w-16"></div>
                 </div>
               </div>
