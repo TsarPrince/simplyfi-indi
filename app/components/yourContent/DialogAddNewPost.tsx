@@ -12,7 +12,7 @@ const DialogAddNewPost = () => {
         Add new post
       </Button>
       <MyDialog open={open} setOpen={setOpen} title="Add Post">
-        <ul className="p-14 pt-8 space-y-2">
+        <ul className="py-4 pb-8 px-12 md:min-w-[24rem] space-y-2">
           {[
             { title: "Poll", href: "/add-poll" },
             { title: "Metric", href: "/add-metric" },
@@ -22,7 +22,7 @@ const DialogAddNewPost = () => {
           ].map((post, key) => (
             <li key={key}>
               <Link href={post.href}>
-                <Button full border className="bg-white !px-12">
+                <Button full border className="bg-white !px-14">
                   {post.title}
                 </Button>
               </Link>

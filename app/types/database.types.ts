@@ -236,7 +236,6 @@ export interface Database {
           name: string
           symbol: Database["public"]["Enums"]["symbol"] | null
           user_id: string
-          value: number
         }
         Insert: {
           created_at?: string
@@ -245,7 +244,6 @@ export interface Database {
           name: string
           symbol?: Database["public"]["Enums"]["symbol"] | null
           user_id: string
-          value: number
         }
         Update: {
           created_at?: string
@@ -254,7 +252,6 @@ export interface Database {
           name?: string
           symbol?: Database["public"]["Enums"]["symbol"] | null
           user_id?: string
-          value?: number
         }
         Relationships: [
           {
@@ -262,6 +259,35 @@ export interface Database {
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      metric_value: {
+        Row: {
+          created_at: string
+          id: number
+          metric: number
+          value: number
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          metric: number
+          value: number
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          metric?: number
+          value?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "metric_value_metric_fkey"
+            columns: ["metric"]
+            isOneToOne: false
+            referencedRelation: "metric"
             referencedColumns: ["id"]
           }
         ]
@@ -363,16 +389,19 @@ export interface Database {
       profiles: {
         Row: {
           avatar_url: string | null
+          created_at: string
           full_name: string | null
           id: string
         }
         Insert: {
           avatar_url?: string | null
+          created_at?: string
           full_name?: string | null
           id: string
         }
         Update: {
           avatar_url?: string | null
+          created_at?: string
           full_name?: string | null
           id?: string
         }

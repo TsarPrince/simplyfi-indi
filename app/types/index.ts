@@ -85,3 +85,18 @@ export type Comment = {
     user_id: string;
   }[];
 };
+
+export type Metric = {
+  created_at: string;
+  description: string;
+  id: number;
+  name: string;
+  symbol: "PERCENTAGE" | "DOLLAR" | null;
+  user_id: string;
+  metric_value: {
+    created_at: string;
+    id: number;
+    metric: number;
+    value: number;
+  }[];
+};

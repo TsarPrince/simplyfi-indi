@@ -1,18 +1,30 @@
 import React from "react";
-import Button from "../Button";
-
-import { Tables } from "@/types/database.types";
 import formatNumber from "@/utils/formatNumber";
-type Metric = Tables<"metric">;
+import DialogPostUpdate from "./DialogPostUpdate";
+
+import { Metric } from "@/types";
+import clsx from "clsx";
 
 const MetricCard = ({ metric }: { metric: Metric }) => {
-  let formattedValue = formatNumber(metric.value);
+  const value = metric.metric_value[0]?.value;
+  let formattedValue = formatNumber(value);
   if (metric.symbol == "PERCENTAGE") {
-    formattedValue = `${metric.value || ""}%`;
+    formattedValue = `${value || ""}%`;
   }
   if (metric.symbol == "DOLLAR") {
-    formattedValue = `$${formatNumber(metric.value)}`;
+    formattedValue = `$${formatNumber(value)}`;
   }
+
+  // calculate percentageIncrease, absoluteIncrease, updateSince
+  const prevValue = metric.metric_value[1]?.value;
+  const prevTime = new Date(metric.metric_value[1]?.created_at);
+  const [_, MONTH, DATE, YEAR] = prevTime.toDateString().split(" ");
+
+  const percentageIncrease = Math.round(
+    ((value - prevValue) / prevValue) * 100
+  );
+  const absoluteIncrease = value - prevValue;
+  const updateSince = `${DATE} ${MONTH}`;
 
   return (
     <div className="bg-brown p-6 rounded-[2rem] max-w-xl space-y-8">
@@ -39,36 +51,56 @@ const MetricCard = ({ metric }: { metric: Metric }) => {
       <div className="flex flex-col justify-center items-center">
         <p className="text-BodyMedium2 opacity-60">{metric.name}</p>
         <p className="text-TitleLarge2">{formattedValue}</p>
-        <p className="flex space-x-2 text-BodyMedium2 opacity-60">
-          <svg
-            width="12"
-            height="15"
-            viewBox="0 0 12 15"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M11.0006 6.00059L6.00002 1L0.999435 6.00059"
-              stroke="#273648"
-              strokeWidth="1.5"
-              strokeMiterlimit="10"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M6 15.0048L6 1.13989"
-              stroke="#273648"
-              strokeWidth="1.5"
-              strokeMiterlimit="10"
-              strokeLinejoin="round"
-            />
-          </svg>
-          <span>12% since Jun 30th</span>
-        </p>
+        <div className="text-BodyMedium2 opacity-60">
+          {metric.metric_value.length > 1 ? (
+            <div className="flex space-x-2 items-center">
+              <svg
+                width="12"
+                height="15"
+                viewBox="0 0 12 15"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className={clsx(absoluteIncrease >= 0 ? "" : "rotate-180")}
+              >
+                <path
+                  d="M11.0006 6.00059L6.00002 1L0.999435 6.00059"
+                  stroke="#273648"
+                  strokeWidth="1.5"
+                  strokeMiterlimit="10"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M6 15.0048L6 1.13989"
+                  stroke="#273648"
+                  strokeWidth="1.5"
+                  strokeMiterlimit="10"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              {/* if percentageIncrease is Infinity or -Infinity */}
+              {/* show percentageIncrease instead of absoluteIncrease */}
+              {isFinite(percentageIncrease) ? (
+                <span
+                  title={`${
+                    absoluteIncrease >= 0 ? "+" : ""
+                  }${absoluteIncrease} since ${updateSince}`}
+                >
+                  {percentageIncrease}% since {updateSince}
+                </span>
+              ) : (
+                <span>
+                  {absoluteIncrease >= 0 ? "+" : ""}
+                  {absoluteIncrease} since {updateSince}
+                </span>
+              )}
+            </div>
+          ) : (
+            <span>Post an update to see trends.</span>
+          )}
+        </div>
       </div>
       <div>
-        <Button full border className="!bg-brown">
-          Post Update
-        </Button>
+        <DialogPostUpdate metric={metric} />
       </div>
     </div>
   );

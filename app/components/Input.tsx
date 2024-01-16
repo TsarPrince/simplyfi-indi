@@ -24,11 +24,45 @@ const Input = ({
         >
           {adornmentPosition === "start" && adornment}
           <input
-            {...inputProps}
+            type={type}
             required
             className="w-full bg-transparent border-none py-3 focus:ring-0"
+            {...inputProps}
           />
           {adornmentPosition === "end" && adornment}
+        </div>
+      );
+    case "number":
+      return (
+        <div
+          className={clsx(
+            "flex items-center justify-center rounded-full border overflow-hidden transition-all duration-300 focus-within:ring-4",
+            className
+          )}
+        >
+          <input
+            type={type}
+            step={0.01}
+            required
+            className="w-full bg-transparent border-none py-3 focus:ring-0"
+            {...inputProps}
+          />
+        </div>
+      );
+    case "datetime-local":
+      return (
+        <div
+          className={clsx(
+            "flex items-center justify-center rounded-full border overflow-hidden transition-all duration-300 focus-within:ring-4",
+            className
+          )}
+        >
+          <input
+            type={type}
+            required
+            className="w-full bg-transparent border-none py-3 focus:ring-0"
+            {...inputProps}
+          />
         </div>
       );
 
