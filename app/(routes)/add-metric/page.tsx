@@ -40,7 +40,7 @@ const AddMetric = () => {
       const { data, error } = await createMetric({
         name: question,
         description,
-        value: convertNumber(value),
+        // value: convertNumber(value),
         symbol: symbol,
         user_id: user.id,
       });
