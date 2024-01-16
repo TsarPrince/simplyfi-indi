@@ -415,6 +415,33 @@ export interface Database {
           }
         ]
       }
+      ritual: {
+        Row: {
+          content_type: Database["public"]["Enums"]["content_type"]
+          created_at: string
+          day: Database["public"]["Enums"]["day"]
+          id: number
+          name: string
+          title: string | null
+        }
+        Insert: {
+          content_type: Database["public"]["Enums"]["content_type"]
+          created_at?: string
+          day: Database["public"]["Enums"]["day"]
+          id?: number
+          name: string
+          title?: string | null
+        }
+        Update: {
+          content_type?: Database["public"]["Enums"]["content_type"]
+          created_at?: string
+          day?: Database["public"]["Enums"]["day"]
+          id?: number
+          name?: string
+          title?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -423,6 +450,13 @@ export interface Database {
       [_ in never]: never
     }
     Enums: {
+      content_type:
+        | "POLL"
+        | "METRIC"
+        | "ANNOUNCEMENT"
+        | "DISCUSSION"
+        | "INFORMATION"
+      day: "SUN" | "MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT"
       status: "PUBLISHED" | "DRAFT" | "ARCHIVE"
       symbol: "DOLLAR" | "PERCENTAGE"
     }

@@ -6,7 +6,7 @@ import { mutate } from "swr";
 import { Metric } from "@/types";
 import getUser from "@/utils/getUser";
 import { usePathname } from "next/navigation";
-import { postUpdate } from "@/queries/metric";
+import { updateMetric } from "@/queries/metric";
 import { ToastContentProps, toast } from "react-toastify";
 import convertNumber from "@/utils/convertNumber";
 import formatNumber from "@/utils/formatNumber";
@@ -23,7 +23,7 @@ const DialogPostUpdate = ({ metric }: { metric: Metric }) => {
     const create = async () => {
       const user = await getUser(pathname);
       console.log(user);
-      const { data, error } = await postUpdate({
+      const { data, error } = await updateMetric({
         value: convertNumber(value),
         metric: metric.id,
       });
