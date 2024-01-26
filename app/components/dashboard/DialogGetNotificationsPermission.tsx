@@ -46,7 +46,7 @@ const DialogGetNotificationsPermission = () => {
   return (
     <div className="!z-[1000]">
       <MyDialog open={open} setOpen={setOpen} title="Receive updates?">
-        <div className="p-8 space-y-4">
+        <div className="p-6 md:p-8 space-y-4">
           <div className="rounded-3xl overflow-hidden">
             <Image src={NotificationImage} alt="Notification bell" />
           </div>
@@ -66,7 +66,7 @@ const DialogGetNotificationsPermission = () => {
               className="!bg-green"
               onClick={requestNotificationPermission}
             >
-              Yes, I&apos;m in!
+              Yes, I’m in!
             </Button>
           </div>
         </div>

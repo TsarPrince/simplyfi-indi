@@ -70,14 +70,6 @@ export default function Home() {
     }
   }, [sideWindowOpen]);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      console.log("adf");
-
-      // requestNotificationPermission();
-    }
-  }, []);
-
   const {
     data: discussions,
     error: discussionError,
