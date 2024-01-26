@@ -66,7 +66,7 @@ const DialogGetNotificationsPermission = () => {
               className="!bg-green"
               onClick={requestNotificationPermission}
             >
-              Yes, I'm in!
+              Yes, I’m in!
             </Button>
           </div>
         </div>
