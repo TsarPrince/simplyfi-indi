@@ -7,8 +7,6 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import Footer from "../components/Footer";
 import clsx from "clsx";
-import { usePathname } from "next/navigation";
-import { Router } from "next/router";
 import Script from "next/script";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
@@ -44,6 +42,7 @@ export default function RootLayout({
           gtag('config', 'G-XRJKGBT4JM');
         `}
         </Script>
+
         <ToastContainer
           toastStyle={{
             fontFamily: "Montserrat",

@@ -23,6 +23,7 @@
     "@tiptap/starter-kit": "^2.1.12",
     "chart.js": "^4.4.0",
     "clsx": "^2.0.0",
+    "firebase": "^10.7.2",
     "next": "14.0.0",
     "novel": "^0.1.22",
     "openai": "^4.22.0",
