@@ -23,6 +23,7 @@ import DiscussionSkeleton from "@/components/skeletons/DiscussionSkeleton";
 import StatsSkeleton from "@/components/skeletons/StatsSkeleton";
 import { getAllProfiles } from "@/queries/profile";
 import DialogGetNotificationsPermission from "@/components/dashboard/DialogGetNotificationsPermission";
+import "/public/firebase-messaging-sw.ts";
 
 export default function Home() {
   const [sideWindowOpen, setSideWindowOpen] = useState(false);
@@ -147,7 +148,7 @@ export default function Home() {
           className={clsx("flex justify-center transition duration-300")}
           ref={containerRef}
         >
-          <DialogGetNotificationsPermission />
+          {/* <DialogGetNotificationsPermission /> */}
           <div className="grid grid-cols-1 md:grid-cols-12 space-y-8 md:flex-row md:space-y-0 md:space-x-4">
             {/* col - 1 */}
             <div className="col-span-3 flex flex-col space-y-4">

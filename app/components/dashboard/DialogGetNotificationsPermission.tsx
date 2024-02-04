@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../Button";
 import MyDialog from "../global/Dialog";
 import Image from "next/image";
@@ -10,7 +10,12 @@ import { messaging } from "@/lib/firebase";
 import { getToken, onMessage } from "firebase/messaging";
 
 const DialogGetNotificationsPermission = () => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    setOpen(Notification.permission === "granted");
+  }, []);
 
   const requestNotificationPermission = async () => {
     setOpen(false);
