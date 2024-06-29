@@ -81,6 +81,7 @@ const AddInfoPost = () => {
               cacheControl: "3600",
               upsert: false,
             });
+          console.log({ data, error });
           if (error) throw error;
           if (data) {
             const { data: result, error } = await createInformation({

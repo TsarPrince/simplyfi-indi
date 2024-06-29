@@ -10,7 +10,7 @@ const WelcomeCard = ({ subscribersCount }: { subscribersCount?: number }) => {
       <div>
         <h2 className="text-TitleLarge2">
           Welcome <br />
-          Shreyas 👋
+          User 👋
         </h2>
       </div>
       <div>
